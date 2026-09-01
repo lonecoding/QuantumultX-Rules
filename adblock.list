@@ -1,0 +1,97 @@
+# Quantumult X AdBlock List Template
+# 常见广告域名拦截模板
+#
+# 规则格式：HOST-SUFFIX,域名,REJECT
+# HOST-SUFFIX 会匹配该域名及其所有子域名。
+#
+# Quantumult X 引用示例：
+# https://raw.githubusercontent.com/<用户名>/<仓库名>/<分支>/adblock.list, tag=广告域名拦截, force-policy=reject, update-interval=86400, enabled=true
+#
+# 提示：广告域名可能随时间变化；若某个应用或网页异常，请先临时停用本列表，
+# 再为误拦截域名添加 DIRECT 规则。本文件不包含订阅地址、服务器信息或访问令牌。
+# Last updated: 2026-09-01
+
+# --- Google 广告 ---
+HOST-SUFFIX,doubleclick.net,REJECT
+HOST-SUFFIX,googlesyndication.com,REJECT
+HOST-SUFFIX,googleadservices.com,REJECT
+HOST-SUFFIX,googletagservices.com,REJECT
+HOST-SUFFIX,2mdn.net,REJECT
+
+# --- Microsoft / Yahoo / AOL 广告 ---
+HOST-SUFFIX,ads.microsoft.com,REJECT
+HOST-SUFFIX,adnxs.com,REJECT
+HOST-SUFFIX,advertising.com,REJECT
+HOST-SUFFIX,atwola.com,REJECT
+HOST-SUFFIX,gemini.yahoo.com,REJECT
+
+# --- Amazon 广告 ---
+HOST-SUFFIX,amazon-adsystem.com,REJECT
+HOST-SUFFIX,aaxads.com,REJECT
+
+# --- 程序化广告与竞价平台 ---
+HOST-SUFFIX,adsrvr.org,REJECT
+HOST-SUFFIX,casalemedia.com,REJECT
+HOST-SUFFIX,contextweb.com,REJECT
+HOST-SUFFIX,criteo.com,REJECT
+HOST-SUFFIX,criteo.net,REJECT
+HOST-SUFFIX,indexexchange.com,REJECT
+HOST-SUFFIX,openx.net,REJECT
+HOST-SUFFIX,pubmatic.com,REJECT
+HOST-SUFFIX,rubiconproject.com,REJECT
+HOST-SUFFIX,smartadserver.com,REJECT
+HOST-SUFFIX,sharethrough.com,REJECT
+HOST-SUFFIX,yieldmo.com,REJECT
+
+# --- 原生广告与内容推荐 ---
+HOST-SUFFIX,outbrain.com,REJECT
+HOST-SUFFIX,taboola.com,REJECT
+HOST-SUFFIX,revcontent.com,REJECT
+HOST-SUFFIX,mgid.com,REJECT
+HOST-SUFFIX,zedo.com,REJECT
+
+# --- 广告监测与归因 ---
+HOST-SUFFIX,adsafeprotected.com,REJECT
+HOST-SUFFIX,moatads.com,REJECT
+HOST-SUFFIX,quantserve.com,REJECT
+HOST-SUFFIX,scorecardresearch.com,REJECT
+HOST-SUFFIX,serving-sys.com,REJECT
+
+# --- 移动应用与游戏广告 ---
+HOST-SUFFIX,adcolony.com,REJECT
+HOST-SUFFIX,applovin.com,REJECT
+HOST-SUFFIX,applvn.com,REJECT
+HOST-SUFFIX,chartboost.com,REJECT
+HOST-SUFFIX,fyber.com,REJECT
+HOST-SUFFIX,inmobi.com,REJECT
+HOST-SUFFIX,ironsrc.com,REJECT
+HOST-SUFFIX,mintegral.com,REJECT
+HOST-SUFFIX,mopub.com,REJECT
+HOST-SUFFIX,smaato.net,REJECT
+HOST-SUFFIX,startappservice.com,REJECT
+HOST-SUFFIX,supersonicads.com,REJECT
+HOST-SUFFIX,unityads.unity3d.com,REJECT
+HOST-SUFFIX,vungle.com,REJECT
+
+# --- 字节系海外广告平台 ---
+HOST-SUFFIX,pangle.io,REJECT
+HOST-SUFFIX,pangleglobal.com,REJECT
+
+# --- 中国大陆常见广告平台 ---
+HOST-SUFFIX,alimama.com,REJECT
+HOST-SUFFIX,atanx.alicdn.com,REJECT
+HOST-SUFFIX,cpro.baidu.com,REJECT
+HOST-SUFFIX,pos.baidu.com,REJECT
+HOST-SUFFIX,union.baidu.com,REJECT
+HOST-SUFFIX,mmstat.com,REJECT
+HOST-SUFFIX,tanx.com,REJECT
+HOST-SUFFIX,admaster.com.cn,REJECT
+HOST-SUFFIX,miaozhen.com,REJECT
+HOST-SUFFIX,sigmob.cn,REJECT
+HOST-SUFFIX,pangolin-sdk-toutiao.com,REJECT
+
+# --- 设备厂商广告服务 ---
+HOST-SUFFIX,ad.xiaomi.com,REJECT
+HOST-SUFFIX,ads.huawei.com,REJECT
+HOST-SUFFIX,petalads.com,REJECT
+HOST-SUFFIX,samsungads.com,REJECT
