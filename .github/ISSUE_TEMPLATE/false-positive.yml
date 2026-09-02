@@ -1,0 +1,53 @@
+name: 误拦截反馈
+description: 报告广告规则导致的应用或网页异常
+title: "[误拦截] "
+labels: []
+body:
+  - type: input
+    id: product
+    attributes:
+      label: 应用或网站
+      placeholder: 例如：某某 App、example.com
+    validations:
+      required: true
+  - type: input
+    id: domain
+    attributes:
+      label: 被拦截的域名
+      description: 可以从 Quantumult X 的请求记录中查看。
+      placeholder: ads.example.com
+    validations:
+      required: true
+  - type: dropdown
+    id: rule
+    attributes:
+      label: 命中的规则
+      options:
+        - rules/adblock/adblock.list
+        - 其他规则
+        - 不确定
+    validations:
+      required: true
+  - type: textarea
+    id: symptom
+    attributes:
+      label: 问题表现
+      description: 写清楚不能加载、登录失败或其他具体现象。
+    validations:
+      required: true
+  - type: textarea
+    id: test
+    attributes:
+      label: 排查结果
+      description: 临时停用该规则后是否恢复？如方便，可附不含隐私信息的请求记录。
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已确认问题可以通过停用对应规则复现或消失。
+          required: true
+        - label: 我没有提交节点、订阅地址、密钥或其他隐私信息。
+          required: true
