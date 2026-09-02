@@ -1,19 +1,16 @@
 # QuantumultX-Rules
 
-适用于 Quantumult X 的模块化分流、广告拦截与隐私保护规则。
+适用于 Quantumult X 的分流和广告域名拦截规则。
 
-仓库以可直接使用的完整配置为入口，保留现有策略组名称和图标，并将不同服务的规则拆分到独立文件，方便按需引用和维护。
+这里提供一份规则配置框架，也可以单独引用各个规则文件。策略组名称和图标沿用现有配置。
 
 ## 功能
 
-- 🚫 常见广告域名拦截
-- 🤖 AI 平台分流
-- 🎬 YouTube 分流
-- ✈️ Telegram 分流
-- 🌐 Google 服务分流
-- 🎵 TikTok 分流
-- 🍎 Apple 服务策略选择
-- 🎯 未匹配流量的最终策略
+- 常见广告域名拦截
+- 误拦截域名放行
+- AI、YouTube、Telegram、Google 和 TikTok 分流
+- Apple 服务策略选择
+- 未匹配流量的最终策略
 
 ## 目录结构
 
@@ -25,15 +22,22 @@ QuantumultX-Rules/
 │   ├── adblock/
 │   │   └── adblock.list
 │   ├── direct/
-│   │   └── apple.list
+│   │   ├── apple.list
+│   │   └── unbreak.list
 │   └── proxy/
 │       ├── ai.list
 │       ├── google.list
 │       ├── telegram.list
 │       ├── tiktok.list
 │       └── youtube.list
+├── scripts/
+│   └── validate_rules.py
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   └── workflows/
 ├── adblock.list
 ├── CHANGELOG.md
+├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
 ```
@@ -42,7 +46,7 @@ QuantumultX-Rules/
 
 ## 快速使用
 
-### 导入完整配置
+### 使用配置框架
 
 在 Quantumult X 中打开配置文件下载或导入功能，使用下面的 Raw 地址：
 
@@ -50,13 +54,14 @@ QuantumultX-Rules/
 https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/full.conf
 ```
 
-导入后请在 Quantumult X 中自行添加节点或订阅。`Proxies` 策略组会自动收集所有节点标签。
+这份配置不包含节点和订阅地址。导入后，在 `[server_remote]` 中添加自己的订阅；`Proxies` 会自动收集节点标签。
 
 ### 单独引用规则
 
 也可以在已有配置的 `[filter_remote]` 中按需添加：
 
 ```ini
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/direct/unbreak.list, tag=误拦截修正, update-interval=86400, enabled=true
 https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/adblock/adblock.list, tag=广告拦截, update-interval=86400, enabled=true
 https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/proxy/ai.list, tag=AI, update-interval=86400, enabled=true
 https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/proxy/youtube.list, tag=YouTube, update-interval=86400, enabled=true
@@ -82,9 +87,23 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/direct
 
 策略组图标沿用原配置中的 `img-url`，仓库不会强制下载或替换图标。
 
+## 检查规则
+
+安装 Python 3.10 或更高版本后运行：
+
+```bash
+python scripts/validate_rules.py
+```
+
+脚本会检查规则格式、重复项、策略名称、Raw 路径、旧用户名和两个广告列表是否一致。每次提交也会由 GitHub Actions 自动检查。
+
+## 反馈问题
+
+误拦截和新规则请求可以直接通过仓库的 Issue 模板提交。准备修改规则时，请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
 ## 注意事项
 
-- 广告规则可能出现误拦截。如应用或网页异常，请先停用广告规则定位问题，再添加更精确的放行规则。
+- 广告规则可能出现误拦截。确认域名后，将放行规则加入 `rules/direct/unbreak.list`。
 - 不同地区和网络环境的可用策略不同，可在 Quantumult X 中手动切换各策略组。
 - 本仓库不包含节点、订阅地址、服务器信息或访问令牌。
 - 规则会随服务域名变化而调整，建议保留 `update-interval=86400`。
