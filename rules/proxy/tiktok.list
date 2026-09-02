@@ -1,0 +1,10 @@
+# TikTok 分流
+HOST-SUFFIX,tiktok.com,TikTok
+HOST-SUFFIX,tiktokcdn.com,TikTok
+HOST-SUFFIX,tiktokcdn-us.com,TikTok
+HOST-SUFFIX,tiktokv.com,TikTok
+HOST-SUFFIX,musical.ly,TikTok
+HOST-SUFFIX,muscdn.com,TikTok
+HOST-SUFFIX,byteoversea.com,TikTok
+HOST-SUFFIX,ibytedtos.com,TikTok
+HOST-SUFFIX,ibyteimg.com,TikTok

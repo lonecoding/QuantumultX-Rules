@@ -1,0 +1,12 @@
+# Apple 服务策略
+HOST-SUFFIX,apple.com,Apple
+HOST-SUFFIX,apple-cloudkit.com,Apple
+HOST-SUFFIX,apple-dns.net,Apple
+HOST-SUFFIX,apple-mapkit.com,Apple
+HOST-SUFFIX,cdn-apple.com,Apple
+HOST-SUFFIX,icloud.com,Apple
+HOST-SUFFIX,icloud-content.com,Apple
+HOST-SUFFIX,me.com,Apple
+HOST-SUFFIX,mzstatic.com,Apple
+HOST-SUFFIX,itunes.com,Apple
+HOST-SUFFIX,apple.news,Apple

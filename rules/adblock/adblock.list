@@ -4,10 +4,8 @@
 # 规则格式：HOST-SUFFIX,域名,REJECT
 # HOST-SUFFIX 会匹配该域名及其所有子域名。
 #
-# Quantumult X 引用示例（推荐使用模块化目录中的同名文件）：
+# Quantumult X 引用示例：
 # https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/adblock/adblock.list, tag=广告域名拦截, update-interval=86400, enabled=true
-#
-# 本文件保留为兼容入口，避免旧 Raw 地址失效。
 #
 # 提示：广告域名可能随时间变化；若某个应用或网页异常，请先临时停用本列表，
 # 再为误拦截域名添加 DIRECT 规则。本文件不包含订阅地址、服务器信息或访问令牌。

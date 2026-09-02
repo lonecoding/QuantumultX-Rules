@@ -1,0 +1,9 @@
+# YouTube 分流
+HOST-SUFFIX,youtube.com,YouTube
+HOST-SUFFIX,youtu.be,YouTube
+HOST-SUFFIX,youtube-nocookie.com,YouTube
+HOST-SUFFIX,youtubeeducation.com,YouTube
+HOST-SUFFIX,googlevideo.com,YouTube
+HOST-SUFFIX,ytimg.com,YouTube
+HOST-SUFFIX,ggpht.com,YouTube
+HOST,youtubei.googleapis.com,YouTube

@@ -1,0 +1,11 @@
+# Google 服务分流
+# 请将本规则放在 YouTube 规则之后，避免覆盖 YouTube 的独立策略。
+HOST-SUFFIX,google.com,Google
+HOST-SUFFIX,googleapis.com,Google
+HOST-SUFFIX,gstatic.com,Google
+HOST-SUFFIX,googleusercontent.com,Google
+HOST-SUFFIX,googlesource.com,Google
+HOST-SUFFIX,googleblog.com,Google
+HOST-SUFFIX,withgoogle.com,Google
+HOST-SUFFIX,android.com,Google
+HOST-SUFFIX,chrome.com,Google
