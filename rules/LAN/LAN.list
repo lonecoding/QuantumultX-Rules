@@ -1,0 +1,8 @@
+# 局域网与保留地址直连
+HOST-SUFFIX,local,🎯Direct
+IP-CIDR,10.0.0.0/8,🎯Direct,no-resolve
+IP-CIDR,100.64.0.0/10,🎯Direct,no-resolve
+IP-CIDR,127.0.0.0/8,🎯Direct,no-resolve
+IP-CIDR,169.254.0.0/16,🎯Direct,no-resolve
+IP-CIDR,172.16.0.0/12,🎯Direct,no-resolve
+IP-CIDR,192.168.0.0/16,🎯Direct,no-resolve

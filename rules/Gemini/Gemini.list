@@ -1,0 +1,4 @@
+# Google Gemini 分流
+HOST,gemini.google.com,AI
+HOST,generativelanguage.googleapis.com,AI
+HOST-SUFFIX,ai.google.dev,AI

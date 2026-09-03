@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""检查 Quantumult X 规则、配置引用和兼容文件。"""
+"""检查 Quantumult X 规则、目录结构、README 统计和配置引用。"""
 
 from __future__ import annotations
 
@@ -12,10 +12,18 @@ import urllib.request
 from pathlib import Path
 from urllib.parse import urlparse
 
+from generate_readme import (
+    discover_rule_files,
+    render_root_readme,
+    render_service_readme,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
+RULES_ROOT = ROOT / "rules"
 CONFIG = ROOT / "config" / "full.conf"
-CANONICAL_ADBLOCK = ROOT / "rules" / "adblock" / "adblock.list"
+ROOT_README = ROOT / "README.md"
+CANONICAL_ADBLOCK = RULES_ROOT / "Advertising" / "Advertising.list"
 COMPAT_ADBLOCK = ROOT / "adblock.list"
 REPOSITORY_PATH = ("lonecoding", "QuantumultX-Rules")
 OLD_USERNAME = "Cooper" + "We1"
@@ -39,8 +47,15 @@ BUILTIN_POLICIES = {
     "reject-img",
     "reject-tinygif",
 }
+DOMAIN_RULE_TYPES = {"HOST", "HOST-SUFFIX"}
+IP_RULE_TYPES = {"IP-CIDR", "IP6-CIDR"}
 TEXT_SUFFIXES = {".conf", ".list", ".md", ".py", ".yaml", ".yml"}
 URL_RE = re.compile(r"https?://[^\s<>()`]+")
+DOMAIN_RE = re.compile(
+    r"^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)*"
+    r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$",
+    re.IGNORECASE,
+)
 
 
 def meaningful_lines(path: Path) -> list[tuple[int, str]]:
@@ -65,10 +80,36 @@ def configured_policies() -> set[str]:
     return policies
 
 
-def rule_policy(parts: list[str]) -> str | None:
-    if parts[0] == "FINAL":
-        return parts[1] if len(parts) >= 2 else None
-    return parts[2] if len(parts) >= 3 else None
+def validate_layout(paths: list[Path]) -> list[str]:
+    errors: list[str] = []
+    if not RULES_ROOT.is_dir():
+        return ["rules: 规则目录不存在"]
+    discovered = set(paths)
+    all_rule_files = set(RULES_ROOT.rglob("*.list"))
+    for path in sorted(all_rule_files - discovered):
+        errors.append(
+            f"{path.relative_to(ROOT)}: 规则文件必须位于同名服务目录中，"
+            "格式为 rules/Service/Service.list"
+        )
+    for path in paths:
+        readme = path.parent / "README.md"
+        if not readme.is_file():
+            errors.append(f"{readme.relative_to(ROOT)}: 缺少服务 README")
+    for directory in RULES_ROOT.iterdir():
+        if not directory.is_dir():
+            continue
+        expected = directory / f"{directory.name}.list"
+        if not expected.is_file():
+            errors.append(f"{expected.relative_to(ROOT)}: 缺少与服务目录同名的规则文件")
+    return errors
+
+
+def validate_blank_lines(path: Path) -> list[str]:
+    errors: list[str] = []
+    for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if not raw.strip():
+            errors.append(f"{path.relative_to(ROOT)}:{number}: 不允许空行")
+    return errors
 
 
 def validate_rule_line(
@@ -85,23 +126,36 @@ def validate_rule_line(
     if rule_type not in ALLOWED_RULE_TYPES:
         return [f"{path.relative_to(ROOT)}:{number}: 不支持的规则类型 {parts[0]}"]
 
-    minimum = 2 if rule_type == "FINAL" else 3
-    if len(parts) < minimum or any(not item for item in parts[:minimum]):
-        return [f"{path.relative_to(ROOT)}:{number}: 字段不完整"]
+    if rule_type == "FINAL":
+        expected_lengths = {2}
+    elif rule_type in IP_RULE_TYPES or rule_type == "GEOIP":
+        expected_lengths = {3, 4}
+    else:
+        expected_lengths = {3}
 
-    if rule_type in {"IP-CIDR", "IP6-CIDR"}:
+    if len(parts) not in expected_lengths or any(not item for item in parts):
+        return [f"{path.relative_to(ROOT)}:{number}: 字段数量或内容不合法"]
+
+    if len(parts) == 4 and parts[3].lower() != "no-resolve":
+        errors.append(f"{path.relative_to(ROOT)}:{number}: 不支持的规则选项 {parts[3]}")
+
+    if rule_type in DOMAIN_RULE_TYPES and not DOMAIN_RE.fullmatch(parts[1]):
+        errors.append(f"{path.relative_to(ROOT)}:{number}: 非法域名 {parts[1]}")
+
+    if rule_type in IP_RULE_TYPES:
         try:
-            network = ipaddress.ip_network(parts[1], strict=False)
+            network = ipaddress.ip_network(parts[1], strict=True)
             expected_version = 6 if rule_type == "IP6-CIDR" else 4
             if network.version != expected_version:
                 errors.append(
                     f"{path.relative_to(ROOT)}:{number}: {rule_type} 与地址版本不一致"
                 )
         except ValueError:
-            errors.append(f"{path.relative_to(ROOT)}:{number}: 无效网段 {parts[1]}")
+            errors.append(f"{path.relative_to(ROOT)}:{number}: 非法 IP/CIDR {parts[1]}")
 
-    policy = rule_policy(parts)
-    if policy and policy not in policies and policy.lower() not in BUILTIN_POLICIES:
+    policy_index = 1 if rule_type == "FINAL" else 2
+    policy = parts[policy_index]
+    if policy not in policies and policy.lower() not in BUILTIN_POLICIES:
         errors.append(f"{path.relative_to(ROOT)}:{number}: 未定义策略 {policy}")
 
     if rule_type != "FINAL":
@@ -118,25 +172,26 @@ def validate_rule_line(
     return errors
 
 
-def validate_rules() -> tuple[list[str], int]:
+def validate_rules(paths: list[Path]) -> tuple[list[str], int]:
     policies = configured_policies()
     errors: list[str] = []
     seen: dict[tuple[str, str], tuple[Path, int]] = {}
     count = 0
 
-    paths = sorted((ROOT / "rules").rglob("*.list"))
-    paths.append(CONFIG)
     for path in paths:
-        section = ""
+        errors.extend(validate_blank_lines(path))
         for number, line in meaningful_lines(path):
-            if path == CONFIG:
-                if line.startswith("[") and line.endswith("]"):
-                    section = line[1:-1].strip().lower()
-                    continue
-                if section != "filter_local":
-                    continue
             count += 1
             errors.extend(validate_rule_line(path, number, line, policies, seen))
+
+    section = ""
+    for number, line in meaningful_lines(CONFIG):
+        if line.startswith("[") and line.endswith("]"):
+            section = line[1:-1].strip().lower()
+            continue
+        if section == "filter_local":
+            count += 1
+            errors.extend(validate_rule_line(CONFIG, number, line, policies, seen))
 
     return errors, count
 
@@ -146,8 +201,12 @@ def rule_content(path: Path) -> list[str]:
 
 
 def validate_adblock_sync() -> list[str]:
+    if not CANONICAL_ADBLOCK.is_file():
+        return [f"{CANONICAL_ADBLOCK.relative_to(ROOT)}: 广告规则文件不存在"]
+    if not COMPAT_ADBLOCK.is_file():
+        return []
     if rule_content(CANONICAL_ADBLOCK) != rule_content(COMPAT_ADBLOCK):
-        return ["adblock.list 与 rules/adblock/adblock.list 的有效规则不一致"]
+        return ["adblock.list 与 rules/Advertising/Advertising.list 的有效规则不一致"]
     return []
 
 
@@ -197,6 +256,17 @@ def validate_repository_urls() -> list[str]:
     return sorted(set(errors))
 
 
+def validate_generated_readmes(paths: list[Path]) -> list[str]:
+    errors: list[str] = []
+    for path in paths:
+        readme = path.parent / "README.md"
+        if readme.is_file() and readme.read_text(encoding="utf-8") != render_service_readme(path):
+            errors.append(f"{readme.relative_to(ROOT)}: 规则统计不是最新状态")
+    if ROOT_README.read_text(encoding="utf-8") != render_root_readme(paths):
+        errors.append("README.md: Rules 表格不是最新状态")
+    return errors
+
+
 def external_config_urls() -> list[str]:
     urls: set[str] = set()
     for match in URL_RE.findall(CONFIG.read_text(encoding="utf-8")):
@@ -236,11 +306,14 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    rule_errors, rule_count = validate_rules()
-    errors = rule_errors
+    paths = discover_rule_files()
+    errors = validate_layout(paths)
+    rule_errors, rule_count = validate_rules(paths)
+    errors.extend(rule_errors)
     errors.extend(validate_adblock_sync())
     errors.extend(validate_old_username())
     errors.extend(validate_repository_urls())
+    errors.extend(validate_generated_readmes(paths))
     if args.check_external_urls:
         errors.extend(validate_external_urls())
 
@@ -250,7 +323,10 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print(f"检查通过：{rule_count} 条规则，{len(configured_policies())} 个策略组。")
+    print(
+        f"检查通过：{rule_count} 条规则，{len(paths)} 个服务，"
+        f"{len(configured_policies())} 个策略组。"
+    )
     return 0
 
 

@@ -20,6 +20,8 @@ jobs:
           python-version: "3.12"
       - name: Check rules and repository paths
         run: python scripts/validate_rules.py
+      - name: Check generated README statistics
+        run: python scripts/generate_readme.py --check
       - name: Check external URLs
         if: github.event_name == 'schedule'
         run: python scripts/validate_rules.py --check-external-urls
