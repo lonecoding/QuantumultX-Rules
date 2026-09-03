@@ -1,0 +1,5 @@
+# OpenAI / ChatGPT 分流
+HOST-SUFFIX,openai.com,AI
+HOST-SUFFIX,chatgpt.com,AI
+HOST-SUFFIX,oaistatic.com,AI
+HOST-SUFFIX,oaiusercontent.com,AI

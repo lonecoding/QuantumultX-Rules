@@ -1,0 +1,7 @@
+# 通用 AI 服务分流
+HOST-SUFFIX,perplexity.ai,AI
+HOST-SUFFIX,groq.com,AI
+HOST-SUFFIX,x.ai,AI
+HOST-SUFFIX,cohere.com,AI
+HOST-SUFFIX,mistral.ai,AI
+HOST-SUFFIX,huggingface.co,AI

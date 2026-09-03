@@ -23,7 +23,7 @@ body:
     attributes:
       label: 命中的规则
       options:
-        - rules/adblock/adblock.list
+        - rules/Advertising/Advertising.list
         - 其他规则
         - 不确定
     validations:

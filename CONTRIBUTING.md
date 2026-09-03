@@ -11,7 +11,7 @@
 - 命中的规则文件
 - 临时停用该规则后是否恢复
 
-确认后会把放行规则加入 `rules/direct/unbreak.list`。放行规则必须排在广告规则前面。
+确认后会评估修正规则；在修复发布前，可以先在自己的配置中加入直连规则，并确保它排在广告规则前面。
 
 ## 添加规则
 
@@ -34,7 +34,8 @@ HOST-SUFFIX,example.com,策略组
 仓库只需要 Python 3.10 或更高版本：
 
 ```bash
+python scripts/generate_readme.py
 python scripts/validate_rules.py
 ```
 
-检查通过后再提交。GitHub Actions 也会运行同一套检查。
+规则变更后必须先重新生成各服务 README 和根目录规则表格，再执行检查。检查通过后再提交；GitHub Actions 也会运行同一套检查。

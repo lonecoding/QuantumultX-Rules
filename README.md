@@ -7,9 +7,10 @@
 ## 功能
 
 - 常见广告域名拦截
-- 误拦截域名放行
-- AI、YouTube、Telegram、Google 和 TikTok 分流
+- ChatGPT、Claude、Gemini 及其他 AI 服务分流
+- YouTube、Telegram、Google 和 TikTok 分流
 - Apple 服务策略选择
+- 局域网及保留地址直连
 - 未匹配流量的最终策略
 
 ## 目录结构
@@ -19,18 +20,23 @@ QuantumultX-Rules/
 ├── config/
 │   └── full.conf
 ├── rules/
-│   ├── adblock/
-│   │   └── adblock.list
-│   ├── direct/
-│   │   ├── apple.list
-│   │   └── unbreak.list
-│   └── proxy/
-│       ├── ai.list
-│       ├── google.list
-│       ├── telegram.list
-│       ├── tiktok.list
-│       └── youtube.list
+│   ├── Advertising/
+│   │   ├── Advertising.list
+│   │   └── README.md
+│   ├── AI/
+│   │   ├── AI.list
+│   │   └── README.md
+│   ├── Apple/
+│   ├── ChatGPT/
+│   ├── Claude/
+│   ├── Gemini/
+│   ├── Google/
+│   ├── LAN/
+│   ├── Telegram/
+│   ├── TikTok/
+│   └── YouTube/
 ├── scripts/
+│   ├── generate_readme.py
 │   └── validate_rules.py
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -42,7 +48,7 @@ QuantumultX-Rules/
 └── README.md
 ```
 
-根目录的 `adblock.list` 暂时保留为兼容入口；新配置使用 `rules/adblock/adblock.list`。
+每个服务目录包含同名 `.list` 文件和自动生成的 `README.md`。根目录的 `adblock.list` 暂时保留为兼容入口；新配置使用 `rules/Advertising/Advertising.list`。
 
 ## 快速使用
 
@@ -61,15 +67,36 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/full.
 也可以在已有配置的 `[filter_remote]` 中按需添加：
 
 ```ini
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/direct/unbreak.list, tag=误拦截修正, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/adblock/adblock.list, tag=广告拦截, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/proxy/ai.list, tag=AI, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/proxy/youtube.list, tag=YouTube, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/proxy/telegram.list, tag=Telegram, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/proxy/google.list, tag=Google, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/proxy/tiktok.list, tag=TikTok, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/direct/apple.list, tag=Apple, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/LAN/LAN.list, tag=LAN, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Advertising/Advertising.list, tag=广告拦截, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/ChatGPT/ChatGPT.list, tag=ChatGPT, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Claude/Claude.list, tag=Claude, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Gemini/Gemini.list, tag=Gemini, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/AI/AI.list, tag=AI, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/YouTube/YouTube.list, tag=YouTube, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Telegram/Telegram.list, tag=Telegram, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Google/Google.list, tag=Google, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/TikTok/TikTok.list, tag=TikTok, update-interval=86400, enabled=true
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Apple/Apple.list, tag=Apple, update-interval=86400, enabled=true
 ```
+
+## Rules
+
+<!-- RULES_TABLE_START -->
+| Rule | Description | Rules | Subscription |
+|------|-------------|------:|--------------|
+| AI | General AI services | 6 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/AI/AI.list) |
+| ChatGPT | OpenAI / ChatGPT | 4 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/ChatGPT/ChatGPT.list) |
+| Claude | Anthropic / Claude | 2 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Claude/Claude.list) |
+| Gemini | Google Gemini | 3 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Gemini/Gemini.list) |
+| Google | Google services | 9 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Google/Google.list) |
+| YouTube | YouTube / YouTube Music | 8 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/YouTube/YouTube.list) |
+| Telegram | Telegram | 16 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Telegram/Telegram.list) |
+| TikTok | TikTok | 9 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/TikTok/TikTok.list) |
+| Apple | Apple / iCloud | 11 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Apple/Apple.list) |
+| Advertising | Advertising blocking | 65 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Advertising/Advertising.list) |
+| LAN | LAN / private networks | 7 | [Link](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/LAN/LAN.list) |
+<!-- RULES_TABLE_END -->
 
 ## 策略组
 
@@ -89,13 +116,14 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/direct
 
 ## 检查规则
 
-安装 Python 3.10 或更高版本后运行：
+安装 Python 3.10 或更高版本后，先更新 README 统计，再执行校验：
 
 ```bash
+python scripts/generate_readme.py
 python scripts/validate_rules.py
 ```
 
-脚本会检查规则格式、重复项、策略名称、Raw 路径、旧用户名和两个广告列表是否一致。每次提交也会由 GitHub Actions 自动检查。
+校验会检查目录结构、空行、规则格式、重复项、IP/CIDR、策略名称、README 统计、Raw 路径、旧用户名和两个广告列表是否一致。每次提交也会由 GitHub Actions 自动检查。
 
 ## 反馈问题
 
@@ -103,7 +131,7 @@ python scripts/validate_rules.py
 
 ## 注意事项
 
-- 广告规则可能出现误拦截。确认域名后，将放行规则加入 `rules/direct/unbreak.list`。
+- 广告规则可能出现误拦截。确认域名后，请提交 Issue 并在自己的配置中先加入直连规则。
 - 不同地区和网络环境的可用策略不同，可在 Quantumult X 中手动切换各策略组。
 - 本仓库不包含节点、订阅地址、服务器信息或访问令牌。
 - 规则会随服务域名变化而调整，建议保留 `update-interval=86400`。

@@ -5,7 +5,7 @@
 # HOST-SUFFIX 会匹配该域名及其所有子域名。
 #
 # Quantumult X 引用示例（推荐使用模块化目录中的同名文件）：
-# https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/adblock/adblock.list, tag=广告域名拦截, update-interval=86400, enabled=true
+# https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Advertising/Advertising.list, tag=广告域名拦截, update-interval=86400, enabled=true
 #
 # 本文件保留为兼容入口，避免旧 Raw 地址失效。
 #
