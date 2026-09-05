@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""根据 rules 目录中的实际规则生成服务 README 和根规则表格。"""
+"""Generate service READMEs and the root table from the rule files."""
 
 from __future__ import annotations
 
@@ -159,7 +159,7 @@ def render_root_readme(paths: list[Path]) -> str:
         return f"{before}{table_block}{after}"
 
     section = f"## Rules\n\n{table_block}\n\n"
-    anchor = "## 策略组"
+    anchor = "## Policy groups"
     if anchor in content:
         return content.replace(anchor, f"{section}{anchor}", 1)
     return f"{content.rstrip()}\n\n{section}"
@@ -170,10 +170,10 @@ def update_file(path: Path, expected: str, check: bool) -> bool:
     if current == expected:
         return True
     if check:
-        print(f"需要重新生成：{path.relative_to(ROOT)}")
+        print(f"Regeneration required: {path.relative_to(ROOT)}")
         return False
     path.write_text(expected, encoding="utf-8", newline="\n")
-    print(f"已更新：{path.relative_to(ROOT)}")
+    print(f"Updated: {path.relative_to(ROOT)}")
     return True
 
 
@@ -182,13 +182,13 @@ def main() -> int:
     parser.add_argument(
         "--check",
         action="store_true",
-        help="仅检查 README 是否与规则统计一致，不写入文件",
+        help="Check README statistics without writing files",
     )
     args = parser.parse_args()
 
     paths = discover_rule_files()
     if not paths:
-        print("未找到规则文件。")
+        print("No rule files found.")
         return 1
 
     valid = True
@@ -197,10 +197,10 @@ def main() -> int:
     valid &= update_file(ROOT_README, render_root_readme(paths), args.check)
 
     if args.check and not valid:
-        print("README 统计不是最新状态，请运行 python scripts/generate_readme.py。")
+        print("README statistics are outdated. Run python scripts/generate_readme.py.")
         return 1
     if args.check:
-        print(f"README 检查通过：{len(paths)} 个服务。")
+        print(f"README checks passed: {len(paths)} services.")
     return 0
 
 

@@ -1,4 +1,4 @@
-# OpenAI / ChatGPT 分流
+# OpenAI / ChatGPT routing
 HOST-SUFFIX,openai.com,AI
 HOST-SUFFIX,chatgpt.com,AI
 HOST-SUFFIX,oaistatic.com,AI

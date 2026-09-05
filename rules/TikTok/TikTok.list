@@ -1,4 +1,4 @@
-# TikTok 分流
+# TikTok routing
 HOST-SUFFIX,tiktok.com,TikTok
 HOST-SUFFIX,tiktokcdn.com,TikTok
 HOST-SUFFIX,tiktokcdn-us.com,TikTok

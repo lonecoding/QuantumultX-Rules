@@ -1,15 +1,15 @@
-## 改了什么
+## Changes
 
-简要说明新增、修改或删除的规则。
+Describe the rules added, updated, or removed.
 
-## 来源与测试
+## Source and testing
 
-- 规则来源：
-- 测试设备和网络：
-- 测试结果：
+- Rule source:
+- Device and network:
+- Test results:
 
-## 提交前检查
+## Checklist
 
-- [ ] 已运行 `python scripts/validate_rules.py`
-- [ ] 没有提交节点、订阅地址、密钥或个人信息
-- [ ] 新规则使用现有策略组，或已同步修改配置和说明
+- [ ] Ran `python scripts/generate_readme.py` and `python scripts/validate_rules.py`.
+- [ ] Included no servers, subscriptions, keys, or personal information.
+- [ ] Used existing policies, or updated the configuration and documentation together.

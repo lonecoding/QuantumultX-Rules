@@ -1,4 +1,4 @@
-# Telegram 分流
+# Telegram routing
 HOST-SUFFIX,telegram.org,Telegram
 HOST-SUFFIX,telegram.me,Telegram
 HOST-SUFFIX,telegram.dog,Telegram

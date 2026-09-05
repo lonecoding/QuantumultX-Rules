@@ -1,5 +1,5 @@
-# Google 服务分流
-# 请将本规则放在 YouTube 规则之后，避免覆盖 YouTube 的独立策略。
+# Google service routing
+# Place this list after YouTube rules to preserve the separate YouTube policy.
 HOST-SUFFIX,google.com,Google
 HOST-SUFFIX,googleapis.com,Google
 HOST-SUFFIX,gstatic.com,Google

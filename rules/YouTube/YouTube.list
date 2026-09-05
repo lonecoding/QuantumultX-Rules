@@ -1,4 +1,4 @@
-# YouTube 分流
+# YouTube routing
 HOST-SUFFIX,youtube.com,YouTube
 HOST-SUFFIX,youtu.be,YouTube
 HOST-SUFFIX,youtube-nocookie.com,YouTube

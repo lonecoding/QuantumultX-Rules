@@ -1,4 +1,4 @@
-# Apple 服务策略
+# Apple service policy
 HOST-SUFFIX,apple.com,Apple
 HOST-SUFFIX,apple-cloudkit.com,Apple
 HOST-SUFFIX,apple-dns.net,Apple

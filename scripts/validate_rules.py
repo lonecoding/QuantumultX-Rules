@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""检查 Quantumult X 规则、目录结构、README 统计和配置引用。"""
+"""Validate Quantumult X rules, layout, README counts, and configuration references."""
 
 from __future__ import annotations
 
@@ -83,24 +83,24 @@ def configured_policies() -> set[str]:
 def validate_layout(paths: list[Path]) -> list[str]:
     errors: list[str] = []
     if not RULES_ROOT.is_dir():
-        return ["rules: 规则目录不存在"]
+        return ["rules: rule directory does not exist"]
     discovered = set(paths)
     all_rule_files = set(RULES_ROOT.rglob("*.list"))
     for path in sorted(all_rule_files - discovered):
         errors.append(
-            f"{path.relative_to(ROOT)}: 规则文件必须位于同名服务目录中，"
-            "格式为 rules/Service/Service.list"
+            f"{path.relative_to(ROOT)}: rule files must be in a matching service directory; "
+            "expected rules/Service/Service.list"
         )
     for path in paths:
         readme = path.parent / "README.md"
         if not readme.is_file():
-            errors.append(f"{readme.relative_to(ROOT)}: 缺少服务 README")
+            errors.append(f"{readme.relative_to(ROOT)}: missing service README")
     for directory in RULES_ROOT.iterdir():
         if not directory.is_dir():
             continue
         expected = directory / f"{directory.name}.list"
         if not expected.is_file():
-            errors.append(f"{expected.relative_to(ROOT)}: 缺少与服务目录同名的规则文件")
+            errors.append(f"{expected.relative_to(ROOT)}: missing rule file matching the service directory name")
     return errors
 
 
@@ -108,7 +108,7 @@ def validate_blank_lines(path: Path) -> list[str]:
     errors: list[str] = []
     for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         if not raw.strip():
-            errors.append(f"{path.relative_to(ROOT)}:{number}: 不允许空行")
+            errors.append(f"{path.relative_to(ROOT)}:{number}: blank lines are not allowed")
     return errors
 
 
@@ -124,7 +124,7 @@ def validate_rule_line(
     rule_type = parts[0].upper()
 
     if rule_type not in ALLOWED_RULE_TYPES:
-        return [f"{path.relative_to(ROOT)}:{number}: 不支持的规则类型 {parts[0]}"]
+        return [f"{path.relative_to(ROOT)}:{number}: unsupported rule type {parts[0]}"]
 
     if rule_type == "FINAL":
         expected_lengths = {2}
@@ -134,13 +134,13 @@ def validate_rule_line(
         expected_lengths = {3}
 
     if len(parts) not in expected_lengths or any(not item for item in parts):
-        return [f"{path.relative_to(ROOT)}:{number}: 字段数量或内容不合法"]
+        return [f"{path.relative_to(ROOT)}:{number}: invalid field count or value"]
 
     if len(parts) == 4 and parts[3].lower() != "no-resolve":
-        errors.append(f"{path.relative_to(ROOT)}:{number}: 不支持的规则选项 {parts[3]}")
+        errors.append(f"{path.relative_to(ROOT)}:{number}: unsupported rule option {parts[3]}")
 
     if rule_type in DOMAIN_RULE_TYPES and not DOMAIN_RE.fullmatch(parts[1]):
-        errors.append(f"{path.relative_to(ROOT)}:{number}: 非法域名 {parts[1]}")
+        errors.append(f"{path.relative_to(ROOT)}:{number}: invalid domain {parts[1]}")
 
     if rule_type in IP_RULE_TYPES:
         try:
@@ -148,23 +148,23 @@ def validate_rule_line(
             expected_version = 6 if rule_type == "IP6-CIDR" else 4
             if network.version != expected_version:
                 errors.append(
-                    f"{path.relative_to(ROOT)}:{number}: {rule_type} 与地址版本不一致"
+                    f"{path.relative_to(ROOT)}:{number}: {rule_type} does not match the IP version"
                 )
         except ValueError:
-            errors.append(f"{path.relative_to(ROOT)}:{number}: 非法 IP/CIDR {parts[1]}")
+            errors.append(f"{path.relative_to(ROOT)}:{number}: invalid IP/CIDR {parts[1]}")
 
     policy_index = 1 if rule_type == "FINAL" else 2
     policy = parts[policy_index]
     if policy not in policies and policy.lower() not in BUILTIN_POLICIES:
-        errors.append(f"{path.relative_to(ROOT)}:{number}: 未定义策略 {policy}")
+        errors.append(f"{path.relative_to(ROOT)}:{number}: undefined policy {policy}")
 
     if rule_type != "FINAL":
         key = (rule_type, parts[1].lower())
         if key in seen:
             old_path, old_number = seen[key]
             errors.append(
-                f"{path.relative_to(ROOT)}:{number}: 与 "
-                f"{old_path.relative_to(ROOT)}:{old_number} 重复"
+                f"{path.relative_to(ROOT)}:{number}: duplicates "
+                f"{old_path.relative_to(ROOT)}:{old_number}"
             )
         else:
             seen[key] = (path, number)
@@ -202,11 +202,11 @@ def rule_content(path: Path) -> list[str]:
 
 def validate_adblock_sync() -> list[str]:
     if not CANONICAL_ADBLOCK.is_file():
-        return [f"{CANONICAL_ADBLOCK.relative_to(ROOT)}: 广告规则文件不存在"]
+        return [f"{CANONICAL_ADBLOCK.relative_to(ROOT)}: advertising rule file does not exist"]
     if not COMPAT_ADBLOCK.is_file():
         return []
     if rule_content(CANONICAL_ADBLOCK) != rule_content(COMPAT_ADBLOCK):
-        return ["adblock.list 与 rules/Advertising/Advertising.list 的有效规则不一致"]
+        return ["effective rules differ between adblock.list and rules/Advertising/Advertising.list"]
     return []
 
 
@@ -226,7 +226,7 @@ def validate_old_username() -> list[str]:
         for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             if OLD_USERNAME.lower() in line.lower():
                 errors.append(
-                    f"{path.relative_to(ROOT)}:{number}: 仍包含旧用户名 {OLD_USERNAME}"
+                    f"{path.relative_to(ROOT)}:{number}: still contains the legacy username {OLD_USERNAME}"
                 )
     return errors
 
@@ -250,7 +250,7 @@ def validate_repository_urls() -> list[str]:
             local_path = ROOT.joinpath(*parts[3:])
             if not local_path.is_file():
                 errors.append(
-                    f"{path.relative_to(ROOT)}: Raw 地址指向不存在的文件 "
+                    f"{path.relative_to(ROOT)}: raw URL points to a missing file "
                     f"{local_path.relative_to(ROOT)}"
                 )
     return sorted(set(errors))
@@ -261,9 +261,9 @@ def validate_generated_readmes(paths: list[Path]) -> list[str]:
     for path in paths:
         readme = path.parent / "README.md"
         if readme.is_file() and readme.read_text(encoding="utf-8") != render_service_readme(path):
-            errors.append(f"{readme.relative_to(ROOT)}: 规则统计不是最新状态")
+            errors.append(f"{readme.relative_to(ROOT)}: rule statistics are outdated")
     if ROOT_README.read_text(encoding="utf-8") != render_root_readme(paths):
-        errors.append("README.md: Rules 表格不是最新状态")
+        errors.append("README.md: Rules table is outdated")
     return errors
 
 
@@ -291,9 +291,9 @@ def validate_external_urls() -> list[str]:
         try:
             with urllib.request.urlopen(request, timeout=15) as response:
                 if response.status >= 400:
-                    errors.append(f"外部地址返回 HTTP {response.status}: {url}")
+                    errors.append(f"external URL returned HTTP {response.status}: {url}")
         except (urllib.error.URLError, TimeoutError) as error:
-            errors.append(f"外部地址不可访问: {url} ({error})")
+            errors.append(f"external URL is unreachable: {url} ({error})")
     return errors
 
 
@@ -302,7 +302,7 @@ def main() -> int:
     parser.add_argument(
         "--check-external-urls",
         action="store_true",
-        help="联网检查 full.conf 中的外部地址",
+        help="Check external URLs in full.conf over the network",
     )
     args = parser.parse_args()
 
@@ -318,14 +318,14 @@ def main() -> int:
         errors.extend(validate_external_urls())
 
     if errors:
-        print("检查失败：")
+        print("Validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
 
     print(
-        f"检查通过：{rule_count} 条规则，{len(paths)} 个服务，"
-        f"{len(configured_policies())} 个策略组。"
+        f"Validation passed: {rule_count} rules, {len(paths)} services, "
+        f"{len(configured_policies())} policy groups."
     )
     return 0
 

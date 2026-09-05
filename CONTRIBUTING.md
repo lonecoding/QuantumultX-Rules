@@ -1,41 +1,45 @@
-# 参与维护
+# Contributing
 
-这个仓库主要收录自己实际使用的规则。提交前请确认域名确实属于对应服务，不要一次加入来源不明的大批量列表。
+Submit rules for services you can identify and test. Avoid large lists with
+unclear sources.
 
-## 反馈误拦截
+## Report a false positive
 
-请使用“误拦截反馈”模板，并提供：
+Use the **False positive** issue form and include the affected app or site,
+blocked domain, matching rule file, and whether disabling that rule resolves
+the problem. Until a fix is available, place a direct exception before the
+advertising rules in your own configuration.
 
-- 出现问题的应用或网站
-- 被拦截的域名
-- 命中的规则文件
-- 临时停用该规则后是否恢复
-
-确认后会评估修正规则；在修复发布前，可以先在自己的配置中加入直连规则，并确保它排在广告规则前面。
-
-## 添加规则
-
-分流规则使用下面的格式：
+## Add or update rules
 
 ```text
-HOST-SUFFIX,example.com,策略组
+HOST-SUFFIX,example.com,PolicyName
 ```
 
-提交时请遵守这些约定：
+- Use lowercase domains without a protocol or path.
+- Prefer `HOST-SUFFIX`; use `HOST` when an exact match is necessary.
+- Add `no-resolve` to IP rules.
+- Use an existing policy, or update the configuration and documentation together.
+- Include the source and test results in your pull request.
+- Do not submit servers, subscriptions, keys, or personal information.
 
-- 域名使用小写，不带协议和路径。
-- 优先使用 `HOST-SUFFIX`，只有必须精确匹配时才使用 `HOST`。
-- IP 规则加上 `no-resolve`。
-- 不提交节点、订阅地址、密钥或个人信息。
-- 在 Pull Request 中说明规则来源和测试结果。
+## Validate changes
 
-## 本地检查
-
-仓库只需要 Python 3.10 或更高版本：
+Use Python 3.10 or newer, from the repository root:
 
 ```bash
 python scripts/generate_readme.py
 python scripts/validate_rules.py
+python scripts/generate_readme.py --check
 ```
 
-规则变更后必须先重新生成各服务 README 和根目录规则表格，再执行检查。检查通过后再提交；GitHub Actions 也会运行同一套检查。
+Regenerate the service READMEs and root rules table after editing rules. The
+validator checks layout, blank lines, syntax, duplicates, IP/CIDR values, policy
+names, counts, raw URLs, legacy usernames, and advertising-list consistency.
+GitHub Actions runs the same checks on pushes and pull requests.
+
+To check external configuration URLs as well:
+
+```bash
+python scripts/validate_rules.py --check-external-urls
+```

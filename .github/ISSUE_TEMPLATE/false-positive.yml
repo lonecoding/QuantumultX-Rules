@@ -1,53 +1,53 @@
-name: 误拦截反馈
-description: 报告广告规则导致的应用或网页异常
-title: "[误拦截] "
+name: False positive
+description: Report an app or site affected by advertising rules
+title: "[False positive] "
 labels: []
 body:
   - type: input
     id: product
     attributes:
-      label: 应用或网站
-      placeholder: 例如：某某 App、example.com
+      label: App or website
+      placeholder: For example, an app name or example.com
     validations:
       required: true
   - type: input
     id: domain
     attributes:
-      label: 被拦截的域名
-      description: 可以从 Quantumult X 的请求记录中查看。
+      label: Blocked domain
+      description: Find this in the Quantumult X request log.
       placeholder: ads.example.com
     validations:
       required: true
   - type: dropdown
     id: rule
     attributes:
-      label: 命中的规则
+      label: Matching rule
       options:
         - rules/Advertising/Advertising.list
-        - 其他规则
-        - 不确定
+        - Other rule
+        - Not sure
     validations:
       required: true
   - type: textarea
     id: symptom
     attributes:
-      label: 问题表现
-      description: 写清楚不能加载、登录失败或其他具体现象。
+      label: Symptoms
+      description: Describe loading errors, failed sign-ins, or other specific symptoms.
     validations:
       required: true
   - type: textarea
     id: test
     attributes:
-      label: 排查结果
-      description: 临时停用该规则后是否恢复？如方便，可附不含隐私信息的请求记录。
+      label: Troubleshooting
+      description: Does disabling the rule resolve the problem? Include request logs with private information removed, if available.
     validations:
       required: true
   - type: checkboxes
     id: checks
     attributes:
-      label: 提交前确认
+      label: Checklist
       options:
-        - label: 我已确认问题可以通过停用对应规则复现或消失。
+        - label: I checked whether enabling or disabling the matching rule reproduces or resolves the problem.
           required: true
-        - label: 我没有提交节点、订阅地址、密钥或其他隐私信息。
+        - label: I included no servers, subscriptions, keys, or private information.
           required: true

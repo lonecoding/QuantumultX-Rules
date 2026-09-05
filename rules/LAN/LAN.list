@@ -1,4 +1,4 @@
-# 局域网与保留地址直连
+# Direct routing for LAN and reserved addresses
 HOST-SUFFIX,local,🎯Direct
 IP-CIDR,10.0.0.0/8,🎯Direct,no-resolve
 IP-CIDR,100.64.0.0/10,🎯Direct,no-resolve

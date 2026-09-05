@@ -1,49 +1,49 @@
-name: 新规则请求
-description: 请求添加新的域名或服务分流
-title: "[规则请求] "
+name: Rule request
+description: Request routing rules for a domain or service
+title: "[Rule request] "
 labels: []
 body:
   - type: input
     id: service
     attributes:
-      label: 服务名称
-      placeholder: 例如：GitHub、Netflix
+      label: Service name
+      placeholder: For example, GitHub or Netflix
     validations:
       required: true
   - type: input
     id: domain
     attributes:
-      label: 域名或网段
-      placeholder: example.com 或 203.0.113.0/24
+      label: Domains or networks
+      placeholder: example.com or 203.0.113.0/24
     validations:
       required: true
   - type: input
     id: policy
     attributes:
-      label: 建议策略组
-      placeholder: Proxies、🎯Direct 或现有策略组名称
+      label: Suggested policy group
+      placeholder: Proxies, 🎯Direct, or an existing policy group
     validations:
       required: true
   - type: textarea
     id: source
     attributes:
-      label: 判断依据
-      description: 说明域名来源、请求记录或官方文档地址。
+      label: Evidence
+      description: Include domain sources, request logs, or official documentation URLs.
     validations:
       required: true
   - type: textarea
     id: test
     attributes:
-      label: 测试情况
-      description: 说明设备、网络环境和规则是否已经实际测试。
+      label: Testing
+      description: Describe your device, network, and whether the rules have been tested.
     validations:
       required: true
   - type: checkboxes
     id: checks
     attributes:
-      label: 提交前确认
+      label: Checklist
       options:
-        - label: 我已搜索现有规则和 Issue，没有找到相同内容。
+        - label: I searched existing rules and issues and found no duplicate.
           required: true
-        - label: 我没有提交节点、订阅地址、密钥或其他隐私信息。
+        - label: I included no servers, subscriptions, keys, or private information.
           required: true

@@ -1,30 +1,30 @@
-# Advertising 广告拦截
+# Advertising Advertising
 #
-# 规则格式：HOST-SUFFIX,域名,REJECT
-# HOST-SUFFIX 会匹配该域名及其所有子域名。
+# Rule format: HOST-SUFFIX,domain,REJECT
+# HOST-SUFFIX matches the domain and all its subdomains.
 #
-# Quantumult X 引用示例：
-# https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Advertising/Advertising.list, tag=广告域名拦截, update-interval=86400, enabled=true
+# Quantumult X example:
+# https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Advertising/Advertising.list, tag=Advertising, update-interval=86400, enabled=true
 #
-# 提示：广告域名可能随时间变化；若某个应用或网页异常，请先临时停用本列表，
-# 再为误拦截域名添加 DIRECT 规则。本文件不包含订阅地址、服务器信息或访问令牌。
+# Advertising domains change over time. If an app or site fails, disable this list temporarily
+# and add a DIRECT exception for false positives. No subscriptions, servers, or tokens are included.
 # Last updated: 2026-09-03
-# --- Google 广告 ---
+# --- Google advertising ---
 HOST-SUFFIX,doubleclick.net,REJECT
 HOST-SUFFIX,googlesyndication.com,REJECT
 HOST-SUFFIX,googleadservices.com,REJECT
 HOST-SUFFIX,googletagservices.com,REJECT
 HOST-SUFFIX,2mdn.net,REJECT
-# --- Microsoft / Yahoo / AOL 广告 ---
+# --- Microsoft / Yahoo / AOL advertising ---
 HOST-SUFFIX,ads.microsoft.com,REJECT
 HOST-SUFFIX,adnxs.com,REJECT
 HOST-SUFFIX,advertising.com,REJECT
 HOST-SUFFIX,atwola.com,REJECT
 HOST-SUFFIX,gemini.yahoo.com,REJECT
-# --- Amazon 广告 ---
+# --- Amazon advertising ---
 HOST-SUFFIX,amazon-adsystem.com,REJECT
 HOST-SUFFIX,aaxads.com,REJECT
-# --- 程序化广告与竞价平台 ---
+# --- Programmatic advertising and bidding ---
 HOST-SUFFIX,adsrvr.org,REJECT
 HOST-SUFFIX,casalemedia.com,REJECT
 HOST-SUFFIX,contextweb.com,REJECT
@@ -37,19 +37,19 @@ HOST-SUFFIX,rubiconproject.com,REJECT
 HOST-SUFFIX,smartadserver.com,REJECT
 HOST-SUFFIX,sharethrough.com,REJECT
 HOST-SUFFIX,yieldmo.com,REJECT
-# --- 原生广告与内容推荐 ---
+# --- Native advertising and recommendations ---
 HOST-SUFFIX,outbrain.com,REJECT
 HOST-SUFFIX,taboola.com,REJECT
 HOST-SUFFIX,revcontent.com,REJECT
 HOST-SUFFIX,mgid.com,REJECT
 HOST-SUFFIX,zedo.com,REJECT
-# --- 广告监测与归因 ---
+# --- Ad measurement and attribution ---
 HOST-SUFFIX,adsafeprotected.com,REJECT
 HOST-SUFFIX,moatads.com,REJECT
 HOST-SUFFIX,quantserve.com,REJECT
 HOST-SUFFIX,scorecardresearch.com,REJECT
 HOST-SUFFIX,serving-sys.com,REJECT
-# --- 移动应用与游戏广告 ---
+# --- Mobile app and game advertising ---
 HOST-SUFFIX,adcolony.com,REJECT
 HOST-SUFFIX,applovin.com,REJECT
 HOST-SUFFIX,applvn.com,REJECT
@@ -64,10 +64,10 @@ HOST-SUFFIX,startappservice.com,REJECT
 HOST-SUFFIX,supersonicads.com,REJECT
 HOST-SUFFIX,unityads.unity3d.com,REJECT
 HOST-SUFFIX,vungle.com,REJECT
-# --- 字节系海外广告平台 ---
+# --- ByteDance international advertising ---
 HOST-SUFFIX,pangle.io,REJECT
 HOST-SUFFIX,pangleglobal.com,REJECT
-# --- 中国大陆常见广告平台 ---
+# --- Common mainland China advertising platforms ---
 HOST-SUFFIX,alimama.com,REJECT
 HOST-SUFFIX,atanx.alicdn.com,REJECT
 HOST-SUFFIX,cpro.baidu.com,REJECT
@@ -79,7 +79,7 @@ HOST-SUFFIX,admaster.com.cn,REJECT
 HOST-SUFFIX,miaozhen.com,REJECT
 HOST-SUFFIX,sigmob.cn,REJECT
 HOST-SUFFIX,pangolin-sdk-toutiao.com,REJECT
-# --- 设备厂商广告服务 ---
+# --- Device manufacturer advertising ---
 HOST-SUFFIX,ad.xiaomi.com,REJECT
 HOST-SUFFIX,ads.huawei.com,REJECT
 HOST-SUFFIX,petalads.com,REJECT

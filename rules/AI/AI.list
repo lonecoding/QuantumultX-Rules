@@ -1,4 +1,4 @@
-# 通用 AI 服务分流
+# General AI service routing
 HOST-SUFFIX,perplexity.ai,AI
 HOST-SUFFIX,groq.com,AI
 HOST-SUFFIX,x.ai,AI
