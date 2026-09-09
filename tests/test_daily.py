@@ -67,6 +67,13 @@ class DailyTemplateTests(unittest.TestCase):
         with patch.object(validate_rules, "ROOT", self.root):
             self.assertTrue(validate_rules.validate_daily_template())
 
+    def test_external_url_checks_discover_additional_profiles(self):
+        profile = self.root / "config/custom-test.conf"
+        url = "https://rules.example.net/service.list"
+        profile.write_text("[filter_remote]\n" + url + ", enabled=true\n")
+        with patch.multiple(validate_rules, ROOT=self.root, CONFIG=self.root / "config/full.conf"):
+            self.assertIn(url, validate_rules.external_config_urls())
+
     def test_external_url_checks_include_all_three_upstreams(self):
         with patch.multiple(validate_rules, ROOT=self.root, CONFIG=self.root / "config/full.conf"):
             urls = validate_rules.external_config_urls()

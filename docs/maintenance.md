@@ -1,5 +1,10 @@
 # Maintenance and releases
 
+Complete profiles and their JavaScript generator have additional checks documented in
+[profiles.md](profiles.md#维护与验证范围). Their external rules and FILTER_REGION behavior
+are outside the legacy full.conf offline routing model described below.
+
+
 ## Sources of truth
 
 - Edit service rules in `rules/Service/Service.list`.

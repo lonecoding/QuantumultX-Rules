@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## [0.4.0] - 2026-09-09
+
+- Add complete mainland-China profiles: recommended (10 groups), lite (4), and
+  extended (16), with the existing upstream parser, DNS defaults, configurable
+  advertising blocking, service upstream coverage, and built-in China IP routing.
+- Add an original dependency-free JavaScript configuration composer with preset,
+  custom-group and interactive modes. All profiles retain the same resource coverage.
+- Make the complete recommended profile the README entry point; document migration,
+  subscriptions, group defaults, upstream ownership and device verification limits.
+- Test all 4096 group combinations for valid references and cycles; check generated
+  presets in CI and include every profile in external URL checks.
+
+
 - Reference the upstream KOP-XIAO resource parser in daily.conf; add an opt-parser
   node-subscription example, source attribution, and Chinese setup/recovery guidance.
 

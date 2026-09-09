@@ -1,5 +1,8 @@
 # Quantumult X setup
 
+> 新用户推荐使用 [完整配置与可选策略组](profiles.md)。本页介绍旧 full.conf 及独立规则的接入方式。
+
+
 ## Configuration template
 
 Import [full.conf](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/full.conf),
