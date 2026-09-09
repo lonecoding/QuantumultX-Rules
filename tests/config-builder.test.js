@@ -54,10 +54,16 @@ function checkReferences(config) {
     }
     visit(name, new Set());
   }
-  assert.deepEqual(config.filter_local, ['final, ✈️Final']);
+  assert.equal(config.filter_local.at(-1), 'final, ✈️Final');
+  for (const line of config.filter_local.slice(0, -1)) {
+    const [type, host, policy] = line.split(', ');
+    assert.equal(type, 'host');
+    assert.ok(host && known.has(policy), line);
+  }
+  assert.deepEqual(policies.get('🎯Direct'), ['direct']);
 }
 
-test('all 4096 group selections keep routing resources and valid acyclic policy references', () => {
+test('all group selections keep routing resources and valid acyclic policy references', () => {
   const resources = sections(renderConfig([])).filter_remote.map(line => line.split(',')[0]);
   for (let mask = 0; mask < 2 ** SERVICES.length; mask++) {
     const groups = SERVICES.filter((_, i) => mask & (1 << i)).map(service => service.id);
@@ -69,7 +75,7 @@ test('all 4096 group selections keep routing resources and valid acyclic policy 
 
 test('custom base-only selection retains Apple/Microsoft direct and overseas proxy bindings', () => {
   const config = sections(renderConfig([]));
-  assert.equal(config.policy.length, 4);
+  assert.equal(config.policy.length, 5);
   const actual = bindings(config);
   assert.equal(actual['Local-Apple'], '🎯Direct');
   assert.equal(actual['Upstream-Microsoft'], '🎯Direct');
@@ -77,7 +83,7 @@ test('custom base-only selection retains Apple/Microsoft direct and overseas pro
   assert.equal(actual['Upstream-Netflix'], 'Proxies');
   assert.equal(actual['Upstream-China'], 'direct');
   assert.equal(actual['China-IP'], 'direct');
-  assert.equal(actual['Upstream-Hijacking'], 'AdBlock');
+  assert.equal(actual['Upstream-Hijacking'], 'Hijacking');
   assert.equal(actual['Local-Advertising'], 'AdBlock');
 });
 
@@ -114,7 +120,7 @@ test('published presets match generator and every own rule exists and is bound e
     const output = renderConfig(groups);
     assert.equal(fs.readFileSync(path.join(ROOT, 'config', `${name}.conf`), 'utf8'), output);
     const config = sections(output);
-    assert.equal(config.policy.length, { recommended: 10, extended: 16 }[name]);
+    assert.equal(config.policy.length, { recommended: 11, extended: 20 }[name]);
     const own = config.filter_remote.filter(line => line.includes('/lonecoding/'));
     assert.equal(own.length, 11);
     for (const line of own) {
@@ -165,5 +171,41 @@ test('CLI selection, interactive choice, and errors produce importable output or
     const result = run(args);
     assert.notEqual(result.status, 0);
     assert.equal(result.stdout, '');
+  }
+});
+
+
+test('blocking controls are independent and direct remains fixed in every template', () => {
+  for (const name of ['recommended', 'extended', 'full', 'daily']) {
+    const text = fs.readFileSync(path.join(ROOT, 'config', `${name}.conf`), 'utf8');
+    const line = text.split('\n').find(line => line.startsWith('static=🎯Direct,'));
+    assert.ok(line);
+    assert.deepEqual(line.split(',').slice(1).map(v => v.trim()).filter(v => !v.includes('=')), ['direct']);
+  }
+  const config = sections(renderConfig());
+  const actual = bindings(config);
+  assert.equal(actual['Local-Advertising'], 'AdBlock');
+  assert.equal(actual['Upstream-Hijacking'], 'Hijacking');
+  assert.ok(config.policy.includes('static=AdBlock, reject, direct'));
+  assert.ok(config.policy.includes('static=Hijacking, reject, direct'));
+});
+
+test('vendor exceptions have isolated controls and precede broad vendor resources', () => {
+  for (const groups of [[], PRESETS.recommended, PRESETS.extended, ['Copilot'], ['AppleTV', 'AppleNews']]) {
+    const config = sections(renderConfig(groups));
+    const actual = bindings(config);
+    for (const service of ['AppleTV', 'AppleNews']) {
+      assert.equal(actual[`Upstream-${service}`], groups.includes(service) ? service : 'Proxies');
+      const position = tag => config.filter_remote.findIndex(line => line.includes(`tag=${tag},`));
+      assert.ok(position(`Upstream-${service}`) < position('Local-Apple'));
+    }
+    const policy = groups.includes('Copilot') ? 'Copilot' : groups.includes('AI') ? 'AI' : 'Proxies';
+    assert.deepEqual(config.filter_local.slice(0, -1), [
+      `host, copilot.microsoft.com, ${policy}`,
+      `host, sydney.bing.com, ${policy}`,
+      `host, services.bingapis.com, ${policy}`,
+    ]);
+    assert.ok(!config.filter_remote.some(line => line.includes('/Copilot/')));
+    assert.ok(!config.filter_local.some(line => line.includes('openai.com') || line.includes('IP-ASN')));
   }
 });

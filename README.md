@@ -28,12 +28,13 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/recom
 
 | 配置 | 策略组 | 适合谁 |
 | --- | --- | --- |
-| [标准版 recommended.conf](config/recommended.conf) | 10 个：基础 4 组 + AI、YouTube、Telegram、TikTok、Apple、Google | 大多数希望按服务选节点的用户 |
-| [扩展版 extended.conf](config/extended.conf) | 16 个：标准版 + ChatGPT、Claude、Gemini、Netflix、Spotify、Microsoft | 希望更细致地分别选择节点的用户 |
+| [标准版 recommended.conf](config/recommended.conf) | 11 个：基础 5 组 + AI、YouTube、Telegram、TikTok、Apple、Google | 大多数希望按服务选节点的用户 |
+| [扩展版 extended.conf](config/extended.conf) | 20 个：标准版 + ChatGPT、Claude、Gemini、Copilot、Netflix、Spotify、Microsoft、AppleTV、AppleNews | 希望更细致地分别选择节点的用户 |
 
 **两版拥有相同规则覆盖，区别是显示哪些独立策略组。** 没有独立组的海外服务跟随
-`Proxies`，Apple / Microsoft 跟随 `🎯Direct`；ChatGPT、Claude、Gemini 优先跟随
-已有的 `AI` 组。`AdBlock` 可切换 `reject` / `direct` 来开启或暂停广告及防劫持列表的拦截。
+`Proxies`，Apple / Microsoft 跟随 `🎯Direct`；ChatGPT、Claude、Gemini、Copilot 优先跟随
+已有的 `AI` 组；AppleTV / AppleNews 默认代理。`🎯Direct` 固定直连。
+`AdBlock` 控制广告拦截，`Hijacking` 控制防劫持，各自选择 `reject` 拦截或 `direct` 放行。
 
 需要任意组合时，可使用本项目的 JavaScript 配置生成器，按需选择策略组。
 具体导入地址、默认策略和自定义方式见 [完整配置使用指南](docs/profiles.md)。

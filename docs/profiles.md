@@ -46,30 +46,52 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/exten
 | 策略组 | 初始候选 / 用途 | 哪些预设有独立组 |
 | --- | --- | --- |
 | Proxies | 汇集全部订阅节点，首次使用时手动选节点 | 全部 |
-| 🎯Direct | direct；可手动改为 Proxies | 全部 |
-| AdBlock | reject；切换 direct 暂停这两类列表的拦截 | 全部 |
+| 🎯Direct | 固定 direct，始终直连 | 全部 |
+| AdBlock | 广告域名：reject 拦截 / direct 放行 | 全部 |
+| Hijacking | 防劫持：reject 拦截 / direct 放行 | 全部 |
 | ✈️Final | Proxies；处理未命中规则的流量 | 全部 |
 | AI | Proxies | 标准、扩展 |
 | YouTube、Telegram、TikTok、Google | Proxies | 标准、扩展 |
 | Apple | 🎯Direct | 标准、扩展 |
-| ChatGPT、Claude、Gemini | AI；可以各选不同节点 | 扩展 |
-| Netflix、Spotify | Proxies | 扩展 |
+| ChatGPT、Claude、Gemini、Copilot | AI；可以各选不同节点 | 扩展 |
+| Netflix、Spotify、AppleTV、AppleNews | Proxies | 扩展 |
 | Microsoft | 🎯Direct | 扩展 |
 
-标准版 10 组，扩展版 16 组。全部使用静态手动选择，客户端可能保留同名组
+标准版 11 组，扩展版 20 组。全部使用静态手动选择，客户端可能保留同名组
 之前的选择，导入后请确认实际选择。服务组提供全部订阅节点，可以直接为 AI 选择一个
 可用节点，同时让 YouTube 使用另一个节点；Proxies 的默认选择不必随之改变。
 节点名称请避免与策略组同名。
 
-**减少独立组不等于停用服务规则。** 未选择独立组的 ChatGPT / Claude / Gemini，若有
+**减少独立组不等于停用服务规则。** 未选择独立组的 ChatGPT / Claude / Gemini / Copilot，若有
 AI 组就跟随 AI，否则跟随 Proxies；其他海外服务跟随 Proxies。Apple / Microsoft
 没有独立组时仍跟随 🎯Direct。国内 China 列表、中国 IP 和局域网绑定内置 `direct`，
-不随 🎯Direct 组切换。
+🎯Direct 本身也只有 direct 候选，不会把选择直连的服务连带切换为代理。
 
-AdBlock 控制本项目 Advertising 和上游 Hijacking 两个列表。选择 direct 时，这些
+AdBlock 仅控制本项目 Advertising；Hijacking 独立控制上游防劫持列表。两个组默认
+reject，切换其中一个不会改变另一个的设置。选择 direct 时，对应
 列表匹配到的请求会直连，不会重新交给后续代理规则；需要让某个误拦域名走代理时，
 在 `[filter_local]` 添加精确域名与对应策略，或禁用命中的资源后对照验证。
 拦截范围是域名 / IP 规则，不能承诺去除 YouTube 视频广告等同域名广告。
+
+## 厂商特殊服务
+
+标准版已启用 AppleTV / AppleNews 独立服务规则并绑定 Proxies，Apple 通用服务仍默认直连。
+扩展版显示 AppleTV、AppleNews 两个独立组，默认 Proxies，可分别选择节点。
+它们的远程列表排在 Apple 通用列表之前；具体匹配仍以客户端日志为准。
+
+Copilot 的精确服务域名放在 `[filter_local]`：`copilot.microsoft.com`、`sydney.bing.com`、
+`services.bingapis.com`。标准版默认跟随 AI；扩展版有 Copilot 独立组，默认跟随 AI。
+自定义配置若没有 AI 组则跟随 Proxies。这里是可扩展的服务入口，不代表全部依赖已覆盖。
+
+来源：[AppleTV](https://github.com/blackmatrix7/ios_rule_script/blob/master/rule/QuantumultX/AppleTV/AppleTV.list)、
+[AppleNews](https://github.com/blackmatrix7/ios_rule_script/blob/master/rule/QuantumultX/AppleNews/AppleNews.list)、
+[Copilot 域名参考](https://github.com/blackmatrix7/ios_rule_script/blob/master/rule/QuantumultX/Copilot/Copilot.list)。
+Copilot 只采用三个明确端点，没有启用该上游列表中的共享 OpenAI 域名和 IP-ASN 规则。
+共享登录、验证和其他依赖仍按原来的服务规则分流；如需补充，先记录实际请求与来源。
+
+拦截列表可能重叠，放行一个列表不保证其他列表也会放行相同域名。出现误拦请根据
+日志确认命中来源，为具体域名设置所需策略。Apple 服务可能共享接口；独立组不保证
+绕过地区、账号或设备限制。
 
 ## 按需组合策略组
 
@@ -81,14 +103,14 @@ AdBlock 控制本项目 Advertising 和上游 Hijacking 两个列表。选择 di
 node scripts/generate_profiles.js --interactive > ../my-quantumultx.conf
 ```
 
-按提示输入组名，如 `AI,Telegram,YouTube`，就会生成基础 4 组加这 3 个独立组。
+按提示输入组名，如 `AI,Telegram,YouTube`，就会生成基础 5 组加这 3 个独立组。
 也可以直接指定：
 
 ```bash
 node scripts/generate_profiles.js --groups AI,Telegram,YouTube > ../my-quantumultx.conf
 ```
 
-可选组名：`AI,ChatGPT,Claude,Gemini,YouTube,Telegram,TikTok,Netflix,Spotify,Microsoft,Apple,Google`。
+可选组名：`AI,ChatGPT,Claude,Gemini,Copilot,YouTube,Telegram,TikTok,Netflix,Spotify,AppleTV,AppleNews,Microsoft,Apple,Google`。
 `--groups none` 只保留基础组。未知名称或重复组名会报错。
 生成器只处理本地配置，不获取订阅、不联网、不收集使用数据。生成后导入文件，再在
 设备上添加自己的订阅。此工具是维护及生成工具，不是放进 `resource_parser_url` 的客户端解析器。
@@ -101,7 +123,7 @@ Quantumult X 的实际匹配逻辑；域名 / IP 规则、客户端优化和重�
 
 - 本仓库：LAN、Advertising、ChatGPT、Claude、Gemini、AI、YouTube、Telegram、TikTok、Apple、Google。
 - [blackmatrix7 上游](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/QuantumultX)：
-  Hijacking、OpenAI、Claude、Gemini、YouTube、Telegram、TikTok、Netflix、Spotify、Microsoft、Apple、Google、Global、China。
+  Hijacking、OpenAI、Claude、Gemini、YouTube、Telegram、TikTok、Netflix、Spotify、AppleTV、AppleNews、Microsoft、Apple、Google、Global、China。
   每个远程列表显式设置 `force-policy`，不用依赖上游内部的策略名称。
 - 中国 IP 使用客户端内置 `FILTER_REGION`，与原先 daily.conf 没有中国 IP 兜底的行为不同。
   IP 归属数据不等于服务所在国家，实际结果以请求日志为准。
@@ -118,9 +140,12 @@ Quantumult X 的实际匹配逻辑；域名 / IP 规则、客户端优化和重�
 
 ## 更新、迁移与问题处理
 
-旧 full.conf / daily.conf 继续保留原行为。迁移新预设时，备份后复制自己的订阅与
+full.conf / daily.conf 的 🎯Direct 也固定为 direct；完整预设中的独立拦截组和厂商例外
+请使用 recommended.conf / extended.conf。迁移新预设时，备份后复制自己的订阅与
 必要的精确域名例外，刷新全部资源，并检查同名策略组的实际选择。
 规则订阅可以自动刷新；整体配置的结构更新需用户主动导入或合并。
+升级时确认 🎯Direct 只有 direct 候选；AdBlock 和 Hijacking 分别选择 reject 或 direct，
+并核对 AppleTV、AppleNews、Copilot 的实际命中。
 不要把带有自己订阅的配置设置为未经检查的整份覆盖更新。
 
 若 AI / 视频失败，先检查选用节点及实际匹配规则；地区和账号限制无法靠分流规则消除。
@@ -144,7 +169,7 @@ python scripts/check_routing.py
 python -m unittest discover -s tests -v
 ```
 
-CI 检查生成内容、全部 4096 种策略组组合的有效引用与循环、规则保留、默认绑定和命令行错误。
+CI 检查生成内容、全部 32768 种策略组组合的有效引用与循环、规则保留、默认绑定和命令行错误。
 定时 / 手动网络检查覆盖所有配置中的外部 URL。旧的 34 个路由样例仍只适用于 full.conf；
 新预设没有模拟上游全部规则、DNS、区域数据或客户端匹配引擎。
 
