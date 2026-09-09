@@ -6,6 +6,9 @@
 - Edit advertising rules only in `rules/Advertising/Advertising.list`; run
   `python scripts/generate_compat.py` to update the legacy `adblock.list`.
 - Run `python scripts/generate_readme.py` after changing rule counts.
+- Generate `config/daily.conf` with `python scripts/generate_daily.py` after
+  changing the full template or the three upstream bindings in that script.
+  See [upstream sources](upstream-rules.md) for ownership and verification scope.
 - Keep every service module enabled in the full template. The validator checks
   this contract; personal configurations may import any subset.
 - Preserve public subscription paths and policy names unless a release explicitly
@@ -24,6 +27,7 @@ python scripts/check_routing.py --target gemini.google.com
 python -m unittest discover -s tests -v
 ```
 
+The checker covers `full.conf`, not the optional daily template's external lists.
 The checker resolves repository Raw URLs against the current checkout, so a pull
 request tests its own files. It performs no DNS lookup or network request.
 Its **ordered contract** is: local non-FINAL exceptions first, enabled remote
@@ -74,8 +78,8 @@ should include device evidence before publication.
 - Monthly: audit one service module's sources, scope, and coverage.
 - Release: summarize user-visible changes and known verification limits.
 
-External-URL checks cover configuration dependencies such as icons and the node
-check URL. An unavailable icon is not evidence of a broken routing rule. Network
+External-URL checks cover both templates, including upstream rule URLs, icons,
+and the node check URL. An unavailable icon is not evidence of a broken routing rule. Network
 checks run separately on the weekly schedule and manual workflow dispatch.
 
 ## Release procedure

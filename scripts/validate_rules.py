@@ -14,6 +14,7 @@ from urllib.parse import unquote, urlparse
 
 from check_routing import remote_resource, sections
 from generate_compat import render_compat
+from generate_daily import render_daily
 
 from generate_readme import (
     discover_rule_files,
@@ -264,6 +265,17 @@ def validate_document_links() -> list[str]:
     return errors
 
 
+def validate_daily_template() -> list[str]:
+    path = ROOT / "config/daily.conf"
+    try:
+        expected = render_daily(ROOT)
+    except (ValueError, OSError) as error:
+        return [f"daily template generation failed: {error}"]
+    if not path.is_file() or path.read_text(encoding="utf-8") != expected:
+        return ["config/daily.conf is missing or outdated; run python scripts/generate_daily.py"]
+    return []
+
+
 def text_files() -> list[Path]:
     return [
         path
@@ -323,7 +335,9 @@ def validate_generated_readmes(paths: list[Path]) -> list[str]:
 
 def external_config_urls() -> list[str]:
     urls: set[str] = set()
-    for match in URL_RE.findall(CONFIG.read_text(encoding="utf-8")):
+    configs = [CONFIG, ROOT / "config/daily.conf"]
+    content = "\n".join(path.read_text(encoding="utf-8") for path in configs if path.is_file())
+    for match in URL_RE.findall(content):
         url = clean_url(match)
         parsed = urlparse(url)
         if parsed.netloc == "raw.githubusercontent.com" and tuple(
@@ -356,7 +370,7 @@ def main() -> int:
     parser.add_argument(
         "--check-external-urls",
         action="store_true",
-        help="Check external URLs in full.conf over the network",
+        help="Check external URLs in full.conf and daily.conf over the network",
     )
     args = parser.parse_args()
 
@@ -366,6 +380,7 @@ def main() -> int:
     errors.extend(rule_errors)
     errors.extend(validate_adblock_sync())
     errors.extend(validate_config_references(paths))
+    errors.extend(validate_daily_template())
     errors.extend(validate_document_links())
     errors.extend(validate_old_username())
     errors.extend(validate_repository_urls())

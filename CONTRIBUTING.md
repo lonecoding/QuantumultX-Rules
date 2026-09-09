@@ -33,9 +33,11 @@ Use Python 3.10 or newer, from the repository root:
 
 ```bash
 python scripts/generate_compat.py
+python scripts/generate_daily.py
 python scripts/generate_readme.py
 python scripts/validate_rules.py
 python scripts/generate_compat.py --check
+python scripts/generate_daily.py --check
 python scripts/generate_readme.py --check
 python scripts/check_routing.py
 python -m unittest discover -s tests -v
@@ -45,7 +47,10 @@ Regenerate the service READMEs and root rules table after editing rules. The
 validator checks layout, blank lines, syntax, duplicates, IP/CIDR values, policy
 names, counts, raw URLs, legacy usernames, and advertising-list consistency.
 It also checks enabled module imports, policy candidates, local documentation
-links, and the generated compatibility file. GitHub Actions runs these checks,
+links, the generated compatibility file, and the optional daily template.
+Edit daily-template bindings in scripts/generate_daily.py, then regenerate;
+do not copy upstream rule bodies into the service directories.
+GitHub Actions runs these checks,
 the routing contract, and maintenance tests on pushes and pull requests.
 
 The ordered routing contract is a deliberately limited offline model, not the
