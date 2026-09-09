@@ -14,7 +14,8 @@ subscription section. The daily template additionally references KOP-XIAO's
 resource parser. It adds no GeoIP/FILTER_REGION rule, DNS override, rewrite,
 certificate, or personal domain exception. It is not
 a complete reproduction of a personal configuration. Static groups retain
-manual choices; the initial Final candidate is Proxies.
+manual choices; Direct has only the built-in direct candidate, and the initial
+Final candidate is Proxies.
 
 ## Sources and ownership
 

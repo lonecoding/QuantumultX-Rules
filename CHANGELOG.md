@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## [0.5.0] - 2026-09-09
+
+- Keep Direct fixed to the built-in direct policy in every published template.
+- Give advertising and hijacking separate reject/direct controls in complete profiles.
+- Provide AppleTV, AppleNews, and Copilot service policies in the extended profile;
+  the recommended profile binds AppleTV/AppleNews to Proxies and Copilot to AI.
+- Use upstream Apple service lists and narrowly scoped local Copilot endpoints.
+- Validate all 32768 custom group combinations, independent blocking bindings,
+  direct-only candidates, and vendor-specific rule placement. Device verification remains pending.
+
+
 - Offer recommended and extended presets, with custom policy-group generation.
 
 ## [0.4.0] - 2026-09-09

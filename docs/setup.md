@@ -72,7 +72,7 @@ Add this line once; replace an existing ChatGPT import rather than duplicating i
 | Group | Default | Alternative | Purpose |
 | --- | --- | --- | --- |
 | `Proxies` | All server tags | — | Server entry point |
-| `🎯Direct` | direct | Proxies | Direct traffic |
+| `🎯Direct` | direct | — | Always direct |
 | `YouTube` | Proxies | 🎯Direct | YouTube |
 | `AI` | Proxies | 🎯Direct | ChatGPT, Claude, Gemini, and other AI services |
 | `Telegram` | Proxies | 🎯Direct | Telegram |
