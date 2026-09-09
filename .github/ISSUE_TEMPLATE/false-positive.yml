@@ -36,6 +36,13 @@ body:
     validations:
       required: true
   - type: textarea
+    id: environment
+    attributes:
+      label: Environment and working policy
+      description: Include Quantumult X/iOS versions, network type, test date, and the policy that works with the block disabled (direct or your proxy group).
+    validations:
+      required: true
+  - type: textarea
     id: test
     attributes:
       label: Troubleshooting

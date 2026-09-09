@@ -22,6 +22,20 @@ jobs:
         run: python scripts/validate_rules.py
       - name: Check generated README statistics
         run: python scripts/generate_readme.py --check
+      - name: Check generated advertising compatibility list
+        run: python scripts/generate_compat.py --check
+      - name: Check ordered routing regressions
+        run: python scripts/check_routing.py
+      - name: Test maintenance checks and failure cases
+        run: python -m unittest discover -s tests -v
+
+  external-urls:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Check external URLs
-        if: github.event_name == 'schedule'
         run: python scripts/validate_rules.py --check-external-urls

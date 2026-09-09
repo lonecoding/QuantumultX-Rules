@@ -6,6 +6,25 @@ Import [full.conf](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rule
 then add your subscription under `[server_remote]`. The template contains no
 servers, subscriptions, or access tokens. `Proxies` collects all server tags.
 
+1. Back up your current configuration before importing the full template.
+2. Add your own subscription URL under `[server_remote]`, then refresh that resource.
+3. Open `Proxies` and select a working node. Choose the policy for each service group.
+4. Use rule-based routing mode and inspect a request in the activity log to confirm
+   the matched rule, policy group, and selected node.
+
+The template's `static` groups are manual choices. An alternative candidate is
+not automatic failover. Existing saved choices can differ from the initial
+candidate order shown below.
+
+### Default routing behavior
+
+Unmatched traffic reaches `FINAL,✈️Final`; that group's initial candidate is
+`Proxies`. This includes unmatched mainland-China sites and `.cn` domains.
+There is no general China-direct list or GeoIP rule in the template. If you need
+regional direct routing, add your own verified rules and check their interaction
+with the service lists. Selecting direct for `✈️Final` changes **all** unmatched
+traffic, not only mainland-China traffic.
+
 ## Individual rule lists
 
 Add the lists you need under `[filter_remote]` in your existing configuration:
@@ -28,6 +47,18 @@ Keep the listed order, especially YouTube before Google. Each list references
 policy names from the template; define matching policies in your configuration
 or bind imported lists to your own policies with `force-policy`.
 
+For example, if your existing configuration already defines a policy named
+`MyAI`, import ChatGPT with the following line under `[filter_remote]`:
+
+```ini
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/ChatGPT/ChatGPT.list, tag=ChatGPT, force-policy=MyAI, update-interval=86400, enabled=true
+```
+
+Replace `MyAI` with your exact existing policy name. `tag` is a resource label;
+`force-policy` overrides the policy written inside the imported rules, as described
+in the [official configuration sample](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf).
+Add this line once; replace an existing ChatGPT import rather than duplicating it.
+
 ## Policy groups
 
 | Group | Default | Alternative | Purpose |
@@ -48,12 +79,51 @@ suit your network and region.
 ## Troubleshooting
 
 If a site or app stops working, temporarily disable the advertising list and
-check the request log. Add a direct rule for a confirmed false positive before
-the advertising rules, then [report it](https://github.com/lonecoding/QuantumultX-Rules/issues/new/choose).
+repeat the failing action. Check the request log for the exact hostname and
+the rule that rejected it. Confirm which policy works when advertising blocking
+is disabled, then re-enable the list and add a narrow exception.
+
+Copy **one appropriate rule** from this example into your existing
+`[filter_local]` section, before its existing `FINAL` rule:
+
+```ini
+[filter_local]
+# Direct-only service: replace this reserved example hostname.
+HOST,ads.example.com,direct
+# Service that still needs your AI proxy policy: replace this example hostname.
+HOST,assets.example.net,AI
+FINAL,✈️Final
+```
+
+These are illustrative domains, not known false positives. Keep only the rule
+you need and replace the hostname with the one from your log. Use your existing
+policy and FINAL names; do not add a second `[filter_local]` section or FINAL.
+The standalone [exception fragment](../config/exceptions.example.conf) contains
+the same two examples and is not a complete configuration.
+
+`HOST` matches only the named hostname. `HOST-SUFFIX` also allows every subdomain,
+so use it only when that entire scope has been verified. Do not change all
+false positives to direct: some services still need a proxy. After adding the
+exception, repeat the failing action and confirm the selected rule and policy
+in Quantumult X. Client matching optimization and local settings can affect
+the result; textual order alone is not an on-device verification.
+
+Then [report the issue](https://github.com/lonecoding/QuantumultX-Rules/issues/new/choose)
+with the matched rule, working policy, Quantumult X version, network, and
+before/after results. Remove sensitive information from logs.
 
 Keep `update-interval=86400` to refresh remote lists daily. The legacy
-`adblock.list` contains the same effective rules as
-`rules/Advertising/Advertising.list`; use the latter for new configurations.
+`adblock.list` is generated from `rules/Advertising/Advertising.list` and contains
+the same effective rules; use the latter for new configurations.
+
+### Return to a previous version
+
+Back up your personal configuration and subscription settings first. To pin a
+rule list, replace `main` in its Raw URL with a published version tag. To pin an
+entire configuration, change **every** repository URL under `[filter_remote]`
+to that tag too: importing a tagged `full.conf` alone still leaves its embedded
+URLs following `main`. Refresh the resources and verify their contents in the
+client. Resume `main` URLs when you want ongoing updates again.
 
 ## Repository layout
 

@@ -2,9 +2,29 @@
 
 ## Unreleased
 
+## [0.3.0] - 2026-09-09
+
+### Added
+
+- Offline ordered routing regression cases covering every service module, domain boundaries, IP networks, and FINAL fallback.
+- Mutation tests for changed import order, removed rules, resource overrides, direct/proxy exceptions, and maintenance validation failures.
+- Copyable exact-host exception examples and explicit default-routing, policy-binding, and rollback instructions.
+- Maintenance guidance covering rule evidence, device checks, and protected-branch releases.
+
+### Changed
+
+- Generate the legacy adblock.list from rules/Advertising/Advertising.list as the single source of truth.
+- Validate enabled module imports, policy candidates, local documentation links, and missing or stale compatibility output.
+- Permit intentional local overrides of remote rules while still rejecting duplicates within each scope.
+- Run regression and maintenance tests in CI; report scheduled/manual external-URL checks in a separate job.
 - Use English throughout documentation, configuration comments, and contribution templates.
 - Simplify the README and move detailed setup instructions into `docs/setup.md`.
 - Clarify the distinction between this rules collection and the experimental LoneRules build tool.
+
+### Compatibility and verification
+
+- Preserve all existing subscription paths, policy names, and effective production rules.
+- The ordered routing checker is a limited offline model, not the Quantumult X engine; no on-device testing was performed for this tooling/documentation release.
 
 ## [0.2.0] - 2026-09-03
 
