@@ -21,7 +21,6 @@ const SERVICES = Object.freeze([
   { id: 'Google', own: 'Google', upstream: 'Google' },
 ].map(Object.freeze));
 const PRESETS = Object.freeze({
-  lite: Object.freeze([]),
   recommended: Object.freeze(['AI', 'YouTube', 'Telegram', 'TikTok', 'Apple', 'Google']),
   extended: Object.freeze(SERVICES.map(service => service.id)),
 });

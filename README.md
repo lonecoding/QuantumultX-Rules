@@ -28,10 +28,9 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/recom
 | 配置 | 策略组 | 适合谁 |
 | --- | --- | --- |
 | [标准版 recommended.conf](config/recommended.conf) | 10 个：基础 4 组 + AI、YouTube、Telegram、TikTok、Apple、Google | 大多数希望按服务选节点的用户 |
-| [精简版 lite.conf](config/lite.conf) | 4 个：Proxies、🎯Direct、AdBlock、✈️Final | 希望只选一个代理节点的用户 |
 | [扩展版 extended.conf](config/extended.conf) | 16 个：标准版 + ChatGPT、Claude、Gemini、Netflix、Spotify、Microsoft | 希望更细致地分别选择节点的用户 |
 
-**三版拥有相同规则覆盖，区别是显示哪些独立策略组。** 没有独立组的海外服务跟随
+**两版拥有相同规则覆盖，区别是显示哪些独立策略组。** 没有独立组的海外服务跟随
 `Proxies`，Apple / Microsoft 跟随 `🎯Direct`；ChatGPT、Claude、Gemini 优先跟随
 已有的 `AI` 组。`AdBlock` 可切换 `reject` / `direct` 来开启或暂停广告及防劫持列表的拦截。
 
