@@ -2,12 +2,11 @@
 
 ## Unreleased
 
-- Remove the lite preset and its configuration download; retain recommended,
-  extended, and custom policy-group generation.
+- Offer recommended and extended presets, with custom policy-group generation.
 
 ## [0.4.0] - 2026-09-09
 
-- Add complete mainland-China profiles: recommended (10 groups), lite (4), and
+- Add complete mainland-China profiles: recommended (10 groups) and
   extended (16), with the existing upstream parser, DNS defaults, configurable
   advertising blocking, service upstream coverage, and built-in China IP routing.
 - Add an original dependency-free JavaScript configuration composer with preset,
