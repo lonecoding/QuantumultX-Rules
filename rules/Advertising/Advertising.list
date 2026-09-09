@@ -1,4 +1,5 @@
-# Advertising Advertising
+# Advertising blocking
+# Canonical source; generate the legacy adblock.list with scripts/generate_compat.py.
 #
 # Rule format: HOST-SUFFIX,domain,REJECT
 # HOST-SUFFIX matches the domain and all its subdomains.
@@ -7,7 +8,8 @@
 # https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Advertising/Advertising.list, tag=Advertising, update-interval=86400, enabled=true
 #
 # Advertising domains change over time. If an app or site fails, disable this list temporarily
-# and add a DIRECT exception for false positives. No subscriptions, servers, or tokens are included.
+# and restore the original working policy for confirmed false positives; see docs/setup.md.
+# No subscriptions, servers, or tokens are included.
 # Last updated: 2026-09-03
 # --- Google advertising ---
 HOST-SUFFIX,doubleclick.net,REJECT

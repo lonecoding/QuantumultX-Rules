@@ -1,0 +1,172 @@
+[
+  {
+    "target": "chatgpt.com",
+    "policy": "AI",
+    "source": "rules/ChatGPT/ChatGPT.list"
+  },
+  {
+    "target": "cdn.oaistatic.com",
+    "policy": "AI",
+    "source": "rules/ChatGPT/ChatGPT.list"
+  },
+  {
+    "target": "files.oaiusercontent.com",
+    "policy": "AI",
+    "source": "rules/ChatGPT/ChatGPT.list"
+  },
+  {
+    "target": "api.openai.com",
+    "policy": "AI",
+    "source": "rules/ChatGPT/ChatGPT.list"
+  },
+  {
+    "target": "claude.ai",
+    "policy": "AI",
+    "source": "rules/Claude/Claude.list"
+  },
+  {
+    "target": "api.anthropic.com",
+    "policy": "AI",
+    "source": "rules/Claude/Claude.list"
+  },
+  {
+    "target": "gemini.google.com",
+    "policy": "AI",
+    "source": "rules/Gemini/Gemini.list"
+  },
+  {
+    "target": "generativelanguage.googleapis.com",
+    "policy": "AI",
+    "source": "rules/Gemini/Gemini.list"
+  },
+  {
+    "target": "ai.google.dev",
+    "policy": "AI",
+    "source": "rules/Gemini/Gemini.list"
+  },
+  {
+    "target": "perplexity.ai",
+    "policy": "AI",
+    "source": "rules/AI/AI.list"
+  },
+  {
+    "target": "youtubei.googleapis.com",
+    "policy": "YouTube",
+    "source": "rules/YouTube/YouTube.list"
+  },
+  {
+    "target": "www.youtube.com",
+    "policy": "YouTube",
+    "source": "rules/YouTube/YouTube.list"
+  },
+  {
+    "target": "video.googlevideo.com",
+    "policy": "YouTube",
+    "source": "rules/YouTube/YouTube.list"
+  },
+  {
+    "target": "www.google.com",
+    "policy": "Google",
+    "source": "rules/Google/Google.list"
+  },
+  {
+    "target": "maps.googleapis.com",
+    "policy": "Google",
+    "source": "rules/Google/Google.list"
+  },
+  {
+    "target": "fonts.gstatic.com",
+    "policy": "Google",
+    "source": "rules/Google/Google.list"
+  },
+  {
+    "target": "t.me",
+    "policy": "Telegram",
+    "source": "rules/Telegram/Telegram.list"
+  },
+  {
+    "target": "149.154.167.50",
+    "policy": "Telegram",
+    "source": "rules/Telegram/Telegram.list"
+  },
+  {
+    "target": "2001:b28:f23d::1",
+    "policy": "Telegram",
+    "source": "rules/Telegram/Telegram.list"
+  },
+  {
+    "target": "www.tiktok.com",
+    "policy": "TikTok",
+    "source": "rules/TikTok/TikTok.list"
+  },
+  {
+    "target": "www.apple.com",
+    "policy": "Apple",
+    "source": "rules/Apple/Apple.list"
+  },
+  {
+    "target": "www.icloud.com",
+    "policy": "Apple",
+    "source": "rules/Apple/Apple.list"
+  },
+  {
+    "target": "doubleclick.net",
+    "policy": "REJECT",
+    "source": "rules/Advertising/Advertising.list"
+  },
+  {
+    "target": "ad.doubleclick.net",
+    "policy": "REJECT",
+    "source": "rules/Advertising/Advertising.list"
+  },
+  {
+    "target": "ads.huawei.com",
+    "policy": "REJECT",
+    "source": "rules/Advertising/Advertising.list"
+  },
+  {
+    "target": "printer.local",
+    "policy": "🎯Direct",
+    "source": "rules/LAN/LAN.list"
+  },
+  {
+    "target": "192.168.1.1",
+    "policy": "🎯Direct",
+    "source": "rules/LAN/LAN.list"
+  },
+  {
+    "target": "10.0.0.1",
+    "policy": "🎯Direct",
+    "source": "rules/LAN/LAN.list"
+  },
+  {
+    "target": "example.cn",
+    "policy": "✈️Final",
+    "source": "config/full.conf"
+  },
+  {
+    "target": "unmatched.example",
+    "policy": "✈️Final",
+    "source": "config/full.conf"
+  },
+  {
+    "target": "notgoogle.com",
+    "policy": "✈️Final",
+    "source": "config/full.conf"
+  },
+  {
+    "target": "google.com.example",
+    "policy": "✈️Final",
+    "source": "config/full.conf"
+  },
+  {
+    "target": "notdoubleclick.net",
+    "policy": "✈️Final",
+    "source": "config/full.conf"
+  },
+  {
+    "target": "doubleclick.net.example",
+    "policy": "✈️Final",
+    "source": "config/full.conf"
+  }
+]

@@ -10,7 +10,10 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
+
+from check_routing import remote_resource, sections
+from generate_compat import render_compat
 
 from generate_readme import (
     discover_rule_files,
@@ -62,7 +65,7 @@ def meaningful_lines(path: Path) -> list[tuple[int, str]]:
     lines: list[tuple[int, str]] = []
     for number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = raw.strip()
-        if line and not line.startswith(("#", ";")):
+        if line and not line.startswith(("#", ";", "//")):
             lines.append((number, line))
     return lines
 
@@ -184,6 +187,9 @@ def validate_rules(paths: list[Path]) -> tuple[list[str], int]:
             count += 1
             errors.extend(validate_rule_line(path, number, line, policies, seen))
 
+    # Local exceptions may intentionally override an identical remote rule.
+    # Still reject duplicate rules within filter_local itself.
+    seen = {}
     section = ""
     for number, line in meaningful_lines(CONFIG):
         if line.startswith("[") and line.endswith("]"):
@@ -196,18 +202,66 @@ def validate_rules(paths: list[Path]) -> tuple[list[str], int]:
     return errors, count
 
 
-def rule_content(path: Path) -> list[str]:
-    return [line for _, line in meaningful_lines(path)]
-
-
 def validate_adblock_sync() -> list[str]:
     if not CANONICAL_ADBLOCK.is_file():
         return [f"{CANONICAL_ADBLOCK.relative_to(ROOT)}: advertising rule file does not exist"]
-    if not COMPAT_ADBLOCK.is_file():
-        return []
-    if rule_content(CANONICAL_ADBLOCK) != rule_content(COMPAT_ADBLOCK):
-        return ["effective rules differ between adblock.list and rules/Advertising/Advertising.list"]
+    if not COMPAT_ADBLOCK.is_file() or COMPAT_ADBLOCK.read_text(encoding="utf-8") != render_compat(CANONICAL_ADBLOCK):
+        return ["adblock.list is missing or outdated; run python scripts/generate_compat.py"]
     return []
+
+
+def validate_config_references(paths: list[Path]) -> list[str]:
+    errors: list[str] = []
+    config = sections(CONFIG)
+    policies = configured_policies()
+    names: set[str] = set()
+    for number, line in config.get("policy", []):
+        if "=" not in line:
+            errors.append(f"config/full.conf:{number}: invalid policy definition")
+            continue
+        fields = [field.strip() for field in line.split("=", 1)[1].split(",")]
+        name = fields[0]
+        if name in names:
+            errors.append(f"config/full.conf:{number}: duplicate policy {name}")
+        names.add(name)
+        for candidate in fields[1:]:
+            if "=" not in candidate and candidate not in policies and candidate.lower() not in BUILTIN_POLICIES:
+                errors.append(f"config/full.conf:{number}: undefined policy candidate {candidate}")
+    imported: set[Path] = set()
+    for number, line in config.get("filter_remote", []):
+        try:
+            path, options = remote_resource(line, ROOT)
+        except ValueError as error:
+            errors.append(f"config/full.conf:{number}: {error}")
+            continue
+        policy = options.get("force-policy")
+        if policy and policy not in policies and policy.lower() not in BUILTIN_POLICIES:
+            errors.append(f"config/full.conf:{number}: undefined force-policy {policy}")
+        if options.get("enabled", "true").lower() == "false":
+            continue
+        if path in imported:
+            errors.append(f"config/full.conf:{number}: duplicate remote list {path.relative_to(ROOT)}")
+        imported.add(path)
+    for path in sorted(set(paths) - imported):
+        errors.append(f"{path.relative_to(ROOT)}: full.conf must enable every service module")
+    return errors
+
+
+def validate_document_links() -> list[str]:
+    errors: list[str] = []
+    # Repository documentation uses inline Markdown links; anchors are not checked.
+    for path in ROOT.rglob("*.md"):
+        if ".git" in path.parts:
+            continue
+        for value in re.findall(r"!?\[[^\]\n]*\]\(([^)\n]+)\)", path.read_text(encoding="utf-8")):
+            target = value.strip().split(' "', 1)[0].strip("<>")
+            parsed = urlparse(target)
+            if parsed.scheme or parsed.netloc or not parsed.path:
+                continue
+            destination = (path.parent / unquote(parsed.path)).resolve()
+            if not destination.is_relative_to(ROOT.resolve()) or not destination.exists():
+                errors.append(f"{path.relative_to(ROOT)}: broken local documentation link {target}")
+    return errors
 
 
 def text_files() -> list[Path]:
@@ -311,6 +365,8 @@ def main() -> int:
     rule_errors, rule_count = validate_rules(paths)
     errors.extend(rule_errors)
     errors.extend(validate_adblock_sync())
+    errors.extend(validate_config_references(paths))
+    errors.extend(validate_document_links())
     errors.extend(validate_old_username())
     errors.extend(validate_repository_urls())
     errors.extend(validate_generated_readmes(paths))

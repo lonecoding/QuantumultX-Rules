@@ -16,6 +16,10 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/full.
 Add your own subscription under `[server_remote]`. The template does not include
 servers or subscriptions. `Proxies` collects your server tags automatically.
 
+Unmatched traffic uses `✈️Final`, whose initial candidate is `Proxies`. This also
+applies to unmatched mainland-China sites: no general China-direct list is
+included. Policy groups are manual selections, not automatic failover.
+
 To add individual lists to an existing configuration, follow the
 [setup guide](docs/setup.md).
 
@@ -41,10 +45,12 @@ To add individual lists to an existing configuration, follow the
 
 - [Setup, policy groups, and troubleshooting](docs/setup.md)
 - [Contributing and validation](CONTRIBUTING.md)
+- [Maintenance, regression tests, and releases](docs/maintenance.md)
 - [Changelog](CHANGELOG.md)
 
 Report false positives or request rules through [Issues](https://github.com/lonecoding/QuantumultX-Rules/issues/new/choose).
-The root `adblock.list` remains available for existing subscriptions.
+The root `adblock.list` remains available for existing subscriptions and is
+generated from `rules/Advertising/Advertising.list`.
 
 ## License
 
