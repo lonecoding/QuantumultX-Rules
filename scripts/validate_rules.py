@@ -25,8 +25,8 @@ from generate_readme import (
 
 ROOT = Path(__file__).resolve().parents[1]
 RULES_ROOT = ROOT / "rules"
-CONFIG = ROOT / "config" / "full.conf"
-ROOT_README = ROOT / "README.md"
+CONFIG = ROOT / "tests" / "fixtures" / "standalone.conf"
+ROOT_README = ROOT / "docs" / "legacy-rule-files.md"
 CANONICAL_ADBLOCK = RULES_ROOT / "Advertising" / "Advertising.list"
 COMPAT_ADBLOCK = ROOT / "adblock.list"
 REPOSITORY_PATH = ("lonecoding", "QuantumultX-Rules")
@@ -218,33 +218,33 @@ def validate_config_references(paths: list[Path]) -> list[str]:
     names: set[str] = set()
     for number, line in config.get("policy", []):
         if "=" not in line:
-            errors.append(f"config/full.conf:{number}: invalid policy definition")
+            errors.append(f"tests/fixtures/standalone.conf:{number}: invalid policy definition")
             continue
         fields = [field.strip() for field in line.split("=", 1)[1].split(",")]
         name = fields[0]
         if name in names:
-            errors.append(f"config/full.conf:{number}: duplicate policy {name}")
+            errors.append(f"tests/fixtures/standalone.conf:{number}: duplicate policy {name}")
         names.add(name)
         for candidate in fields[1:]:
             if "=" not in candidate and candidate not in policies and candidate.lower() not in BUILTIN_POLICIES:
-                errors.append(f"config/full.conf:{number}: undefined policy candidate {candidate}")
+                errors.append(f"tests/fixtures/standalone.conf:{number}: undefined policy candidate {candidate}")
     imported: set[Path] = set()
     for number, line in config.get("filter_remote", []):
         try:
             path, options = remote_resource(line, ROOT)
         except ValueError as error:
-            errors.append(f"config/full.conf:{number}: {error}")
+            errors.append(f"tests/fixtures/standalone.conf:{number}: {error}")
             continue
         policy = options.get("force-policy")
         if policy and policy not in policies and policy.lower() not in BUILTIN_POLICIES:
-            errors.append(f"config/full.conf:{number}: undefined force-policy {policy}")
+            errors.append(f"tests/fixtures/standalone.conf:{number}: undefined force-policy {policy}")
         if options.get("enabled", "true").lower() == "false":
             continue
         if path in imported:
-            errors.append(f"config/full.conf:{number}: duplicate remote list {path.relative_to(ROOT)}")
+            errors.append(f"tests/fixtures/standalone.conf:{number}: duplicate remote list {path.relative_to(ROOT)}")
         imported.add(path)
     for path in sorted(set(paths) - imported):
-        errors.append(f"{path.relative_to(ROOT)}: full.conf must enable every service module")
+        errors.append(f"{path.relative_to(ROOT)}: standalone test fixture must enable every service module")
     return errors
 
 
@@ -329,13 +329,13 @@ def validate_generated_readmes(paths: list[Path]) -> list[str]:
         if readme.is_file() and readme.read_text(encoding="utf-8") != render_service_readme(path):
             errors.append(f"{readme.relative_to(ROOT)}: rule statistics are outdated")
     if ROOT_README.read_text(encoding="utf-8") != render_root_readme(paths):
-        errors.append("README.md: Rules table is outdated")
+        errors.append("docs/legacy-rule-files.md: Rules table is outdated")
     return errors
 
 
 def external_config_urls() -> list[str]:
     urls: set[str] = set()
-    configs = list(dict.fromkeys([CONFIG, *sorted((ROOT / "config").glob("*.conf"))]))
+    configs = sorted((ROOT / "config").glob("*.conf"))
     content = "\n".join(path.read_text(encoding="utf-8") for path in configs if path.is_file())
     for match in URL_RE.findall(content):
         url = clean_url(match)
@@ -395,7 +395,7 @@ def main() -> int:
         return 1
 
     print(
-        f"Validation passed: {rule_count} rules, {len(paths)} services, "
+        f"Standalone compatibility validation passed: {rule_count} rules, {len(paths)} services, "
         f"{len(configured_policies())} policy groups."
     )
     return 0

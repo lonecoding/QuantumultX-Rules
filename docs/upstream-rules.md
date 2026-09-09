@@ -1,122 +1,61 @@
-# Upstream rules / 上游规则
+# 分流资源与策略组
 
-> 新用户请先阅读 [完整配置使用指南](profiles.md)。下文保留旧版 full.conf / daily.conf 的行为说明；新预设包含额外服务上游、DNS 设置及中国 IP 规则。
+完整配置的远程规则直接引用 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script/tree/master/rule/QuantumultX)。
+本项目维护 Quantumult X 配置及 force-policy 绑定，上游维护规则内容。
+标准版、扩展版加载相同资源，策略组的显示数量和候选不同。
 
-## Template choice
-
-| Template | Rule sources | Broad routing |
+| 上游资源 | 标准版绑定 | 扩展版绑定 |
 | --- | --- | --- |
-| [full.conf](../config/full.conf) | This repository's 11 service modules | Unmatched traffic goes to Final; no general China-direct list |
-| [daily.conf](../config/daily.conf) | The same modules plus three upstream lists | Hijacking rejects; Global uses Proxies; China uses direct; unmatched traffic still goes to Final |
+| OpenAI、Claude、Gemini、Copilot | AI | ChatGPT、Claude、Gemini、Copilot 分别绑定 |
+| YouTube | YouTube，默认跟随 Google | YouTube，默认跟随 Google |
+| Telegram、TikTok、Google、Apple | 对应同名策略组 | 对应同名策略组 |
+| Netflix、Spotify、AppleTV、AppleNews | Proxies | 对应同名策略组 |
+| Microsoft | 🎯Direct | Microsoft，默认直连 |
+| AdvertisingLite | AdBlock | AdBlock |
+| Hijacking | Hijacking | Hijacking |
+| Global | Proxies | Proxies |
+| China | direct | direct |
 
-Both templates use the same policy groups, base network settings and empty
-subscription section. The daily template additionally references KOP-XIAO's
-resource parser. It adds no GeoIP/FILTER_REGION rule, DNS override, rewrite,
-certificate, or personal domain exception. It is not
-a complete reproduction of a personal configuration. Static groups retain
-manual choices; Direct has only the built-in direct candidate, and the initial
-Final candidate is Proxies.
-
-## Sources and ownership
-
-These lists are maintained by
-[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script).
-They are referenced directly; their contents are not copied, counted as our
-own rules, or redistributed under this repository's license.
-
-| List | Upstream file | Bound policy | Intended position |
-| --- | --- | --- | --- |
-| Hijacking | [Hijacking.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/Hijacking/Hijacking.list) | reject | After LAN, before advertising and services |
-| Global | [Global.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/Global/Global.list) | Proxies | After specific service lists |
-| China | [China.list](https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/China/China.list) | direct | After Global, before FINAL fallback |
-
-The imports use `force-policy` so upstream labels do not require additional
-policy groups. Each requests a refresh interval of 86400 seconds. Hijacking is
-a separate blocking source, not a replacement for our Advertising list.
-Inspect the actual matched resource when troubleshooting a rejected request.
-
-These URLs follow upstream `master` and may change independently of this project.
-Pinning this repository to a release does not pin those external URLs. For a
-reproducible personal configuration, replace upstream `master` with a reviewed
-upstream commit SHA and verify all three files exist there. Keep the source
-links and upstream notices when sharing modifications.
-
-## 中文快速使用
-
-日常模板的导入地址：
+每个列表使用上游原始文件地址，格式为：
 
 ```text
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/daily.conf
+https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/服务名/服务名.list
 ```
 
-1. 备份手机上当前的配置，再导入日常模板。
-2. 在手机的 `[server_remote]` 中添加自己的订阅；需要解析转换时使用下面的 `opt-parser=true` 示例。模板不含任何私人订阅。
-3. 刷新节点和规则资源，选择 Proxies 节点，确认各服务的策略。
-4. 使用规则分流模式，在请求日志中核对命中的列表和最终策略。
+服务名大小写与上游一致。完整配置包含已核对的实际 URL，不需要用户自己拼接。
+`force-policy` 指定实际绑定，不依赖上游文件内部的策略名称。
 
-日常模板保留本仓库自维护的 AI、YouTube、Telegram 等规则，只把 China、Global、
-Hijacking 交给上游维护；它与全部使用 blackmatrix7 服务规则的个人配置并不相同。
+局域网采用 Quantumult X 内置 `FILTER_LAN`，国内 IP 采用 `FILTER_REGION`，均直接绑定
+内置 `direct`。没有 LAN / China 策略组，也不需要下载本仓库的 LAN 文件。
+`[filter_local]` 默认只保留 Final 兜底。
 
-China 列表命中的流量指定直连，Global 列表命中的流量指定 Proxies。
-未命中的流量仍交给 ✈️Final。没有增加中国 IP 区域规则，不能理解为所有国内流量
-一定直连。规则之间可能重叠，客户端匹配优化也可能影响优先级，请以实机日志为准。
+## 解析器
 
-原有 `full.conf` 和各个规则订阅地址继续可用。日常模板是可选入口，不需要强制迁移。
-若出现问题，恢复备份，或暂时关闭日志中实际命中的上游列表进行对照；不要为了排障
-把所有流量一律改为直连。
+配置引用 [KOP-XIAO / Shawn resource-parser.js](https://github.com/KOP-XIAO/QuantumultX/blob/master/Scripts/resource-parser.js)。
+需要转换的节点订阅同时设置 `opt-parser=true`。解析器地址只负责资源转换，策略组负责
+决定请求走哪个节点，两者用途不同。真实订阅仅在自己的设备中填写。
 
-## Resource parser / 资源解析脚本
+## 覆盖范围
 
-The daily template directly references the
-[KOP-XIAO / Shawn resource parser](https://github.com/KOP-XIAO/QuantumultX/blob/master/Scripts/resource-parser.js).
-The script is maintained upstream and runs in Quantumult X, not in our Python
-maintenance tools. Its source is not copied into this repository. Like the
-external lists, it follows upstream master independently of our releases.
+AI 组汇总四个上游服务列表，不表示所有 AI 网站都会进入这个组。YouTube 虽属于 Google，
+仍保留单独资源，便于用户在需要时为视频选择不同节点，默认跟随 Google 即可。
 
-日常模板已经在 `[general]` 中加入：
+上游列表可能重复或覆盖同一域名；直接引用上游不等于列表之间完全没有重叠。
+Copilot 列表包含共享 OpenAI 域名及 IP-ASN，AdvertisingLite 的覆盖也比原有独立广告文件广。
+配置将具体服务放在通用厂商列表前，但实际规则类型优先级、匹配优化和节点结果仍需查看
+客户端日志，不能把资源顺序当作完整的客户端模拟。
 
-```ini
-resource_parser_url=https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/resource-parser.js
-```
+上游规则与脚本跟随各自 master 更新；本项目发布版本固定配置结构，不会固定上游内容。
+需要固定快照时，分别替换资源 URL 中的分支为核对过的上游提交 SHA。
+上游版权与许可证属于原作者，不计为本项目规则数量。
 
-在你已有的 `[server_remote]` 中添加以下格式的订阅行，替换示例地址：
+## 配置入口和维护
 
-```ini
-https://example.com/subscription, tag=Servers, update-interval=86400, opt-parser=true, enabled=true
-```
+- recommended.conf：标准版。
+- extended.conf：扩展版。
+- full.conf、daily.conf：标准版的兼容入口，内容相同。
+- 独立规则文件保留在 [兼容目录](legacy-rule-files.md)，完整配置不加载它们。
 
-示例域名不是可用的节点订阅。实际地址只填写在你的设备上。如果使用原生 Quantumult X
-节点订阅且不需要转换或筛选，可以省略 `opt-parser=true`。本仓库及这里引用的三个
-上游分流列表本身都是 Quantumult X 格式，因此没有为它们启用解析转换。
-
-保存后刷新解析器与订阅资源，确认节点列表出现，再选择节点并测试连接。如提示没有
-自定义解析器，先检查脚本是否下载成功，再刷新相关资源。配置 `resource_parser_url`
-不会自动为每个远程资源启用解析；需要转换的资源还要设置 `opt-parser=true`。
-兼容格式与高级筛选参数以脚本作者的说明为准，不保证所有订阅格式和客户端版本均可用。
-
-现有 `full.conf` 用户也可以手动添加上面的 general 设置和订阅参数，无须换整份配置。
-已有 `resource_parser_url` 时替换原设置，不要重复添加。回退时删除该设置，并移除依赖
-它的 `opt-parser=true`；需要格式转换的订阅应先换成可直接使用的 Quantumult X 格式。
-
-## Maintenance and verification
-
-`config/daily.conf` is generated from `config/full.conf`, the parser URL and three bindings in
-`scripts/generate_daily.py`. After changing base settings or upstream bindings, run:
-
-```bash
-python scripts/generate_daily.py
-python scripts/validate_rules.py
-python scripts/generate_daily.py --check
-python -m unittest discover -s tests -v
-```
-
-Offline checks verify the exact generated configuration, resource order,
-force-policy bindings, and unchanged base settings. Network checks include all
-three upstream rule URLs and the parser URL. Checks verify parser configuration
-and reachability, not actual node conversion or on-device script execution.
-The existing 34 routing cases apply to `full.conf` only;
-they do not simulate external lists or validate daily-template routing.
-No upstream snapshot is bundled; offline CI does not download upstream rules.
-On-device verification of the new template is still pending. Test domestic
-access, AI services, streaming and false-positive recovery before relying on it
-for everyday use.
+修改 scripts/config-builder.js 后，运行 `node scripts/generate_profiles.js --write` 同步四个入口。
+`python scripts/generate_daily.py` 是将已有标准版同步到两个兼容入口的辅助命令。
+完整的设置、检查与升级方法见 [使用指南](profiles.md)。

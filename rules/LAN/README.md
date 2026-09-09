@@ -1,6 +1,6 @@
 # LAN
 
-Quantumult X rules for LAN / private networks.
+Quantumult X rules for Local network addresses; direct routing.
 
 ## Rule Statistics
 

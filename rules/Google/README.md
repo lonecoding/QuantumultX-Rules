@@ -1,6 +1,6 @@
 # Google
 
-Quantumult X rules for Google services.
+Quantumult X rules for General Google service rules.
 
 ## Rule Statistics
 

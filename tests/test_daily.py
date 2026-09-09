@@ -1,4 +1,4 @@
-"""Verify upstream bindings and compatibility without downloading upstream rules."""
+"""Check compatibility profile aliases and discovery of upstream resources."""
 
 from pathlib import Path
 import shutil
@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from check_routing import sections
-from generate_daily import RESOURCE_PARSER_URL, render_daily, upstream_line
+from generate_daily import render_daily
 import validate_rules
 
 
@@ -22,42 +22,28 @@ class DailyTemplateTests(unittest.TestCase):
         self.root = Path(self.temp.name).resolve()
         shutil.copytree(ROOT / "config", self.root / "config")
         self.daily = self.root / "config/daily.conf"
-        self.daily.write_text(render_daily(self.root), encoding="utf-8")
 
-    def test_exact_upstreams_order_and_policies(self):
+    def test_aliases_match_recommended_profile(self):
+        for name in ("full", "daily"):
+            self.assertEqual((self.root / f"config/{name}.conf").read_text(), render_daily(self.root))
         config = sections(self.daily)
-        lines = [line for _, line in config["filter_remote"]]
-        upstream = [line for line in lines if "/blackmatrix7/" in line]
-        self.assertEqual(upstream, [upstream_line(name) for name in ("Hijacking", "Global", "China")])
-        self.assertIn("/LAN/LAN.list,", lines[0])
-        self.assertEqual(lines[1], upstream_line("Hijacking"))
-        self.assertEqual(lines[-2:], [upstream_line("Global"), upstream_line("China")])
-        base = sections(self.root / "config/full.conf")
-        self.assertEqual([line for line in lines if line not in upstream], [line for _, line in base["filter_remote"]])
-        general = [line for _, line in config["general"]]
-        parser = "resource_parser_url=" + RESOURCE_PARSER_URL
-        self.assertEqual(general.count(parser), 1)
-        self.assertEqual([line for line in general if line != parser], [line for _, line in base["general"]])
-        self.assertIn("opt-parser=true", self.daily.read_text())
-        self.assertFalse(any("opt-parser=" in line for line in lines))
-        for section in ("policy", "server_remote", "filter_local"):
-            self.assertEqual([line for _, line in config[section]], [line for _, line in base[section]])
-        self.assertEqual(config["server_remote"], [])
+        self.assertEqual([line for _, line in config['filter_local']], ['final, ✈️Final'])
+        self.assertEqual(config['server_remote'], [])
+        for _, line in config['filter_remote']:
+            self.assertTrue(line.startswith(('FILTER_LAN,', 'FILTER_REGION,', 'https://raw.githubusercontent.com/blackmatrix7/')))
 
     def test_wrong_upstream_policy_is_detected(self):
         self.daily.write_text(self.daily.read_text().replace("force-policy=direct", "force-policy=Proxies"))
         with patch.object(validate_rules, "ROOT", self.root):
             self.assertTrue(validate_rules.validate_daily_template())
 
-    def test_removed_or_disabled_resource_is_detected(self):
-        for replacement in ("", upstream_line("China").replace("enabled=true", "enabled=false")):
-            with self.subTest(replacement=replacement):
-                self.daily.write_text(render_daily(self.root).replace(upstream_line("China"), replacement))
-                with patch.object(validate_rules, "ROOT", self.root):
-                    self.assertTrue(validate_rules.validate_daily_template())
+    def test_disabled_resource_is_detected(self):
+        self.daily.write_text(self.daily.read_text().replace("tag=Upstream-China, force-policy=direct, update-interval=86400, enabled=true", "tag=Upstream-China, force-policy=direct, update-interval=86400, enabled=false"))
+        with patch.object(validate_rules, "ROOT", self.root):
+            self.assertTrue(validate_rules.validate_daily_template())
 
-    def test_stale_base_settings_are_detected(self):
-        path = self.root / "config/full.conf"
+    def test_stale_recommended_settings_are_detected(self):
+        path = self.root / "config/recommended.conf"
         path.write_text(path.read_text().replace("server_check_timeout=5000", "server_check_timeout=4000"))
         with patch.object(validate_rules, "ROOT", self.root):
             self.assertTrue(validate_rules.validate_daily_template())
@@ -71,15 +57,15 @@ class DailyTemplateTests(unittest.TestCase):
         profile = self.root / "config/custom-test.conf"
         url = "https://rules.example.net/service.list"
         profile.write_text("[filter_remote]\n" + url + ", enabled=true\n")
-        with patch.multiple(validate_rules, ROOT=self.root, CONFIG=self.root / "config/full.conf"):
+        with patch.object(validate_rules, "ROOT", self.root):
             self.assertIn(url, validate_rules.external_config_urls())
 
-    def test_external_url_checks_include_all_three_upstreams(self):
-        with patch.multiple(validate_rules, ROOT=self.root, CONFIG=self.root / "config/full.conf"):
+    def test_external_url_checks_include_current_resources(self):
+        with patch.object(validate_rules, "ROOT", self.root):
             urls = validate_rules.external_config_urls()
-        for name in ("Hijacking", "Global", "China"):
-            self.assertIn(upstream_line(name).split(",", 1)[0], urls)
-        self.assertIn(RESOURCE_PARSER_URL, urls)
+        for name in ("AdvertisingLite", "OpenAI", "Copilot", "Hijacking", "Global", "China"):
+            self.assertIn(f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/QuantumultX/{name}/{name}.list", urls)
+        self.assertIn("https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/resource-parser.js", urls)
         self.assertEqual(len(urls), len(set(urls)))
         self.assertFalse(any("example.com" in url for url in urls))
 

@@ -30,7 +30,8 @@ async function main(args) {
   }
   if (args.length === 1 && ['--write', '--check'].includes(args[0])) {
     let stale = false;
-    for (const [preset, groups] of Object.entries(PRESETS)) {
+    const outputs = { ...PRESETS, full: PRESETS.recommended, daily: PRESETS.recommended };
+    for (const [preset, groups] of Object.entries(outputs)) {
       const file = path.join(ROOT, 'config', `${preset}.conf`);
       const expected = renderConfig(groups);
       if (fs.existsSync(file) && fs.readFileSync(file, 'utf8') === expected) continue;

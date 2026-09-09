@@ -27,7 +27,7 @@ class MaintenanceTests(unittest.TestCase):
         self.root = Path(self.temp.name).resolve()
         for directory in ("config", "rules", "tests", "docs"):
             shutil.copytree(ROOT / directory, self.root / directory, ignore=shutil.ignore_patterns("__pycache__"))
-        self.config = self.root / "config/full.conf"
+        self.config = self.root / "tests/fixtures/standalone.conf"
 
     def edit_config(self, old, new):
         content = self.config.read_text(encoding="utf-8")

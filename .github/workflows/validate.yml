@@ -27,13 +27,13 @@ jobs:
         run: node --test tests/config-builder.test.js
       - name: Check rules and repository paths
         run: python scripts/validate_rules.py
-      - name: Check generated README statistics
+      - name: Check standalone rule documentation
         run: python scripts/generate_readme.py --check
       - name: Check generated advertising compatibility list
         run: python scripts/generate_compat.py --check
-      - name: Check daily template and upstream bindings
+      - name: Check compatibility configuration aliases
         run: python scripts/generate_daily.py --check
-      - name: Check ordered routing regressions
+      - name: Check standalone rule regressions
         run: python scripts/check_routing.py
       - name: Test maintenance checks and failure cases
         run: python -m unittest discover -s tests -v

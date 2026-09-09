@@ -1,72 +1,50 @@
 # Contributing
 
-Submit rules for services you can identify and test. Avoid large lists with
-unclear sources.
+This project provides Quantumult X configurations and policy groups backed by upstream resources.
+Describe the expected policy and affected service when suggesting a change.
 
-## Report a false positive
+## Configuration changes
 
-Use the **False positive** issue form and include the affected app or site,
-blocked domain, matching rule file, and whether disabling that rule resolves
-the problem. Until a fix is available, add an exact-host exception using the
-original working policy, following the [setup guide](docs/setup.md). Some
-services still need a proxy after their advertising rejection is removed.
+- Edit policy candidates and resource bindings in scripts/config-builder.js.
+- Use published Quantumult X upstream rule URLs and explicit force-policy bindings.
+- Keep recommended and extended resource coverage aligned; selected groups control routing choices.
+- Keep full.conf and daily.conf identical to recommended.conf.
+- Preserve fixed Direct behavior and independent AdBlock/Hijacking controls.
+- Update user-facing policy documentation and include regression checks for changed behavior.
+- Do not submit nodes, subscription URLs, credentials or personal request logs.
 
-## Add or update rules
+## Validation
 
-```text
-HOST-SUFFIX,example.com,PolicyName
-```
-
-- Use lowercase domains without a protocol or path.
-- Prefer `HOST-SUFFIX`; use `HOST` when an exact match is necessary.
-- Add `no-resolve` to IP rules.
-- Use an existing policy, or update the configuration and documentation together.
-- Include the source and test results in your pull request.
-- Record the verification date, affected functionality, and working policy.
-- Add a regression case for new routing behavior and every confirmed false positive.
-- Edit only `rules/Advertising/Advertising.list` for advertising changes; generate the legacy file.
-- Do not submit servers, subscriptions, keys, or personal information.
-
-## Validate changes
-
-Use Python 3.10+ and Node.js 22+, from the repository root:
+Use Node.js 22+ and Python 3.10+ from the repository root:
 
 ```bash
 node scripts/generate_profiles.js --write
 node scripts/generate_profiles.js --check
 node --test tests/config-builder.test.js
-python scripts/generate_compat.py
-python scripts/generate_daily.py
-python scripts/generate_readme.py
-python scripts/validate_rules.py
 python scripts/generate_compat.py --check
 python scripts/generate_daily.py --check
 python scripts/generate_readme.py --check
+python scripts/validate_rules.py
 python scripts/check_routing.py
 python -m unittest discover -s tests -v
 ```
 
-Regenerate the service READMEs and root rules table after editing rules. The
-validator checks layout, blank lines, syntax, duplicates, IP/CIDR values, policy
-names, counts, raw URLs, legacy usernames, and advertising-list consistency.
-It also checks enabled module imports, policy candidates, local documentation
-links, the generated compatibility file, and the optional daily template.
-Edit daily-template bindings in scripts/generate_daily.py, then regenerate;
-do not copy upstream rule bodies into the service directories.
-Edit complete-profile service bindings in scripts/config-builder.js and regenerate
-config/recommended.conf and config/extended.conf. Both profiles must retain the same
-resource coverage; custom group selections must resolve to existing policies.
-See [complete profiles](docs/profiles.md) for defaults and custom groups.
-GitHub Actions runs these checks,
-the routing contract, and maintenance tests on pushes and pull requests.
-
-The ordered routing contract is a deliberately limited offline model, not the
-Quantumult X engine. Follow [maintenance and device verification](docs/maintenance.md)
-for its assumptions, supported rule types, and release checks. Do not report
-offline test success as successful device testing.
-
-To check external configuration URLs as well:
+To check the external URLs in published configurations:
 
 ```bash
 python scripts/validate_rules.py --check-external-urls
 ```
+
+## Existing standalone subscriptions
+
+Standalone rule files remain available through the [compatibility index](docs/legacy-rule-files.md).
+Their offline regression fixture is tests/fixtures/standalone.conf; complete profiles do not load them.
+For a confirmed correction, edit the canonical service file, regenerate compatibility output and
+statistics, and add a regression case. Preserve public subscription paths.
+
+## Evidence and device checks
+
+Provide the rule source or sanitized request log, expected policy and verification date.
+Record Quantumult X/iOS versions and actual device behavior, or explicitly state that no device
+verification was performed. Tests of configuration references do not prove actual upstream matching.
+See [maintenance and verification](docs/maintenance.md).

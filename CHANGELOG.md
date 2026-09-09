@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## [0.6.0] - 2026-09-09
+
+- Provide upstream-backed recommended and extended profiles with explicit Quantumult X policy groups.
+- Bind advertising to upstream AdvertisingLite and service traffic to upstream lists; use built-in LAN and China IP resources.
+- Let YouTube inherit Google when available; keep AI as the shared policy for OpenAI, Claude, Gemini and Copilot.
+- Present client policy groups on the homepage and document source coverage and configuration defaults.
+- Keep full.conf and daily.conf aligned with the recommended profile; verify standalone-rule compatibility with a dedicated offline fixture.
+
+
 ## [0.5.0] - 2026-09-09
 
 - Keep Direct fixed to the built-in direct policy in every published template.

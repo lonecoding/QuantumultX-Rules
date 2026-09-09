@@ -1,6 +1,6 @@
 # AI
 
-Quantumult X rules for General AI services.
+Quantumult X rules for Other AI service rules.
 
 ## Rule Statistics
 

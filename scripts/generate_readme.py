@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate service READMEs and the root table from the rule files."""
+"""Generate service READMEs and the compatibility index from the rule files."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RULES_ROOT = ROOT / "rules"
-ROOT_README = ROOT / "README.md"
+ROOT_README = ROOT / "docs" / "legacy-rule-files.md"
 TABLE_START = "<!-- RULES_TABLE_START -->"
 TABLE_END = "<!-- RULES_TABLE_END -->"
 
@@ -40,12 +40,12 @@ SERVICE_ORDER = [
 ]
 
 DESCRIPTIONS = {
-    "AI": "General AI services",
+    "AI": "Other AI service rules",
     "ChatGPT": "OpenAI / ChatGPT",
     "Claude": "Anthropic / Claude",
     "Gemini": "Google Gemini",
     "GitHub": "GitHub",
-    "Google": "Google services",
+    "Google": "General Google service rules",
     "YouTube": "YouTube / YouTube Music",
     "Telegram": "Telegram",
     "TikTok": "TikTok",
@@ -60,7 +60,7 @@ DESCRIPTIONS = {
     "Instagram": "Instagram",
     "Advertising": "Advertising blocking",
     "China": "China direct connection",
-    "LAN": "LAN / private networks",
+    "LAN": "Local network addresses; direct routing",
 }
 
 STAT_TYPES = [
