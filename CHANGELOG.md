@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Reference the upstream KOP-XIAO resource parser in daily.conf; add an opt-parser
+  node-subscription example, source attribution, and Chinese setup/recovery guidance.
+
 - Add optional config/daily.conf, generated from full.conf with direct upstream
   blackmatrix7 Hijacking, Global, and China subscriptions.
 - Preserve the full template and self-maintained service rules; document external
