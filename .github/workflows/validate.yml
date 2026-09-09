@@ -24,6 +24,8 @@ jobs:
         run: python scripts/generate_readme.py --check
       - name: Check generated advertising compatibility list
         run: python scripts/generate_compat.py --check
+      - name: Check daily template and upstream bindings
+        run: python scripts/generate_daily.py --check
       - name: Check ordered routing regressions
         run: python scripts/check_routing.py
       - name: Test maintenance checks and failure cases

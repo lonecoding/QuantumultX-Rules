@@ -27,6 +27,11 @@ traffic, not only mainland-China traffic.
 
 ## Individual rule lists
 
+An optional [daily template](../config/daily.conf) adds upstream China, Global,
+and Hijacking subscriptions to the existing service rules. The full template
+above keeps its original behavior. Read [upstream sources and setup](upstream-rules.md)
+before switching; the daily template is not an exact copy of a personal configuration.
+
 Add the lists you need under `[filter_remote]` in your existing configuration:
 
 ```ini

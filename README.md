@@ -20,6 +20,13 @@ Unmatched traffic uses `✈️Final`, whose initial candidate is `Proxies`. This
 applies to unmatched mainland-China sites: no general China-direct list is
 included. Policy groups are manual selections, not automatic failover.
 
+For the optional daily template, use
+[daily.conf](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/daily.conf).
+It keeps this repository's service rules and adds upstream blackmatrix7
+Hijacking (reject), Global (Proxies), and China (direct) subscriptions.
+Only China-list matches are explicitly directed to direct; no GeoIP or
+FILTER_REGION rule is added. See [upstream sources and setup / 上游规则说明](docs/upstream-rules.md).
+
 To add individual lists to an existing configuration, follow the
 [setup guide](docs/setup.md).
 
@@ -44,6 +51,7 @@ To add individual lists to an existing configuration, follow the
 ## Documentation
 
 - [Setup, policy groups, and troubleshooting](docs/setup.md)
+- [Optional daily template and upstream sources / 上游规则](docs/upstream-rules.md)
 - [Contributing and validation](CONTRIBUTING.md)
 - [Maintenance, regression tests, and releases](docs/maintenance.md)
 - [Changelog](CHANGELOG.md)

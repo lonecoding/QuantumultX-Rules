@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Add optional config/daily.conf, generated from full.conf with direct upstream
+  blackmatrix7 Hijacking, Global, and China subscriptions.
+- Preserve the full template and self-maintained service rules; document external
+  ownership, daily-template behavior, and Chinese setup instructions.
+- Check generated upstream bindings offline and include upstream URLs in network
+  checks. On-device validation of the optional daily template remains pending.
+
 ## [0.3.0] - 2026-09-09
 
 ### Added
