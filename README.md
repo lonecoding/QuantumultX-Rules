@@ -1,36 +1,52 @@
 # QuantumultX-Rules
 
-Modular routing and advertising blocklists for Quantumult X.
+适合中国大陆日常使用的 Quantumult X 完整配置与模块化分流规则。
+包含 KOP-XIAO 资源解析器、国内直连、海外代理、广告域名拦截和可选策略组。
+添加自己的有效订阅、刷新资源并选择节点后，即可开始使用。
 
-Use individual service lists or start with the included configuration template.
-For an experimental YAML-to-rules build tool, see [LoneRules](https://github.com/lonecoding/lonerules).
+Complete Quantumult X profiles with an upstream resource parser, modular rules,
+and customizable policy groups. Bring your own subscription.
 
-## Quick start
+## 快速开始
 
-Import this configuration in Quantumult X:
+**推荐使用标准版：**
 
 ```text
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/full.conf
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/recommended.conf
 ```
 
-Add your own subscription under `[server_remote]`. The template does not include
-servers or subscriptions. `Proxies` collects your server tags automatically.
+1. 备份当前配置，在 Quantumult X 导入上面的配置。
+2. 在 `[server_remote]` 添加自己的订阅链接；配置内有可复制的示例行。
+3. 刷新解析器、节点及规则资源，在 `Proxies` 选择一个可用节点。
+4. 开启规则分流模式。AI、视频等默认跟随代理，Apple / Microsoft 默认直连。
 
-Unmatched traffic uses `✈️Final`, whose initial candidate is `Proxies`. This also
-applies to unmatched mainland-China sites: no general China-direct list is
-included. Policy groups are manual selections, not automatic failover.
+节点、解析器和规则资源均需下载成功；首次下载 GitHub 资源可能需要已有可用网络。
+本项目不提供节点。服务是否可用还取决于订阅协议、节点地区和服务本身的限制。
 
-For the optional daily template, use
-[daily.conf](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/daily.conf).
-It keeps this repository's service rules and adds upstream blackmatrix7
-Hijacking (reject), Global (Proxies), and China (direct) subscriptions.
-It also references KOP-XIAO's resource parser, with an opt-parser subscription
-example for converting supported non-native node formats.
-Only China-list matches are explicitly directed to direct; no GeoIP or
-FILTER_REGION rule is added. See [upstream sources and setup / 上游规则说明](docs/upstream-rules.md).
+## 选择配置
 
-To add individual lists to an existing configuration, follow the
-[setup guide](docs/setup.md).
+| 配置 | 策略组 | 适合谁 |
+| --- | --- | --- |
+| [标准版 recommended.conf](config/recommended.conf) | 10 个：基础 4 组 + AI、YouTube、Telegram、TikTok、Apple、Google | 大多数希望按服务选节点的用户 |
+| [精简版 lite.conf](config/lite.conf) | 4 个：Proxies、🎯Direct、AdBlock、✈️Final | 希望只选一个代理节点的用户 |
+| [扩展版 extended.conf](config/extended.conf) | 16 个：标准版 + ChatGPT、Claude、Gemini、Netflix、Spotify、Microsoft | 希望更细致地分别选择节点的用户 |
+
+**三版拥有相同规则覆盖，区别是显示哪些独立策略组。** 没有独立组的海外服务跟随
+`Proxies`，Apple / Microsoft 跟随 `🎯Direct`；ChatGPT、Claude、Gemini 优先跟随
+已有的 `AI` 组。`AdBlock` 可切换 `reject` / `direct` 来开启或暂停广告及防劫持列表的拦截。
+
+需要任意组合时，可使用本项目的 JavaScript 配置生成器，按需选择策略组。
+具体导入地址、默认策略和自定义方式见 [完整配置使用指南](docs/profiles.md)。
+所有组均为手动选择，服务组也可以直接选订阅中的节点；没有自动选区或解锁保证。
+
+本仓库维护服务补充规则，服务覆盖及 China、Global、Hijacking 等列表直接引用上游
+blackmatrix7；中国 IP 使用 Quantumult X 内置 `FILTER_REGION`。不需要安装解密证书。
+静态检查已覆盖配置生成及策略引用，尚未完成 Quantumult X 实机验证。
+
+原有 [full.conf](config/full.conf)、[daily.conf](config/daily.conf) 和独立规则地址继续保留。
+旧模板行为见 [上游规则说明](docs/upstream-rules.md)，不随新预设切换。
+向已有配置添加独立规则，见 [模块使用指南](docs/setup.md)。
+实验性 YAML 规则构建工具见 [LoneRules](https://github.com/lonecoding/lonerules)。
 
 ## Rules
 
@@ -52,6 +68,7 @@ To add individual lists to an existing configuration, follow the
 
 ## Documentation
 
+- [完整配置、预设选择与自定义策略组](docs/profiles.md)
 - [Setup, policy groups, and troubleshooting](docs/setup.md)
 - [Optional daily template and upstream sources / 上游规则](docs/upstream-rules.md)
 - [Contributing and validation](CONTRIBUTING.md)

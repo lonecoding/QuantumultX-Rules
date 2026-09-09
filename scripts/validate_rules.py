@@ -335,7 +335,7 @@ def validate_generated_readmes(paths: list[Path]) -> list[str]:
 
 def external_config_urls() -> list[str]:
     urls: set[str] = set()
-    configs = [CONFIG, ROOT / "config/daily.conf"]
+    configs = list(dict.fromkeys([CONFIG, *sorted((ROOT / "config").glob("*.conf"))]))
     content = "\n".join(path.read_text(encoding="utf-8") for path in configs if path.is_file())
     for match in URL_RE.findall(content):
         url = clean_url(match)
@@ -370,7 +370,7 @@ def main() -> int:
     parser.add_argument(
         "--check-external-urls",
         action="store_true",
-        help="Check external URLs in full.conf and daily.conf over the network",
+        help="Check external URLs in all configuration templates over the network",
     )
     args = parser.parse_args()
 

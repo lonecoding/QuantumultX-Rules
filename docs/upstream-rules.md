@@ -1,5 +1,7 @@
 # Upstream rules / 上游规则
 
+> 新用户请先阅读 [完整配置使用指南](profiles.md)。下文保留旧版 full.conf / daily.conf 的行为说明；新预设包含额外服务上游、DNS 设置及中国 IP 规则。
+
 ## Template choice
 
 | Template | Rule sources | Broad routing |

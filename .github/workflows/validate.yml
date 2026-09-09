@@ -18,6 +18,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check complete configuration presets
+        run: node scripts/generate_profiles.js --check
+      - name: Test customizable policy bindings
+        run: node --test tests/config-builder.test.js
       - name: Check rules and repository paths
         run: python scripts/validate_rules.py
       - name: Check generated README statistics

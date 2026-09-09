@@ -29,9 +29,12 @@ HOST-SUFFIX,example.com,PolicyName
 
 ## Validate changes
 
-Use Python 3.10 or newer, from the repository root:
+Use Python 3.10+ and Node.js 22+, from the repository root:
 
 ```bash
+node scripts/generate_profiles.js --write
+node scripts/generate_profiles.js --check
+node --test tests/config-builder.test.js
 python scripts/generate_compat.py
 python scripts/generate_daily.py
 python scripts/generate_readme.py
@@ -50,6 +53,8 @@ It also checks enabled module imports, policy candidates, local documentation
 links, the generated compatibility file, and the optional daily template.
 Edit daily-template bindings in scripts/generate_daily.py, then regenerate;
 do not copy upstream rule bodies into the service directories.
+Edit complete-profile service bindings in scripts/config-builder.js and regenerate
+the three presets. See [complete profiles](docs/profiles.md) for defaults and custom groups.
 GitHub Actions runs these checks,
 the routing contract, and maintenance tests on pushes and pull requests.
 
