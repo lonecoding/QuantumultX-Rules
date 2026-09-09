@@ -54,12 +54,7 @@ function checkReferences(config) {
     }
     visit(name, new Set());
   }
-  assert.equal(config.filter_local.at(-1), 'final, ✈️Final');
-  for (const line of config.filter_local.slice(0, -1)) {
-    const [type, host, policy] = line.split(', ');
-    assert.equal(type, 'host');
-    assert.ok(host && known.has(policy), line);
-  }
+  assert.deepEqual(config.filter_local, ['final, ✈️Final']);
   assert.deepEqual(policies.get('🎯Direct'), ['direct']);
 }
 
@@ -77,57 +72,60 @@ test('custom base-only selection retains Apple/Microsoft direct and overseas pro
   const config = sections(renderConfig([]));
   assert.equal(config.policy.length, 5);
   const actual = bindings(config);
-  assert.equal(actual['Local-Apple'], '🎯Direct');
+  assert.equal(actual['Upstream-Apple'], '🎯Direct');
   assert.equal(actual['Upstream-Microsoft'], '🎯Direct');
-  assert.equal(actual['Local-ChatGPT'], 'Proxies');
+  assert.equal(actual['Upstream-OpenAI'], 'Proxies');
   assert.equal(actual['Upstream-Netflix'], 'Proxies');
   assert.equal(actual['Upstream-China'], 'direct');
   assert.equal(actual['China-IP'], 'direct');
   assert.equal(actual['Upstream-Hijacking'], 'Hijacking');
-  assert.equal(actual['Local-Advertising'], 'AdBlock');
+  assert.equal(actual['Upstream-Advertising'], 'AdBlock');
 });
 
 test('AI groups inherit selectively and independent groups can choose subscription nodes', () => {
   const config = sections(renderConfig(['AI', 'ChatGPT', 'Apple']));
   const actual = bindings(config);
-  assert.equal(actual['Local-ChatGPT'], 'ChatGPT');
   assert.equal(actual['Upstream-OpenAI'], 'ChatGPT');
-  assert.equal(actual['Local-Claude'], 'AI');
+  assert.equal(actual['Upstream-OpenAI'], 'ChatGPT');
+  assert.equal(actual['Upstream-Claude'], 'AI');
   assert.equal(actual['Upstream-Gemini'], 'AI');
-  assert.equal(actual['Local-Google'], 'Proxies');
+  assert.equal(actual['Upstream-Google'], 'Proxies');
   assert.ok(config.policy.includes('static=ChatGPT, AI, 🎯Direct, server-tag-regex=.*'));
   assert.ok(config.policy.includes('static=Apple, 🎯Direct, Proxies, server-tag-regex=.*'));
-  assert.equal(bindings(sections(renderConfig(['ChatGPT'])))['Local-Claude'], 'Proxies');
+  assert.equal(bindings(sections(renderConfig(['ChatGPT'])))['Upstream-Claude'], 'Proxies');
 });
 
 test('specific AI/video precede Google, service lists precede broad rules and region fallback', () => {
   const lines = sections(renderConfig()).filter_remote;
   const index = tag => lines.findIndex(line => line.includes(`tag=${tag},`));
-  for (const tag of ['Local-ChatGPT', 'Upstream-OpenAI', 'Upstream-Gemini', 'Upstream-YouTube']) {
-    assert.ok(index(tag) < index('Local-Google'));
+  for (const tag of ['Upstream-OpenAI', 'Upstream-Gemini', 'Upstream-YouTube']) {
+    assert.ok(index(tag) < index('Upstream-Google'));
   }
-  assert.ok(index('Local-LAN') < index('Upstream-Hijacking'));
+  assert.ok(index('LAN') < index('Upstream-Hijacking'));
   assert.ok(index('Upstream-Google') < index('Upstream-Global'));
   assert.ok(index('Upstream-Global') < index('Upstream-China'));
   assert.ok(index('Upstream-China') < index('China-IP'));
   assert.equal(index('China-IP'), lines.length - 1);
 });
 
-test('published presets match generator and every own rule exists and is bound explicitly', () => {
+test('published presets import only upstream rules and built-in resources', () => {
   assert.deepEqual(Object.keys(PRESETS), ['recommended', 'extended']);
-  assert.ok(!fs.existsSync(path.join(ROOT, 'config/lite.conf')));
-  for (const [name, groups] of Object.entries(PRESETS)) {
+  for (const [name, groups] of Object.entries({ ...PRESETS, full: PRESETS.recommended, daily: PRESETS.recommended })) {
     const output = renderConfig(groups);
     assert.equal(fs.readFileSync(path.join(ROOT, 'config', `${name}.conf`), 'utf8'), output);
     const config = sections(output);
-    assert.equal(config.policy.length, { recommended: 11, extended: 20 }[name]);
-    const own = config.filter_remote.filter(line => line.includes('/lonecoding/'));
-    assert.equal(own.length, 11);
-    for (const line of own) {
-      const file = new URL(line.split(',')[0]).pathname.split('/main/')[1];
-      assert.ok(fs.existsSync(path.join(ROOT, file)), file);
+    assert.equal(config.policy.length, { recommended: 11, extended: 20, full: 11, daily: 11 }[name]);
+    const urls = config.filter_remote.filter(line => line.startsWith('https://'));
+    assert.equal(urls.length, 18);
+    assert.equal(new Set(urls.map(line => line.split(',')[0])).size, urls.length);
+    for (const line of urls) {
+      assert.match(line, /^https:\/\/raw\.githubusercontent\.com\/blackmatrix7\/ios_rule_script\/master\/rule\/QuantumultX\//);
       assert.match(line, /force-policy=/);
     }
+    assert.ok(!output.includes('/main/rules/'));
+    assert.ok(!config.policy.some(line => /^static=(LAN|China),/.test(line)));
+    assert.ok(config.filter_remote.includes('FILTER_LAN, tag=LAN, force-policy=direct, inserted-resource=true, enabled=true'));
+    assert.deepEqual(config.filter_local, ['final, ✈️Final']);
   }
 });
 
@@ -184,28 +182,34 @@ test('blocking controls are independent and direct remains fixed in every templa
   }
   const config = sections(renderConfig());
   const actual = bindings(config);
-  assert.equal(actual['Local-Advertising'], 'AdBlock');
+  assert.equal(actual['Upstream-Advertising'], 'AdBlock');
   assert.equal(actual['Upstream-Hijacking'], 'Hijacking');
   assert.ok(config.policy.includes('static=AdBlock, reject, direct'));
   assert.ok(config.policy.includes('static=Hijacking, reject, direct'));
 });
 
-test('vendor exceptions have isolated controls and precede broad vendor resources', () => {
+test('vendor services bind upstream lists to independent policies before broad lists', () => {
   for (const groups of [[], PRESETS.recommended, PRESETS.extended, ['Copilot'], ['AppleTV', 'AppleNews']]) {
     const config = sections(renderConfig(groups));
     const actual = bindings(config);
+    const position = tag => config.filter_remote.findIndex(line => line.includes(`tag=${tag},`));
     for (const service of ['AppleTV', 'AppleNews']) {
       assert.equal(actual[`Upstream-${service}`], groups.includes(service) ? service : 'Proxies');
-      const position = tag => config.filter_remote.findIndex(line => line.includes(`tag=${tag},`));
-      assert.ok(position(`Upstream-${service}`) < position('Local-Apple'));
+      assert.ok(position(`Upstream-${service}`) < position('Upstream-Apple'));
     }
     const policy = groups.includes('Copilot') ? 'Copilot' : groups.includes('AI') ? 'AI' : 'Proxies';
-    assert.deepEqual(config.filter_local.slice(0, -1), [
-      `host, copilot.microsoft.com, ${policy}`,
-      `host, sydney.bing.com, ${policy}`,
-      `host, services.bingapis.com, ${policy}`,
-    ]);
-    assert.ok(!config.filter_remote.some(line => line.includes('/Copilot/')));
-    assert.ok(!config.filter_local.some(line => line.includes('openai.com') || line.includes('IP-ASN')));
+    assert.equal(actual['Upstream-Copilot'], policy);
+    assert.ok(position('Upstream-OpenAI') < position('Upstream-Copilot'));
+    assert.ok(position('Upstream-Copilot') < position('Upstream-Microsoft'));
+    assert.deepEqual(config.filter_local, ['final, ✈️Final']);
   }
+});
+
+test('YouTube inherits Google when available and supports custom independent choices', () => {
+  const config = sections(renderConfig(PRESETS.recommended));
+  assert.ok(config.policy.includes('static=YouTube, Google, 🎯Direct, server-tag-regex=.*'));
+  assert.ok(config.policy.findIndex(line => line.startsWith('static=Google,')) < config.policy.findIndex(line => line.startsWith('static=YouTube,')));
+  assert.equal(bindings(sections(renderConfig(['Google'])))['Upstream-YouTube'], 'Google');
+  assert.equal(bindings(sections(renderConfig([])))['Upstream-YouTube'], 'Proxies');
+  assert.ok(sections(renderConfig(['YouTube'])).policy.includes('static=YouTube, Proxies, 🎯Direct, server-tag-regex=.*'));
 });

@@ -1,104 +1,54 @@
 # Maintenance and releases
 
-Complete profiles and their JavaScript generator have additional checks documented in
-[profiles.md](profiles.md#维护与验证范围). Their external rules and FILTER_REGION behavior
-are outside the legacy full.conf offline routing model described below.
+## Complete configurations
 
+Edit `scripts/config-builder.js` for policy candidates, upstream resources and bindings.
+Generate recommended.conf, extended.conf, full.conf and daily.conf with
+`node scripts/generate_profiles.js --write`. The last two are exact aliases of recommended.conf.
+The repository references upstream rules directly; do not copy upstream rule bodies into the profiles.
 
-## Sources of truth
+The JavaScript tests check all 32768 optional group selections, valid and acyclic policy references,
+fixed Direct behavior, independent blocking controls, resource placement, parent-group inheritance,
+upstream-only subscriptions and generated output consistency. They do not emulate Quantumult X.
+See [profile setup and checks](profiles.md) for the complete command list.
 
-- Edit service rules in `rules/Service/Service.list`.
-- Edit advertising rules only in `rules/Advertising/Advertising.list`; run
-  `python scripts/generate_compat.py` to update the legacy `adblock.list`.
-- Run `python scripts/generate_readme.py` after changing rule counts.
-- Generate `config/daily.conf` with `python scripts/generate_daily.py` after
-  changing the full template, parser URL or three upstream rule bindings in that script.
-  See [upstream sources](upstream-rules.md) for ownership and verification scope.
-- Keep every service module enabled in the full template. The validator checks
-  this contract; personal configurations may import any subset.
-- Preserve public subscription paths and policy names unless a release explicitly
-  documents a migration. LoneRules remains experimental and is not required to
-  build or validate this repository.
+## Standalone subscription compatibility
 
-## Routing regression cases
+Existing `rules/Service/Service.list` and `adblock.list` URLs remain available to prior subscribers.
+Their documentation is in [the compatibility index](legacy-rule-files.md), separate from the homepage's
+client policy-group table. Complete configurations do not load these rule files.
 
-`tests/routing_cases.json` records a target domain or literal IP, its expected
-policy, and the owning rule file. Checking the source prevents a removed service
-rule from being silently replaced by a broad list or FINAL with the same policy.
+- Edit an existing standalone rule at its canonical `rules/Service/Service.list` path.
+- Generate adblock.list from Advertising.list with `python scripts/generate_compat.py`.
+- Generate service READMEs and the compatibility index with `python scripts/generate_readme.py`.
+- Keep the offline fixture `tests/fixtures/standalone.conf` aligned with those standalone modules.
 
-```bash
-python scripts/check_routing.py
-python scripts/check_routing.py --target gemini.google.com
-python -m unittest discover -s tests -v
-```
+The 34 cases in `tests/routing_cases.json` use only that fixture and standalone files. Run
+`python scripts/check_routing.py` or `python scripts/check_routing.py --target gemini.google.com`.
+The fixture is not an importable recommended configuration and is not used to claim upstream coverage.
 
-The checker covers `full.conf`, not the optional daily template's external lists.
-The checker resolves repository Raw URLs against the current checkout, so a pull
-request tests its own files. It performs no DNS lookup or network request.
-Its **ordered contract** is: local non-FINAL exceptions first, enabled remote
-lists in configuration order, then the single local FINAL. A remote
-`force-policy` overrides the policy in that resource. Domain suffix matching
-respects label boundaries; IP matching uses literal IPv4/IPv6 addresses.
+Its deliberately limited ordered model evaluates local exceptions, enabled remote resources in file
+order, then Final. Repository resource URLs resolve against the checkout. It supports HOST,
+HOST-SUFFIX, IP-CIDR, IP6-CIDR and FINAL, and performs no DNS or network request.
+Tests cover mutations to resource order, policies, rules, options and generated compatibility files.
+They do not model actual client matching optimization, DNS, GeoIP, excluded routes or node selection.
 
-Supported types are `HOST`, `HOST-SUFFIX`, `IP-CIDR`, `IP6-CIDR`, and `FINAL`.
-Unsupported rules/options fail explicitly and require extending the model and
-its tests. This is a conservative ordering regression check, **not an emulator
-of Quantumult X**. Matching optimization may give rule types different priority.
-DNS resolution, GeoIP, excluded routes, client settings, network availability,
-and the final node selected by a policy are outside this model. For example,
-an IP covered by `excluded_routes` may bypass Quantumult X before rule matching.
+## Device verification
 
-The unit tests deliberately reverse imports, remove a Gemini rule, disable a
-resource, change `force-policy`, break policy references and document links,
-and let the generated advertising file become stale. Synthetic advertising
-rules under reserved example domains test both direct and AI-policy exceptions,
-including that sibling domains remain blocked. Synthetic fixtures are not
-production rules or evidence of a real-world false positive.
+Record the client/iOS version, network, affected service, expected policy and actual request-log result.
+Check initial import, resource refresh, sign-in, ordinary requests, relevant streaming or uploads,
+independent policy selection, and false-positive recovery. Avoid publishing subscription credentials.
 
-## Rule evidence and device checks
+Offline tests and URL reachability cannot establish service availability or rule precedence in the app.
+If no device is available, state that in release notes and keep device verification pending.
 
-For each rule change, record in the PR: source URL or sanitized request-log
-evidence, reason for the rule, verification date, Quantumult X/iOS version,
-network environment, affected feature, and before/after behavior. Existing
-rules without recorded evidence remain unaudited; do not invent a verification
-date or remove a domain only because a single DNS/HTTP probe fails.
+## Checks and publishing
 
-On a device, refresh the changed resources and test the affected service:
-sign-in, a normal request, and relevant uploads, streaming or other features.
-For a false positive, reproduce the failure with blocking enabled, verify the
-working policy with the block disabled, then re-enable blocking and verify the
-narrow exception. Inspect the actual matched rule and full policy route. Record
-matching-optimization settings where precedence matters. Retest an unaffected
-sibling hostname where practical.
+Run the checks in [CONTRIBUTING](../CONTRIBUTING.md). Network checks discover external URLs from the
+published configuration directory and run separately on scheduled/manual workflows.
+Standalone fixture URLs are not part of those production network checks.
 
-Offline tests do not establish real-world service coverage or absence of false
-positives. If device testing is unavailable for a tooling/documentation release,
-state that explicitly in its release notes. Behavior-changing rule releases
-should include device evidence before publication.
-
-## Maintenance cadence
-
-- Every change: regenerate derived files, run all checks, and test affected behavior.
-- Weekly: review false-positive reports and the separate external-URL job.
-- Monthly: audit one service module's sources, scope, and coverage.
-- Release: summarize user-visible changes and known verification limits.
-
-External-URL checks cover both templates, including the parser URL, upstream rule URLs, icons,
-and the node check URL. An unavailable icon is not evidence of a broken routing rule. Network
-checks run separately on the weekly schedule and manual workflow dispatch.
-
-## Release procedure
-
-1. Update the changelog with an unused version and the publication date.
-2. Regenerate compatibility output and READMEs; run the commands in
-   [Contributing](../CONTRIBUTING.md).
-3. Open a pull request, wait for the required `validate` check, and merge through
-   the protected branch. Do not bypass protection for a release.
-4. Verify the merged commit's checks. Tag that exact commit and publish release
-   notes with the validation performed and any device-testing limitations.
-5. Verify the release tag and public subscription contents. Preserve the root
-   `adblock.list` URL for existing users.
-
-For rollback, restore a known-good rule change through a checked PR or pin the
-affected subscription URLs to a previous published tag. The
-[setup guide](setup.md) explains how to pin all references in a configuration.
+Use a feature branch and pull request, wait for the required validate check, and merge through main's
+protection rules. Publish a version from the verified merge commit with concrete user-visible behavior,
+migration instructions, upstream ownership and actual verification limits. Verify public downloads.
+For rollback, restore a device backup or select a known-good configuration version and reviewed resources.

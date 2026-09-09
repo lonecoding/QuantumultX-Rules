@@ -108,8 +108,8 @@ def remote_resource(line: str, root: Path) -> tuple[Path, dict[str, str]]:
 
 def load_rules(root: Path = ROOT) -> list[Rule]:
     root = root.resolve()
-    config = sections(root / "config/full.conf")
-    local = [parse_rule(line, f"config/full.conf:{number}") for number, line in config.get("filter_local", [])]
+    config = sections(root / "tests/fixtures/standalone.conf")
+    local = [parse_rule(line, f"tests/fixtures/standalone.conf:{number}") for number, line in config.get("filter_local", [])]
     finals = [rule for rule in local if rule.kind == "FINAL"]
     if len(finals) != 1 or not local or local[-1].kind != "FINAL":
         raise ValueError("filter_local must end with exactly one FINAL rule")

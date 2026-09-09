@@ -142,31 +142,31 @@
   {
     "target": "example.cn",
     "policy": "✈️Final",
-    "source": "config/full.conf"
+    "source": "tests/fixtures/standalone.conf"
   },
   {
     "target": "unmatched.example",
     "policy": "✈️Final",
-    "source": "config/full.conf"
+    "source": "tests/fixtures/standalone.conf"
   },
   {
     "target": "notgoogle.com",
     "policy": "✈️Final",
-    "source": "config/full.conf"
+    "source": "tests/fixtures/standalone.conf"
   },
   {
     "target": "google.com.example",
     "policy": "✈️Final",
-    "source": "config/full.conf"
+    "source": "tests/fixtures/standalone.conf"
   },
   {
     "target": "notdoubleclick.net",
     "policy": "✈️Final",
-    "source": "config/full.conf"
+    "source": "tests/fixtures/standalone.conf"
   },
   {
     "target": "doubleclick.net.example",
     "policy": "✈️Final",
-    "source": "config/full.conf"
+    "source": "tests/fixtures/standalone.conf"
   }
 ]

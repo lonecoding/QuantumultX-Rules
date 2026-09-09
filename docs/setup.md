@@ -1,144 +1,43 @@
-# Quantumult X setup
+# 配置与独立规则使用
 
-> 新用户推荐使用 [完整配置与可选策略组](profiles.md)。本页介绍旧 full.conf 及独立规则的接入方式。
+新用户使用 [完整配置指南](profiles.md)：选择标准版或扩展版，添加自己的订阅，刷新资源并选择节点。
+所有完整配置直接加载上游规则。full.conf、daily.conf 与标准版内容一致。
 
+## 向自己的配置添加独立规则
 
-## Configuration template
-
-Import [full.conf](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/full.conf),
-then add your subscription under `[server_remote]`. The template contains no
-servers, subscriptions, or access tokens. `Proxies` collects all server tags.
-
-1. Back up your current configuration before importing the full template.
-2. Add your own subscription URL under `[server_remote]`, then refresh that resource.
-3. Open `Proxies` and select a working node. Choose the policy for each service group.
-4. Use rule-based routing mode and inspect a request in the activity log to confirm
-   the matched rule, policy group, and selected node.
-
-The template's `static` groups are manual choices. An alternative candidate is
-not automatic failover. Existing saved choices can differ from the initial
-candidate order shown below.
-
-### Default routing behavior
-
-Unmatched traffic reaches `FINAL,✈️Final`; that group's initial candidate is
-`Proxies`. This includes unmatched mainland-China sites and `.cn` domains.
-There is no general China-direct list or GeoIP rule in the template. If you need
-regional direct routing, add your own verified rules and check their interaction
-with the service lists. Selecting direct for `✈️Final` changes **all** unmatched
-traffic, not only mainland-China traffic.
-
-## Individual rule lists
-
-An optional [daily template](../config/daily.conf) adds upstream China, Global,
-and Hijacking subscriptions to the existing service rules. The full template
-above keeps its original behavior. Read [upstream sources and setup](upstream-rules.md)
-before switching; the daily template is not an exact copy of a personal configuration.
-
-Add the lists you need under `[filter_remote]` in your existing configuration:
+已有用户仍可使用 [兼容目录](legacy-rule-files.md) 中的独立规则文件。它们不属于完整配置的上游加载链路。
+添加前先查看文件内部的策略名称，并将资源绑定到自己配置中已有的组：
 
 ```ini
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/LAN/LAN.list, tag=LAN, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Advertising/Advertising.list, tag=Advertising, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/ChatGPT/ChatGPT.list, tag=ChatGPT, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Claude/Claude.list, tag=Claude, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Gemini/Gemini.list, tag=Gemini, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/AI/AI.list, tag=AI, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/YouTube/YouTube.list, tag=YouTube, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Telegram/Telegram.list, tag=Telegram, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Google/Google.list, tag=Google, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/TikTok/TikTok.list, tag=TikTok, update-interval=86400, enabled=true
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/Apple/Apple.list, tag=Apple, update-interval=86400, enabled=true
+[filter_remote]
+https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/YouTube/YouTube.list, tag=YouTube, force-policy=YouTube, update-interval=86400, enabled=true
 ```
 
-Keep the listed order, especially YouTube before Google. Each list references
-policy names from the template; define matching policies in your configuration
-or bind imported lists to your own policies with `force-policy`.
+`force-policy` 会覆盖文件内部的策略标签；已有组名不同时，修改为你的实际组名。
+不要仅因添加了规则文件，就重复创建一个不需要的策略组。
+LAN 地址规则可以绑定 `force-policy=direct`，不需要 LAN 策略组。
 
-For example, if your existing configuration already defines a policy named
-`MyAI`, import ChatGPT with the following line under `[filter_remote]`:
+## 误拦和精确例外
 
-```ini
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/rules/ChatGPT/ChatGPT.list, tag=ChatGPT, force-policy=MyAI, update-interval=86400, enabled=true
-```
-
-Replace `MyAI` with your exact existing policy name. `tag` is a resource label;
-`force-policy` overrides the policy written inside the imported rules, as described
-in the [official configuration sample](https://github.com/crossutility/Quantumult-X/blob/master/sample.conf).
-Add this line once; replace an existing ChatGPT import rather than duplicating it.
-
-## Policy groups
-
-| Group | Default | Alternative | Purpose |
-| --- | --- | --- | --- |
-| `Proxies` | All server tags | — | Server entry point |
-| `🎯Direct` | direct | — | Always direct |
-| `YouTube` | Proxies | 🎯Direct | YouTube |
-| `AI` | Proxies | 🎯Direct | ChatGPT, Claude, Gemini, and other AI services |
-| `Telegram` | Proxies | 🎯Direct | Telegram |
-| `Apple` | 🎯Direct | Proxies | Apple and iCloud |
-| `Google` | Proxies | 🎯Direct | Google services |
-| `TikTok` | Proxies | 🎯Direct | TikTok |
-| `✈️Final` | Proxies | 🎯Direct | Unmatched traffic |
-
-Policy names and icon URLs are retained for compatibility. Select policies to
-suit your network and region.
-
-## Troubleshooting
-
-If a site or app stops working, temporarily disable the advertising list and
-repeat the failing action. Check the request log for the exact hostname and
-the rule that rejected it. Confirm which policy works when advertising blocking
-is disabled, then re-enable the list and add a narrow exception.
-
-Copy **one appropriate rule** from this example into your existing
-`[filter_local]` section, before its existing `FINAL` rule:
+先查看请求日志，确认实际命中的资源。需要直连的域名明确指定 direct，需要代理的域名指定
+已有的服务组。示例仅使用保留域名，不对应真实问题：
 
 ```ini
 [filter_local]
-# Direct-only service: replace this reserved example hostname.
-HOST,ads.example.com,direct
-# Service that still needs your AI proxy policy: replace this example hostname.
-HOST,assets.example.net,AI
-FINAL,✈️Final
+host, ads.example.com, direct
+host, assets.example.net, AI
+final, ✈️Final
 ```
 
-These are illustrative domains, not known false positives. Keep only the rule
-you need and replace the hostname with the one from your log. Use your existing
-policy and FINAL names; do not add a second `[filter_local]` section or FINAL.
-The standalone [exception fragment](../config/exceptions.example.conf) contains
-the same two examples and is not a complete configuration.
+将例外放在 Final 之前，不要重复添加 `[filter_local]` 区段；替换成已确认的域名和实际策略组。
+必要时禁用日志中命中的资源进行对照，恢复需要的策略后再次检查。
+具体匹配以 Quantumult X 日志为准，静态规则检查不能替代实测。
 
-`HOST` matches only the named hostname. `HOST-SUFFIX` also allows every subdomain,
-so use it only when that entire scope has been verified. Do not change all
-false positives to direct: some services still need a proxy. After adding the
-exception, repeat the failing action and confirm the selected rule and policy
-in Quantumult X. Client matching optimization and local settings can affect
-the result; textual order alone is not an on-device verification.
+## 升级与固定版本
 
-Then [report the issue](https://github.com/lonecoding/QuantumultX-Rules/issues/new/choose)
-with the matched rule, working policy, Quantumult X version, network, and
-before/after results. Remove sensitive information from logs.
+备份已有配置，再导入新配置，或合并所需区段；确认个人订阅与例外仍在，刷新资源并检查策略选择。
+仅刷新远程规则不会同步策略组定义。需要回退时恢复设备备份。
 
-Keep `update-interval=86400` to refresh remote lists daily. The legacy
-`adblock.list` is generated from `rules/Advertising/Advertising.list` and contains
-the same effective rules; use the latter for new configurations.
-
-### Return to a previous version
-
-Back up your personal configuration and subscription settings first. To pin a
-rule list, replace `main` in its Raw URL with a published version tag. To pin an
-entire configuration, change **every** repository URL under `[filter_remote]`
-to that tag too: importing a tagged `full.conf` alone still leaves its embedded
-URLs following `main`. Refresh the resources and verify their contents in the
-client. Resume `main` URLs when you want ongoing updates again.
-
-## Repository layout
-
-- `config/full.conf`: configuration template.
-- `rules/Service/Service.list`: rules grouped by service.
-- `rules/Service/README.md`: generated counts and subscription link.
-- `scripts/`: README generation and validation.
-- `.github/`: issue forms and automated checks.
-
-See [Contributing](../CONTRIBUTING.md) before changing rules.
+可以使用发布标签下的配置，但内部上游 master 地址仍会更新。需要固定全部资源时，分别把
+每个 URL 的分支替换成已核对的提交 SHA，并确认文件可以下载。
+请勿把带有订阅链接、账号或密钥的配置提交到仓库。
