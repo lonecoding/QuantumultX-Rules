@@ -12,12 +12,6 @@
 https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/recommended.conf
 ```
 
-精简版：
-
-```text
-https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/lite.conf
-```
-
 扩展版：
 
 ```text
@@ -44,7 +38,7 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/exten
 `opt-parser=true`；原生 Quantumult X 订阅可以省略该参数。解析器支持的输入格式和
 客户端支持的节点协议共同决定能否导入，转换不能让客户端支持原本不支持的协议。
 
-## 三种预设如何选择
+## 两种预设如何选择
 
 | 策略组 | 初始候选 / 用途 | 哪些预设有独立组 |
 | --- | --- | --- |
@@ -59,7 +53,7 @@ https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/exten
 | Netflix、Spotify | Proxies | 扩展 |
 | Microsoft | 🎯Direct | 扩展 |
 
-标准版 10 组，精简版 4 组，扩展版 16 组。全部使用静态手动选择，客户端可能保留同名组
+标准版 10 组，扩展版 16 组。全部使用静态手动选择，客户端可能保留同名组
 之前的选择，导入后请确认实际选择。服务组提供全部订阅节点，可以直接为 AI 选择一个
 可用节点，同时让 YouTube 使用另一个节点；Proxies 的默认选择不必随之改变。
 节点名称请避免与策略组同名。
@@ -76,7 +70,7 @@ AdBlock 控制本项目 Advertising 和上游 Hijacking 两个列表。选择 di
 
 ## 按需组合策略组
 
-不需要编程即可从三种预设中选一份导入。需要其他组合的用户，在下载本仓库后，
+不需要编程即可从两种预设中选一份导入。需要其他组合的用户，在下载本仓库后，
 使用 Node.js 22 或更新版本运行自带的 JavaScript 生成器；无需安装第三方依赖。
 以下命令在仓库根目录执行，输出到仓库外的新文件：
 

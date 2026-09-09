@@ -64,7 +64,7 @@ test('all 4096 group selections keep routing resources and valid acyclic policy 
   }
 });
 
-test('lite hides controls while retaining Apple/Microsoft direct and overseas proxy bindings', () => {
+test('custom base-only selection retains Apple/Microsoft direct and overseas proxy bindings', () => {
   const config = sections(renderConfig([]));
   assert.equal(config.policy.length, 4);
   const actual = bindings(config);
@@ -105,11 +105,13 @@ test('specific AI/video precede Google, service lists precede broad rules and re
 });
 
 test('published presets match generator and every own rule exists and is bound explicitly', () => {
+  assert.deepEqual(Object.keys(PRESETS), ['recommended', 'extended']);
+  assert.ok(!fs.existsSync(path.join(ROOT, 'config/lite.conf')));
   for (const [name, groups] of Object.entries(PRESETS)) {
     const output = renderConfig(groups);
     assert.equal(fs.readFileSync(path.join(ROOT, 'config', `${name}.conf`), 'utf8'), output);
     const config = sections(output);
-    assert.equal(config.policy.length, { lite: 4, recommended: 10, extended: 16 }[name]);
+    assert.equal(config.policy.length, { recommended: 10, extended: 16 }[name]);
     const own = config.filter_remote.filter(line => line.includes('/lonecoding/'));
     assert.equal(own.length, 11);
     for (const line of own) {
@@ -146,7 +148,7 @@ test('CLI selection, interactive choice, and errors produce importable output or
     cwd: ROOT, input, encoding: 'utf8',
   });
   for (const [args, groups] of [
-    [[], PRESETS.recommended], [['--preset', 'lite'], []],
+    [[], PRESETS.recommended], [['--preset', 'extended'], PRESETS.extended],
     [['--groups', 'AI,Telegram'], ['AI', 'Telegram']], [['--groups', 'none'], []],
   ]) {
     const result = run(args);
@@ -156,7 +158,7 @@ test('CLI selection, interactive choice, and errors produce importable output or
   const interactive = run(['--interactive'], 'AI,Telegram\n');
   assert.equal(interactive.status, 0, interactive.stderr);
   assert.equal(interactive.stdout, renderConfig(['AI', 'Telegram']));
-  for (const args of [['--preset', 'toString'], ['--groups', ''], ['--groups', 'AI,AI'], ['--preset'], ['--write', '--groups', 'AI']]) {
+  for (const args of [['--preset', 'lite'], ['--preset', 'toString'], ['--groups', ''], ['--groups', 'AI,AI'], ['--preset'], ['--write', '--groups', 'AI']]) {
     const result = run(args);
     assert.notEqual(result.status, 0);
     assert.equal(result.stdout, '');

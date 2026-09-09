@@ -8,7 +8,7 @@ const ROOT = path.resolve(__dirname, '..');
 const HELP = `Generate complete Quantumult X configurations (Node.js 22+; no dependencies).
 
   node scripts/generate_profiles.js                 Print the recommended config
-  node scripts/generate_profiles.js --preset lite   Print a preset
+  node scripts/generate_profiles.js --preset extended   Print a preset
   node scripts/generate_profiles.js --groups AI,Telegram,YouTube
   node scripts/generate_profiles.js --interactive   Choose groups interactively
   node scripts/generate_profiles.js --write         Regenerate all published presets
@@ -48,7 +48,7 @@ async function main(args) {
     const rl = readline.createInterface({ input: process.stdin, output: process.stderr });
     try {
       process.stderr.write(`可选策略组：${SERVICES.map(service => service.id).join(', ')}\n`);
-      const answer = (await rl.question('输入逗号分隔的组名，留空使用标准版，none 使用精简版：')).trim();
+      const answer = (await rl.question('输入逗号分隔的组名，留空使用标准版，none 仅保留基础组：')).trim();
       process.stdout.write(renderConfig(answer === '' ? PRESETS.recommended : parseGroups(answer)));
     } finally {
       rl.close();
