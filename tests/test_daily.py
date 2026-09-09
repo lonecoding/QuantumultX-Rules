@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from check_routing import sections
-from generate_daily import render_daily, upstream_line
+from generate_daily import RESOURCE_PARSER_URL, render_daily, upstream_line
 import validate_rules
 
 
@@ -34,7 +34,13 @@ class DailyTemplateTests(unittest.TestCase):
         self.assertEqual(lines[-2:], [upstream_line("Global"), upstream_line("China")])
         base = sections(self.root / "config/full.conf")
         self.assertEqual([line for line in lines if line not in upstream], [line for _, line in base["filter_remote"]])
-        for section in ("general", "policy", "server_remote", "filter_local"):
+        general = [line for _, line in config["general"]]
+        parser = "resource_parser_url=" + RESOURCE_PARSER_URL
+        self.assertEqual(general.count(parser), 1)
+        self.assertEqual([line for line in general if line != parser], [line for _, line in base["general"]])
+        self.assertIn("opt-parser=true", self.daily.read_text())
+        self.assertFalse(any("opt-parser=" in line for line in lines))
+        for section in ("policy", "server_remote", "filter_local"):
             self.assertEqual([line for _, line in config[section]], [line for _, line in base[section]])
         self.assertEqual(config["server_remote"], [])
 
@@ -66,6 +72,7 @@ class DailyTemplateTests(unittest.TestCase):
             urls = validate_rules.external_config_urls()
         for name in ("Hijacking", "Global", "China"):
             self.assertIn(upstream_line(name).split(",", 1)[0], urls)
+        self.assertIn(RESOURCE_PARSER_URL, urls)
         self.assertEqual(len(urls), len(set(urls)))
         self.assertFalse(any("example.com" in url for url in urls))
 

@@ -7,7 +7,7 @@
   `python scripts/generate_compat.py` to update the legacy `adblock.list`.
 - Run `python scripts/generate_readme.py` after changing rule counts.
 - Generate `config/daily.conf` with `python scripts/generate_daily.py` after
-  changing the full template or the three upstream bindings in that script.
+  changing the full template, parser URL or three upstream rule bindings in that script.
   See [upstream sources](upstream-rules.md) for ownership and verification scope.
 - Keep every service module enabled in the full template. The validator checks
   this contract; personal configurations may import any subset.
@@ -78,7 +78,7 @@ should include device evidence before publication.
 - Monthly: audit one service module's sources, scope, and coverage.
 - Release: summarize user-visible changes and known verification limits.
 
-External-URL checks cover both templates, including upstream rule URLs, icons,
+External-URL checks cover both templates, including the parser URL, upstream rule URLs, icons,
 and the node check URL. An unavailable icon is not evidence of a broken routing rule. Network
 checks run separately on the weekly schedule and manual workflow dispatch.
 

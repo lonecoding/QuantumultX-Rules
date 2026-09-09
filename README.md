@@ -24,6 +24,8 @@ For the optional daily template, use
 [daily.conf](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/daily.conf).
 It keeps this repository's service rules and adds upstream blackmatrix7
 Hijacking (reject), Global (Proxies), and China (direct) subscriptions.
+It also references KOP-XIAO's resource parser, with an opt-parser subscription
+example for converting supported non-native node formats.
 Only China-list matches are explicitly directed to direct; no GeoIP or
 FILTER_REGION rule is added. See [upstream sources and setup / 上游规则说明](docs/upstream-rules.md).
 
