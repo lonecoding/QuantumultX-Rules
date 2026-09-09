@@ -4,8 +4,9 @@
 包含 KOP-XIAO 资源解析器、国内直连、海外代理、广告域名拦截和可选策略组。
 添加自己的有效订阅、刷新资源并选择节点后，即可开始使用。
 
-Complete Quantumult X profiles with an upstream resource parser, modular rules,
-and customizable policy groups. Bring your own subscription.
+Choose the recommended or extended Quantumult X profile, or generate your own
+policy-group selection. Each includes an upstream resource parser and modular
+routing rules. Bring your own subscription.
 
 ## 快速开始
 

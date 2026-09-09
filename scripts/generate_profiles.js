@@ -19,6 +19,8 @@ Groups: ${SERVICES.map(service => service.id).join(', ')}
 Use --groups none for base groups only. Service rules remain active when groups
 are omitted. Add subscriptions only on your device; this tool never fetches them.
 Redirect custom output to a file outside this repository before importing it.
+Example: node scripts/generate_profiles.js --groups AI,Telegram > ../my-quantumultx.conf
+Setup and policy defaults: docs/profiles.md
 `;
 
 async function main(args) {

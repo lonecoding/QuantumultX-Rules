@@ -1,5 +1,8 @@
 'use strict';
 
+// Offline configuration contracts: preserved resource coverage, valid policy
+// references, and CLI output. These tests do not emulate Quantumult X routing.
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');

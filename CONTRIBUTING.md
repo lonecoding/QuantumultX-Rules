@@ -54,7 +54,9 @@ links, the generated compatibility file, and the optional daily template.
 Edit daily-template bindings in scripts/generate_daily.py, then regenerate;
 do not copy upstream rule bodies into the service directories.
 Edit complete-profile service bindings in scripts/config-builder.js and regenerate
-the two presets. See [complete profiles](docs/profiles.md) for defaults and custom groups.
+config/recommended.conf and config/extended.conf. Both profiles must retain the same
+resource coverage; custom group selections must resolve to existing policies.
+See [complete profiles](docs/profiles.md) for defaults and custom groups.
 GitHub Actions runs these checks,
 the routing contract, and maintenance tests on pushes and pull requests.
 
