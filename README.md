@@ -53,6 +53,14 @@ AI 汇总 OpenAI、Claude、Gemini、Copilot 上游列表；其他 AI 网站按�
 - [扩展版：20 个策略组](https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/config/extended.conf)
 - [按需组合策略组](docs/profiles.md#按需组合策略组)
 
+自定义组合可安全导出到新文件（需要 Node.js 22+）：
+
+```bash
+node scripts/generate_profiles.js --groups AI,Telegram,YouTube --output ../my-quantumultx.conf
+```
+
+已有文件不会被覆盖；生成后导入 Quantumult X，再添加自己的订阅。
+
 两版加载相同的上游资源，区别是显示哪些独立策略组。没有独立组的 AI 服务跟随 AI，
 YouTube 优先跟随 Google，其他海外服务跟随 Proxies；Apple / Microsoft 默认直连。
 组名是服务用途，不要求与上游规则文件名一一对应。

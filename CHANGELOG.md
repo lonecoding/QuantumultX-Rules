@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add `--output PATH` to safely export preset, custom and interactive configurations without overwriting existing files or symlinks.
+- Fail explicitly when interactive input closes before a selection; keep blank Enter as the recommended preset and Ctrl+C as cancellation.
+- Document safe exports instead of shell redirection and add file-preservation and CLI failure regression tests. Published configuration contents are unchanged; no Quantumult X device testing was performed.
+
 ## [0.6.0] - 2026-09-09
 
 - Provide upstream-backed recommended and extended profiles with explicit Quantumult X policy groups.

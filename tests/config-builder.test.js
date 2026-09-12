@@ -7,6 +7,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 const { spawnSync } = require('node:child_process');
 const { SERVICES, PRESETS, renderConfig, PARSER_URL } = require('../scripts/config-builder.js');
 const ROOT = path.resolve(__dirname, '..');
@@ -170,6 +171,88 @@ test('CLI selection, interactive choice, and errors produce importable output or
     assert.notEqual(result.status, 0);
     assert.equal(result.stdout, '');
   }
+});
+
+test('CLI exports presets, custom and interactive selections without mixing prompts into files', t => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'qx-export-'));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const script = path.join(ROOT, 'scripts/generate_profiles.js');
+  const choices = [
+    [[], PRESETS.recommended],
+    [['--preset', 'extended'], PRESETS.extended],
+    [['--groups', 'AI,Telegram'], ['AI', 'Telegram']],
+    [['--groups', 'none'], []],
+    [['--interactive'], ['Google', 'YouTube'], 'Google,YouTube\n'],
+    [['--interactive'], PRESETS.recommended, '\n'],
+  ];
+  for (const [i, [args, groups, input]] of choices.entries()) {
+    const file = `custom ${i}.conf`;
+    const result = spawnSync(process.execPath, [script, '--output', file, ...args], {
+      cwd: directory, encoding: 'utf8', input, timeout: 5000,
+    });
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout, '');
+    assert.match(result.stderr, /Saved:/);
+    assert.equal(fs.readFileSync(path.join(directory, file), 'utf8'), renderConfig(groups));
+  }
+});
+
+test('CLI export preserves existing files, directories and symlink targets', t => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'qx-preserve-'));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const existing = path.join(directory, 'existing.conf');
+  const link = path.join(directory, 'link.conf');
+  const dangling = path.join(directory, 'dangling.conf');
+  const missing = path.join(directory, 'missing.conf');
+  const original = '# User configuration with private local changes\n';
+  fs.writeFileSync(existing, original);
+  fs.symlinkSync(existing, link);
+  fs.symlinkSync(missing, dangling);
+  for (const file of [existing, link, dangling, directory]) {
+    const result = spawnSync(process.execPath, ['scripts/generate_profiles.js', '--groups', 'AI', '--output', file], {
+      cwd: ROOT, encoding: 'utf8', timeout: 5000,
+    });
+    assert.equal(result.status, 1, result.stderr);
+    assert.equal(result.stdout, '');
+    assert.match(result.stderr, /File already exists/);
+    assert.equal(fs.readFileSync(existing, 'utf8'), original);
+    assert.equal(fs.existsSync(missing), false);
+  }
+  assert.equal(fs.lstatSync(link).isSymbolicLink(), true);
+  assert.equal(fs.lstatSync(dangling).isSymbolicLink(), true);
+});
+
+test('CLI errors and closed interactive input produce no export and a failure status', t => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'qx-invalid-'));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const file = path.join(directory, 'new.conf');
+  for (const args of [
+    ['--groups', 'Typo'], ['--groups', 'AI,AI'], ['--preset', 'unknown'],
+    ['--write'], ['--check'], ['--help'], ['--interactive'],
+    ['--output', path.join(directory, 'duplicate.conf')],
+    ['--preset', 'extended', '--groups', 'AI'],
+  ]) {
+    const result = spawnSync(process.execPath, ['scripts/generate_profiles.js', ...args, '--output', file], {
+      cwd: ROOT, encoding: 'utf8', input: '', timeout: 5000,
+    });
+    assert.equal(result.status, 1, result.stderr);
+    assert.equal(result.stdout, '');
+    assert.notEqual(result.stderr, '');
+    assert.deepEqual(fs.readdirSync(directory), []);
+  }
+  for (const args of [['--output'], ['--output', ''], ['--output', '--groups', 'AI'], ['--interactive']]) {
+    const result = spawnSync(process.execPath, ['scripts/generate_profiles.js', ...args], {
+      cwd: ROOT, encoding: 'utf8', input: '', timeout: 5000,
+    });
+    assert.equal(result.status, 1, result.stderr);
+    assert.equal(result.stdout, '');
+  }
+  const missingParent = spawnSync(process.execPath, ['scripts/generate_profiles.js', '--output', path.join(directory, 'absent', 'out.conf')], {
+    cwd: ROOT, encoding: 'utf8', timeout: 5000,
+  });
+  assert.equal(missingParent.status, 1);
+  assert.match(missingParent.stderr, /Cannot save configuration/);
+  assert.deepEqual(fs.readdirSync(directory), []);
 });
 
 
