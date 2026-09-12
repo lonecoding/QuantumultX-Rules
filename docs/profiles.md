@@ -103,18 +103,29 @@ Copilot 直接使用上游 Copilot.list。标准版默认跟随 AI；扩展版�
 以下命令在仓库根目录执行，输出到仓库外的新文件：
 
 ```bash
-node scripts/generate_profiles.js --interactive > ../my-quantumultx.conf
+node scripts/generate_profiles.js --interactive --output ../my-quantumultx.conf
 ```
 
 按提示输入组名，如 `AI,Telegram,YouTube`，就会生成基础 5 组加这 3 个独立组。
 也可以直接指定：
 
 ```bash
-node scripts/generate_profiles.js --groups AI,Telegram,YouTube > ../my-quantumultx.conf
+node scripts/generate_profiles.js --groups AI,Telegram,YouTube --output ../my-quantumultx.conf
 ```
 
 可选组名：`AI,ChatGPT,Claude,Gemini,Copilot,YouTube,Telegram,TikTok,Netflix,Spotify,AppleTV,AppleNews,Microsoft,Apple,Google`。
 `--groups none` 只保留基础组。未知名称或重复组名会报错。
+`--output` 也可以配合 `--preset extended` 使用；路径中有空格时加引号。
+文件相对路径以执行命令时的目录为准，父目录需要已存在。
+导出成功会显示 `Saved:` 和完整路径；已有文件（包括符号链接）会被拒绝覆盖，
+请换一个新文件名，或先备份并移走原文件。组名或参数错误、交互输入提前关闭时，
+程序返回失败，不创建配置文件。交互模式直接按回车仍使用标准版，Ctrl+C 取消生成。
+
+不指定 `--output` 时仍向标准输出打印配置，兼容已有管道用法。
+建议保存文件时使用 `--output`：命令行的 `>` 会在生成器运行前清空目标文件，
+即使组名错误也可能覆盖原配置。`--output` 不能与 `--write`、`--check`、`--help` 混用；
+`--write` 仅供维护者重新生成仓库内的预设文件。
+
 生成器只处理本地配置，不获取订阅、不联网、不收集使用数据。生成后导入文件，再在
 设备上添加自己的订阅。此工具是维护及生成工具，不是放进 `resource_parser_url` 的客户端解析器。
 
@@ -174,7 +185,8 @@ python scripts/check_routing.py
 python -m unittest discover -s tests -v
 ```
 
-CI 检查生成内容、全部 32768 种策略组组合的有效引用与循环、规则保留、默认绑定和命令行错误。
+CI 检查生成内容、全部 32768 种策略组组合的有效引用与循环、规则保留、默认绑定和命令行错误，
+并检查文件导出、已有文件保护及交互输入提前关闭时的失败状态。
 定时 / 手动网络检查覆盖所有配置中的外部 URL。34 个路由样例用于 tests/fixtures/standalone.conf 中的独立规则兼容测试；
 新预设没有模拟上游全部规则、DNS、区域数据或客户端匹配引擎。
 

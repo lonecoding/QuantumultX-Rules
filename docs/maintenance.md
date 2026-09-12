@@ -12,6 +12,12 @@ fixed Direct behavior, independent blocking controls, resource placement, parent
 upstream-only subscriptions and generated output consistency. They do not emulate Quantumult X.
 See [profile setup and checks](profiles.md) for the complete command list.
 
+Custom exports use `--output PATH` with exclusive creation: existing files and symlinks are refused.
+Keep argument validation and rendering ahead of file creation. Interactive EOF must fail instead of
+returning success without a configuration. File-output tests use temporary directories and check
+preservation of existing content, missing parents, invalid arguments and clean stdout.
+Without `--output`, stdout remains the configuration stream and stderr carries prompts/status.
+
 ## Standalone subscription compatibility
 
 Existing `rules/Service/Service.list` and `adblock.list` URLs remain available to prior subscribers.
