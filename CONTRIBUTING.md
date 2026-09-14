@@ -35,6 +35,11 @@ To check the external URLs in published configurations:
 python scripts/validate_rules.py --check-external-urls
 ```
 
+Each URL gets up to three attempts for HTTP 408/500/502/503/504, network errors,
+timeouts, or connection resets, with 1- and 2-second waits between attempts.
+Other HTTP errors, including 404, fail immediately. Exhausted retries still fail
+validation and report the affected URL; a temporary outage is not silently ignored.
+
 ## Existing standalone subscriptions
 
 Standalone rule files remain available through the [compatibility index](docs/legacy-rule-files.md).

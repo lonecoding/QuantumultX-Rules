@@ -7,6 +7,7 @@ import argparse
 import ipaddress
 import re
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -55,6 +56,8 @@ DOMAIN_RULE_TYPES = {"HOST", "HOST-SUFFIX"}
 IP_RULE_TYPES = {"IP-CIDR", "IP6-CIDR"}
 TEXT_SUFFIXES = {".conf", ".list", ".md", ".py", ".yaml", ".yml"}
 URL_RE = re.compile(r"https?://[^\s<>()`]+")
+EXTERNAL_URL_ATTEMPTS = 3
+RETRYABLE_HTTP_STATUSES = {408, 500, 502, 503, 504}
 DOMAIN_RE = re.compile(
     r"^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)*"
     r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$",
@@ -350,18 +353,41 @@ def external_config_urls() -> list[str]:
 
 
 def validate_external_urls() -> list[str]:
+    """Retry transient failures without hiding permanently broken resources."""
     errors: list[str] = []
     for url in external_config_urls():
         request = urllib.request.Request(
             url,
             headers={"User-Agent": "QuantumultX-Rules-validator/1.0", "Range": "bytes=0-0"},
         )
-        try:
-            with urllib.request.urlopen(request, timeout=15) as response:
-                if response.status >= 400:
-                    errors.append(f"external URL returned HTTP {response.status}: {url}")
-        except (urllib.error.URLError, TimeoutError) as error:
-            errors.append(f"external URL is unreachable: {url} ({error})")
+        for attempt in range(1, EXTERNAL_URL_ATTEMPTS + 1):
+            try:
+                with urllib.request.urlopen(request, timeout=15) as response:
+                    if response.status < 400:
+                        break
+                    message = f"external URL returned HTTP {response.status}: {url}"
+                    retryable = response.status in RETRYABLE_HTTP_STATUSES
+            except urllib.error.HTTPError as error:
+                message = f"external URL is unreachable: {url} ({error})"
+                retryable = error.code in RETRYABLE_HTTP_STATUSES
+                error.close()
+            except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
+                message = f"external URL is unreachable: {url} ({error})"
+                retryable = True
+
+            if not retryable or attempt == EXTERNAL_URL_ATTEMPTS:
+                if attempt > 1:
+                    message += f" (after {attempt} attempts)"
+                errors.append(message)
+                break
+
+            delay = 2 ** (attempt - 1)
+            print(
+                f"{message}; retrying in {delay}s "
+                f"(attempt {attempt + 1}/{EXTERNAL_URL_ATTEMPTS})",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
     return errors
 
 
