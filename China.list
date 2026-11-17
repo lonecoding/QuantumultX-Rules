@@ -1,15 +1,18 @@
 # NAME: China
 # AUTHOR: blackmatrix7
 # REPO: https://github.com/blackmatrix7/ios_rule_script
-# UPDATED: 2026-06-22 02:36:19
-# HOST: 17
+# UPSTREAM-UPDATED: 2026-06-22 02:36:19
+# UPDATED: 2026-11-17
+# CUSTOMIZED-BY: lonecoding
+# CUSTOMIZATION: Removed IP lookup/privacy-test direct rules and the blanket .cn suffix.
+# HOST: 16
 # HOST-KEYWORD: 9
-# HOST-SUFFIX: 3674
+# HOST-SUFFIX: 3664
 # HOST-WILDCARD: 1
 # IP-CIDR: 17
 # IP6-CIDR: 4
-# USER-AGENT: 31
-# TOTAL: 3753
+# USER-AGENT: 30
+# TOTAL: 3741
 HOST,analytics.strava.com,China
 HOST,blzddist1-a.akamaihd.net,China
 HOST,cdn.angruo.com,China
@@ -17,7 +20,6 @@ HOST,client.amplifi.com,China
 HOST,download.jetbrains.com,China
 HOST,download.microsoft.com,China
 HOST,images-cn.ssl-images-amazon.com,China
-HOST,ip.istatmenus.app,China
 HOST,kc.kexinshe.com,China
 HOST,ntservicepack.microsoft.com,China
 HOST,origin-a.akamaihd.ne,China
@@ -621,7 +623,6 @@ HOST-SUFFIX,bootcss.com,China
 HOST-SUFFIX,bosera.com,China
 HOST-SUFFIX,bosszhipin.com,China
 HOST-SUFFIX,broadcasthe.net,China
-HOST-SUFFIX,browserleaks.com,China
 HOST-SUFFIX,bstatic.com,China
 HOST-SUFFIX,btcfans.com,China
 HOST-SUFFIX,btgtravel.com,China
@@ -817,8 +818,6 @@ HOST-SUFFIX,chinaunix.net,China
 HOST-SUFFIX,chinauos.com,China
 HOST-SUFFIX,chinaweiyu.com,China
 HOST-SUFFIX,chinawutong.com,China
-HOST-SUFFIX,chinaz.com,China
-HOST-SUFFIX,chinaz.net,China
 HOST-SUFFIX,chinazns.com,China
 HOST-SUFFIX,chinesemooc.org,China
 HOST-SUFFIX,chiphell.com,China
@@ -967,7 +966,6 @@ HOST-SUFFIX,cmf.ltd,China
 HOST-SUFFIX,cmfchina.com,China
 HOST-SUFFIX,cmfu.com,China
 HOST-SUFFIX,cmpassport.com,China
-HOST-SUFFIX,cn,China
 HOST-SUFFIX,cn-east-2.myhuaweicloud.com,China
 HOST-SUFFIX,cn-east-3.myhuaweicloud.com,China
 HOST-SUFFIX,cn-north-1.myhuaweicloud.com,China
@@ -1787,14 +1785,10 @@ HOST-SUFFIX,inftab.com,China
 HOST-SUFFIX,intltencentcos.com,China
 HOST-SUFFIX,iop.org,China
 HOST-SUFFIX,ip-cdn.com,China
-HOST-SUFFIX,ip.la,China
-HOST-SUFFIX,ip138.com,China
 HOST-SUFFIX,ipanda.com,China
 HOST-SUFFIX,ipanda.net,China
 HOST-SUFFIX,ipapark.com,China
 HOST-SUFFIX,ipinyou.com,China
-HOST-SUFFIX,ipip.net,China
-HOST-SUFFIX,ipplus360.com,China
 HOST-SUFFIX,iprdp.net,China
 HOST-SUFFIX,ipssh.net,China
 HOST-SUFFIX,iq.com,China
@@ -2405,7 +2399,6 @@ HOST-SUFFIX,myhwcdn.com,China
 HOST-SUFFIX,myhwcloudlive.com,China
 HOST-SUFFIX,myhwclouds.com,China
 HOST-SUFFIX,myilibrary.com,China
-HOST-SUFFIX,myip.la,China
 HOST-SUFFIX,myoppo.com,China
 HOST-SUFFIX,mypaas.com,China
 HOST-SUFFIX,myqcloud.com,China
@@ -3320,7 +3313,6 @@ HOST-SUFFIX,wework-studio.com,China
 HOST-SUFFIX,wf.pub,China
 HOST-SUFFIX,wfdata.club,China
 HOST-SUFFIX,whalecloud.com,China
-HOST-SUFFIX,whatismyip.com,China
 HOST-SUFFIX,whccb.com,China
 HOST-SUFFIX,whlovehome.com,China
 HOST-SUFFIX,wicresoft.com,China
@@ -3719,7 +3711,6 @@ USER-AGENT,%E5%8D%B3%E5%88%BB*,China
 USER-AGENT,%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90*,China
 USER-AGENT,*Vainglory*,China
 USER-AGENT,AdBlock*,China
-USER-AGENT,Best%20Trace*,China
 USER-AGENT,MegaWerewolf*,China
 USER-AGENT,MicroMessenger%20Client,China
 USER-AGENT,MicroMessenger*,China
