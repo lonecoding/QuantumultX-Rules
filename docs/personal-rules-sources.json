@@ -1,0 +1,1278 @@
+{
+  "date": "2026-11-18",
+  "upstream_repository": "blackmatrix7/ios_rule_script",
+  "upstream_commit": "0b6897dc17e0c513d25449c935a9694818e32f0c",
+  "previous_personal_commit": "5db426a60af4420500a07dab2838343f52c233f7",
+  "lists": {
+    "Hijacking": {
+      "upstream_rules": 228,
+      "input_rules": 228,
+      "removed_ip_rules": [
+        "IP-CIDR,103.49.209.27/32,Hijacking",
+        "IP-CIDR,106.75.231.48/32,Hijacking",
+        "IP-CIDR,111.175.220.163/32,Hijacking",
+        "IP-CIDR,111.175.220.164/32,Hijacking",
+        "IP-CIDR,114.119.160.0/21,Hijacking",
+        "IP-CIDR,114.247.28.96/32,Hijacking",
+        "IP-CIDR,115.182.16.79/32,Hijacking",
+        "IP-CIDR,118.144.88.126/32,Hijacking",
+        "IP-CIDR,118.144.88.215/32,Hijacking",
+        "IP-CIDR,118.144.88.216/32,Hijacking",
+        "IP-CIDR,119.4.249.166/32,Hijacking",
+        "IP-CIDR,120.240.95.37/32,Hijacking",
+        "IP-CIDR,120.76.189.132/32,Hijacking",
+        "IP-CIDR,122.229.29.89/32,Hijacking",
+        "IP-CIDR,122.229.8.47/32,Hijacking",
+        "IP-CIDR,123.56.152.96/32,Hijacking",
+        "IP-CIDR,124.14.21.147/32,Hijacking",
+        "IP-CIDR,124.14.21.151/32,Hijacking",
+        "IP-CIDR,124.232.160.178/32,Hijacking",
+        "IP-CIDR,175.6.223.15/32,Hijacking",
+        "IP-CIDR,180.166.52.24/32,Hijacking",
+        "IP-CIDR,183.59.53.237/32,Hijacking",
+        "IP-CIDR,211.161.101.106/32,Hijacking",
+        "IP-CIDR,211.161.101.110/32,Hijacking",
+        "IP-CIDR,218.93.127.37/32,Hijacking",
+        "IP-CIDR,220.115.251.25/32,Hijacking",
+        "IP-CIDR,220.196.52.141/32,Hijacking",
+        "IP-CIDR,221.179.131.72/32,Hijacking",
+        "IP-CIDR,221.179.140.145/32,Hijacking",
+        "IP-CIDR,221.228.17.152/32,Hijacking",
+        "IP-CIDR,221.231.6.79/32,Hijacking",
+        "IP-CIDR,221.6.4.148/32,Hijacking",
+        "IP-CIDR,222.186.61.91/32,Hijacking",
+        "IP-CIDR,222.186.61.95/32,Hijacking",
+        "IP-CIDR,222.186.61.96/31,Hijacking",
+        "IP-CIDR,222.73.156.235/32,Hijacking",
+        "IP-CIDR,39.107.15.115/32,Hijacking",
+        "IP-CIDR,47.89.59.182/32,Hijacking",
+        "IP-CIDR,61.160.200.223/32,Hijacking",
+        "IP-CIDR,61.160.200.242/32,Hijacking",
+        "IP-CIDR,61.160.200.252/32,Hijacking",
+        "IP-CIDR,61.174.50.214/32,Hijacking"
+      ],
+      "source_blob": "b93ce2418a50388663920dd56b3bd456a7ee1b7b",
+      "output_rules": 186
+    },
+    "Telegram": {
+      "upstream_rules": 40,
+      "input_rules": 40,
+      "removed_ip_rules": [
+        "IP-CIDR,109.239.140.0/24,Telegram",
+        "IP-CIDR,139.59.210.98/32,Telegram",
+        "IP-CIDR,149.154.160.0/20,Telegram",
+        "IP-CIDR,196.55.216.167/32,Telegram",
+        "IP-CIDR,5.28.192.0/18,Telegram",
+        "IP-CIDR,91.108.0.0/16,Telegram",
+        "IP6-CIDR,2001:67c:4e8::/48,Telegram",
+        "IP6-CIDR,2001:b28:f23c::/47,Telegram",
+        "IP6-CIDR,2001:b28:f23f::/48,Telegram",
+        "IP6-CIDR,2a0a:f280::/29,Telegram",
+        "IP-ASN,211157,Telegram",
+        "IP-ASN,44907,Telegram",
+        "IP-ASN,59930,Telegram",
+        "IP-ASN,62014,Telegram",
+        "IP-ASN,62041,Telegram"
+      ],
+      "source_blob": "f359275291d632317f11337933a000af4905db56",
+      "output_rules": 25
+    },
+    "OpenAI": {
+      "upstream_rules": 35,
+      "input_rules": 35,
+      "removed_ip_rules": [
+        "IP-CIDR,24.199.123.28/32,OpenAI",
+        "IP-CIDR,64.23.132.171/32,OpenAI",
+        "IP-ASN,20473,OpenAI"
+      ],
+      "source_blob": "2328cec46e4fc91b487e0b51d27a03c95f141e1d",
+      "output_rules": 32
+    },
+    "Claude": {
+      "upstream_rules": 3,
+      "input_rules": 3,
+      "removed_ip_rules": [],
+      "source_blob": "6a1095eac133026ec2fe79783c0f81b721f93365",
+      "output_rules": 3
+    },
+    "YouTube": {
+      "upstream_rules": 196,
+      "input_rules": 196,
+      "removed_ip_rules": [
+        "IP-CIDR,172.110.32.0/21,YouTube",
+        "IP-CIDR,216.73.80.0/20,YouTube",
+        "IP6-CIDR,2620:120:e000::/40,YouTube"
+      ],
+      "source_blob": "7bf183b69bb3a023d8c919879c58546cf3881e2b",
+      "output_rules": 193
+    },
+    "TikTok": {
+      "upstream_rules": 35,
+      "input_rules": 35,
+      "removed_ip_rules": [],
+      "source_blob": "36ad6020f377fa417996e8fa2070a640be362314",
+      "output_rules": 35
+    },
+    "Apple": {
+      "upstream_rules": 1880,
+      "input_rules": 1880,
+      "removed_ip_rules": [
+        "IP-CIDR,139.178.128.0/18,Apple",
+        "IP-CIDR,144.178.0.0/19,Apple",
+        "IP-CIDR,144.178.36.0/22,Apple",
+        "IP-CIDR,144.178.48.0/20,Apple",
+        "IP-CIDR,17.0.0.0/8,Apple",
+        "IP-CIDR,192.35.50.0/24,Apple",
+        "IP-CIDR,198.183.17.0/24,Apple",
+        "IP-CIDR,205.180.175.0/24,Apple",
+        "IP-CIDR,63.92.224.0/19,Apple",
+        "IP-CIDR,65.199.22.0/23,Apple",
+        "IP6-CIDR,2403:300::/32,Apple",
+        "IP6-CIDR,2620:149::/32,Apple",
+        "IP6-CIDR,2a01:b740::/32,Apple"
+      ],
+      "source_blob": "5501badab4de3a8dcdbc7184a1aa89d37a07ccdc",
+      "output_rules": 1867
+    },
+    "Google": {
+      "upstream_rules": 711,
+      "input_rules": 711,
+      "removed_ip_rules": [
+        "IP-CIDR,172.110.32.0/21,Google",
+        "IP-CIDR,173.194.0.0/16,Google",
+        "IP-CIDR,216.73.80.0/20,Google",
+        "IP-CIDR,74.125.0.0/16,Google",
+        "IP6-CIDR,2620:120:e000::/40,Google"
+      ],
+      "source_blob": "ea27fe0687931d06f6f4d89aceabd975b612bdda",
+      "output_rules": 706
+    },
+    "Global": {
+      "upstream_rules": 36014,
+      "input_rules": 36014,
+      "removed_ip_rules": [
+        "IP-CIDR,1.201.0.0/24,Global",
+        "IP-CIDR,101.32.118.0/23,Global",
+        "IP-CIDR,101.32.96.0/20,Global",
+        "IP-CIDR,103.2.28.0/22,Global",
+        "IP-CIDR,103.246.56.0/22,Global",
+        "IP-CIDR,103.27.148.0/22,Global",
+        "IP-CIDR,103.4.96.0/22,Global",
+        "IP-CIDR,108.175.32.0/20,Global",
+        "IP-CIDR,109.239.140.0/24,Global",
+        "IP-CIDR,110.76.140.0/22,Global",
+        "IP-CIDR,113.61.104.0/22,Global",
+        "IP-CIDR,119.235.224.0/21,Global",
+        "IP-CIDR,119.235.232.0/23,Global",
+        "IP-CIDR,119.235.235.0/24,Global",
+        "IP-CIDR,119.235.236.0/23,Global",
+        "IP-CIDR,120.232.181.162/32,Global",
+        "IP-CIDR,120.241.147.226/32,Global",
+        "IP-CIDR,120.253.253.226/32,Global",
+        "IP-CIDR,120.253.255.162/32,Global",
+        "IP-CIDR,120.253.255.34/32,Global",
+        "IP-CIDR,120.253.255.98/32,Global",
+        "IP-CIDR,125.209.208.0/20,Global",
+        "IP-CIDR,125.6.146.0/24,Global",
+        "IP-CIDR,125.6.149.0/24,Global",
+        "IP-CIDR,125.6.190.0/24,Global",
+        "IP-CIDR,129.134.0.0/17,Global",
+        "IP-CIDR,129.226.0.0/16,Global",
+        "IP-CIDR,13.251.24.0/24,Global",
+        "IP-CIDR,13.251.41.0/24,Global",
+        "IP-CIDR,13.32.0.0/15,Global",
+        "IP-CIDR,13.35.0.0/17,Global",
+        "IP-CIDR,14.102.250.18/31,Global",
+        "IP-CIDR,147.92.128.0/17,Global",
+        "IP-CIDR,149.154.160.0/20,Global",
+        "IP-CIDR,157.240.0.0/17,Global",
+        "IP-CIDR,158.85.224.160/27,Global",
+        "IP-CIDR,158.85.46.128/27,Global",
+        "IP-CIDR,158.85.5.192/27,Global",
+        "IP-CIDR,169.45.248.118/32,Global",
+        "IP-CIDR,17.252.156.0/23,Global",
+        "IP-CIDR,173.192.222.160/27,Global",
+        "IP-CIDR,173.192.231.32/27,Global",
+        "IP-CIDR,173.194.0.0/16,Global",
+        "IP-CIDR,173.252.64.0/18,Global",
+        "IP-CIDR,174.142.105.153/32,Global",
+        "IP-CIDR,174.37.0.0/16,Global",
+        "IP-CIDR,179.60.192.0/22,Global",
+        "IP-CIDR,18.184.0.0/15,Global",
+        "IP-CIDR,18.194.0.0/15,Global",
+        "IP-CIDR,18.208.0.0/13,Global",
+        "IP-CIDR,18.232.0.0/14,Global",
+        "IP-CIDR,180.163.150.162/32,Global",
+        "IP-CIDR,180.163.150.34/32,Global",
+        "IP-CIDR,180.163.151.162/32,Global",
+        "IP-CIDR,180.163.151.34/32,Global",
+        "IP-CIDR,184.173.128.0/17,Global",
+        "IP-CIDR,185.60.216.0/22,Global",
+        "IP-CIDR,185.76.151.0/24,Global",
+        "IP-CIDR,192.173.64.0/18,Global",
+        "IP-CIDR,198.38.96.0/19,Global",
+        "IP-CIDR,198.45.48.0/20,Global",
+        "IP-CIDR,203.104.103.0/24,Global",
+        "IP-CIDR,203.104.128.0/19,Global",
+        "IP-CIDR,203.174.66.64/26,Global",
+        "IP-CIDR,203.174.77.0/24,Global",
+        "IP-CIDR,203.208.39.0/24,Global",
+        "IP-CIDR,203.208.40.0/23,Global",
+        "IP-CIDR,203.208.43.0/24,Global",
+        "IP-CIDR,203.208.50.0/24,Global",
+        "IP-CIDR,204.15.20.0/22,Global",
+        "IP-CIDR,208.43.0.0/16,Global",
+        "IP-CIDR,220.181.174.162/32,Global",
+        "IP-CIDR,220.181.174.226/32,Global",
+        "IP-CIDR,220.181.174.34/32,Global",
+        "IP-CIDR,23.246.0.0/18,Global",
+        "IP-CIDR,27.0.236.0/22,Global",
+        "IP-CIDR,3.123.36.126/32,Global",
+        "IP-CIDR,31.13.24.0/21,Global",
+        "IP-CIDR,31.13.64.0/18,Global",
+        "IP-CIDR,34.224.0.0/12,Global",
+        "IP-CIDR,35.157.215.84/32,Global",
+        "IP-CIDR,35.157.217.255/32,Global",
+        "IP-CIDR,37.77.184.0/21,Global",
+        "IP-CIDR,45.57.0.0/17,Global",
+        "IP-CIDR,45.64.40.0/22,Global",
+        "IP-CIDR,50.22.198.204/30,Global",
+        "IP-CIDR,52.200.0.0/13,Global",
+        "IP-CIDR,52.58.0.0/15,Global",
+        "IP-CIDR,52.74.0.0/16,Global",
+        "IP-CIDR,52.77.0.0/16,Global",
+        "IP-CIDR,52.84.0.0/15,Global",
+        "IP-CIDR,54.156.0.0/14,Global",
+        "IP-CIDR,54.162.243.80/32,Global",
+        "IP-CIDR,54.173.34.141/32,Global",
+        "IP-CIDR,54.226.0.0/15,Global",
+        "IP-CIDR,54.230.156.0/22,Global",
+        "IP-CIDR,54.235.23.242/32,Global",
+        "IP-CIDR,54.242.0.0/15,Global",
+        "IP-CIDR,54.93.0.0/16,Global",
+        "IP-CIDR,64.120.128.0/17,Global",
+        "IP-CIDR,66.197.128.0/17,Global",
+        "IP-CIDR,66.220.144.0/20,Global",
+        "IP-CIDR,67.220.91.15/32,Global",
+        "IP-CIDR,67.220.91.18/32,Global",
+        "IP-CIDR,67.220.91.23/32,Global",
+        "IP-CIDR,69.171.224.0/19,Global",
+        "IP-CIDR,69.63.176.0/20,Global",
+        "IP-CIDR,69.65.19.160/32,Global",
+        "IP-CIDR,72.52.81.22/32,Global",
+        "IP-CIDR,74.119.76.0/22,Global",
+        "IP-CIDR,74.125.0.0/16,Global",
+        "IP-CIDR,74.86.0.0/16,Global",
+        "IP-CIDR,75.126.0.0/16,Global",
+        "IP-CIDR,91.105.192.0/23,Global",
+        "IP-CIDR,91.108.0.0/16,Global",
+        "IP6-CIDR,2001:67c:4e8::/48,Global",
+        "IP6-CIDR,2001:b28:f23c::/47,Global",
+        "IP6-CIDR,2001:b28:f23f::/48,Global",
+        "IP6-CIDR,2a0a:f280::/32,Global"
+      ],
+      "source_blob": "0c710c4bf809d197bd7ec56f82d6fc6d73991de8",
+      "output_rules": 35895
+    },
+    "China": {
+      "upstream_rules": 3753,
+      "input_rules": 3741,
+      "removed_ip_rules": [
+        "IP-CIDR,1.255.62.0/24,China",
+        "IP-CIDR,101.32.104.0/21,China",
+        "IP-CIDR,101.32.118.0/23,China",
+        "IP-CIDR,101.32.96.0/20,China",
+        "IP-CIDR,119.28.28.28/32,China",
+        "IP-CIDR,120.195.181.180/32,China",
+        "IP-CIDR,129.226.0.0/16,China",
+        "IP-CIDR,182.254.116.0/24,China",
+        "IP-CIDR,183.128.0.0/11,China",
+        "IP-CIDR,183.131.48.0/20,China",
+        "IP-CIDR,185.188.32.0/22,China",
+        "IP-CIDR,185.188.32.0/24,China",
+        "IP-CIDR,185.188.33.0/24,China",
+        "IP-CIDR,185.188.34.0/24,China",
+        "IP-CIDR,185.188.35.0/24,China",
+        "IP-CIDR,203.205.238.0/23,China",
+        "IP-CIDR,203.205.254.0/23,China",
+        "IP6-CIDR,2a0b:b580::/48,China",
+        "IP6-CIDR,2a0b:b581::/48,China",
+        "IP6-CIDR,2a0b:b582::/48,China",
+        "IP6-CIDR,2a0b:b583::/48,China"
+      ],
+      "source_blob": "49cf7fabd82867eacb59692a41f5e53caa9de85a",
+      "output_rules": 3933
+    }
+  },
+  "supplement_sources": [
+    {
+      "name": "WeChat",
+      "sha": "67a660a234dc6e62788e6e5d9877c89e9eb0da90"
+    },
+    {
+      "name": "AliPay",
+      "sha": "8f317454c34cea452f7c5a2dc9b8d16139d97276"
+    },
+    {
+      "name": "JingDong",
+      "sha": "83f655b1d9f643be92e23aff6a98f0991c8ecf3b"
+    },
+    {
+      "name": "MeiTuan",
+      "sha": "d7a8fc97982074dc747f1bae39b185834cf0ebeb"
+    },
+    {
+      "name": "BiliBili",
+      "sha": "34ed891134de169f28eb1b67395acb2abf979cef"
+    },
+    {
+      "name": "Pinduoduo",
+      "sha": "2f23350152455bcf2e62d20ff42efd05c3580d36"
+    },
+    {
+      "name": "DouYin",
+      "sha": "b6834d907b5d1c70b3269be32eb3eeafafdd70d9"
+    },
+    {
+      "name": "XiaoMi",
+      "sha": "e5d0b4332c387f23bff9c6fbc860ebd8f7d5c0c3"
+    },
+    {
+      "name": "NetEaseMusic",
+      "sha": "7e1aa9dca5dda11285f804b1d0d851428530cdf7"
+    },
+    {
+      "name": "CMB",
+      "sha": "d6aed73bc434459a5d32672f82e30b5fcd39c59e"
+    },
+    {
+      "name": "ICBC",
+      "sha": "6ed2621a4075854d2460f93259e61a258e678213"
+    },
+    {
+      "name": "CCB",
+      "sha": "eb58d83848d07b8dba1bbf368a389b04094d5f42"
+    },
+    {
+      "name": "ABC",
+      "sha": "2ebf5a7ae0da1051d2abb76b15e49f00d16bed89"
+    },
+    {
+      "name": "BOC",
+      "sha": "30570ade85077a08722a76071c30777621c0ab51"
+    },
+    {
+      "name": "BOCOM",
+      "sha": "155157f460b4ae07109e58dd4692e8124e97fea2"
+    },
+    {
+      "name": "UnionPay",
+      "sha": "f5661fabbfc903a2e99867ad972e0e04a32b705d"
+    },
+    {
+      "name": "ChinaMobile",
+      "sha": "1868acffbbafbf3c8e03f8ed6b4e603368f07afb"
+    },
+    {
+      "name": "ChinaTelecom",
+      "sha": "9fab09fbf6f0ebd23bb2ccead04953960e553991"
+    },
+    {
+      "name": "ChinaUnicom",
+      "sha": "6664e0bab60e2a828cdc9900940a70ad098296f7"
+    },
+    {
+      "name": "SFExpress",
+      "sha": "5e42c932af80837185b20a95f0ed9960889b353e"
+    },
+    {
+      "name": "CaiNiao",
+      "sha": "6dcbd558ea7c6cbda78de5816d820f689f85d4c0"
+    },
+    {
+      "name": "GaoDe",
+      "sha": "ef46fee54902dd8276b8d6b0b4406b6b97524394"
+    },
+    {
+      "name": "DiDi",
+      "sha": "fc98aa0d2fd87053eedf60cd882ad9ba885064be"
+    },
+    {
+      "name": "XiaoHongShu",
+      "sha": "c016d7f912385053956aede310cfddd6be7d5421"
+    },
+    {
+      "name": "12306",
+      "sha": "58b88fe8cc2ae2f762f35dfe4f9b8e4137823980"
+    }
+  ],
+  "china_domain_additions": [
+    {
+      "service": "WeChat",
+      "rule": "HOST,slife.xy-asia.com,China"
+    },
+    {
+      "service": "WeChat",
+      "rule": "HOST-SUFFIX,iot-tencent.com,China"
+    },
+    {
+      "service": "WeChat",
+      "rule": "HOST-SUFFIX,qlogo.cn,China"
+    },
+    {
+      "service": "WeChat",
+      "rule": "HOST-SUFFIX,qpic.cn,China"
+    },
+    {
+      "service": "WeChat",
+      "rule": "HOST-SUFFIX,wechatlegal.net,China"
+    },
+    {
+      "service": "WeChat",
+      "rule": "HOST-SUFFIX,wechatos.net,China"
+    },
+    {
+      "service": "WeChat",
+      "rule": "HOST-SUFFIX,wechatpay.com,China"
+    },
+    {
+      "service": "WeChat",
+      "rule": "HOST-SUFFIX,weixinsxy.com,China"
+    },
+    {
+      "service": "AliPay",
+      "rule": "HOST-SUFFIX,ifaa.org.cn,China"
+    },
+    {
+      "service": "AliPay",
+      "rule": "HOST-SUFFIX,sinopayment.com.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,3.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,360buy.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,360buy.com.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,baitiao.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,buyjingxi.com,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,chicalot.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,chinabank.com.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,duiou.com.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,ibaitiao.com,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jcloudwaftest.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jd-ex.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jd-ex.com.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jd.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jd.com.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jdcontent.com,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jddtv.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jdfinance.com,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jdl.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jdl.com.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jdlike.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,jdsmartkf.com,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,paidaojia.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,prestodb.net.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,wuliujie.cn,China"
+    },
+    {
+      "service": "JingDong",
+      "rule": "HOST-SUFFIX,yhcdn.cn,China"
+    },
+    {
+      "service": "MeiTuan",
+      "rule": "HOST-SUFFIX,neixin.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,animetamashi.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,anitama.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bigfun.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bigfunapp.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bili22.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bili2233.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bili23.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bili33.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bilibili.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bilibiligame.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bilibilipay.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,biligame.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,biliimg.com,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,bilivideo.cn,China"
+    },
+    {
+      "service": "BiliBili",
+      "rule": "HOST-SUFFIX,hdslb.net,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,addatachain.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,aleenote.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,alibiji.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,alinotes.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,hongmi.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mgslb.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mi-ae.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mi-ae.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mi.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mi.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,micoce.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,micode.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,micode.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mifile.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mioffice.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mios.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,mios.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,miren.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,misrm.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,misrm.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,miui.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,shunwei.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomi.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomicorp.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomicorp.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomidns.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomidns.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomiinc.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomiinc.com.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,xiaomisa.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,youpin.cn,China"
+    },
+    {
+      "service": "XiaoMi",
+      "rule": "HOST-SUFFIX,youpin.com.cn,China"
+    },
+    {
+      "service": "CMB",
+      "rule": "HOST-SUFFIX,8008205555.cn,China"
+    },
+    {
+      "service": "CMB",
+      "rule": "HOST-SUFFIX,cmbchina.cn,China"
+    },
+    {
+      "service": "CMB",
+      "rule": "HOST-SUFFIX,cmbimg.cn,China"
+    },
+    {
+      "service": "CMB",
+      "rule": "HOST-SUFFIX,cmbt.cn,China"
+    },
+    {
+      "service": "CMB",
+      "rule": "HOST-SUFFIX,cmburl.cn,China"
+    },
+    {
+      "service": "CMB",
+      "rule": "HOST-SUFFIX,cmfunds.cn,China"
+    },
+    {
+      "service": "ICBC",
+      "rule": "HOST-SUFFIX,95588.com.cn,China"
+    },
+    {
+      "service": "ICBC",
+      "rule": "HOST-SUFFIX,dccnet.com.cn,China"
+    },
+    {
+      "service": "ICBC",
+      "rule": "HOST-SUFFIX,icbc.com.cn,China"
+    },
+    {
+      "service": "ICBC",
+      "rule": "HOST-SUFFIX,icbccs.com.cn,China"
+    },
+    {
+      "service": "ICBC",
+      "rule": "HOST-SUFFIX,icbccstz.com.cn,China"
+    },
+    {
+      "service": "ICBC",
+      "rule": "HOST-SUFFIX,icbcmanila.com.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccb-life.com.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccb.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccb.com.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccbfund.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccbfund.com.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccbfutures.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccbhome.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccblife-test.com.cn,China"
+    },
+    {
+      "service": "CCB",
+      "rule": "HOST-SUFFIX,ccbtrust.com.cn,China"
+    },
+    {
+      "service": "ABC",
+      "rule": "HOST-SUFFIX,95599.cn,China"
+    },
+    {
+      "service": "ABC",
+      "rule": "HOST-SUFFIX,openaboc.cn,China"
+    },
+    {
+      "service": "ABC",
+      "rule": "HOST-SUFFIX,openaboc.com.cn,China"
+    },
+    {
+      "service": "BOC",
+      "rule": "HOST-SUFFIX,boc.cn,China"
+    },
+    {
+      "service": "BOC",
+      "rule": "HOST-SUFFIX,boccfc.cn,China"
+    },
+    {
+      "service": "BOC",
+      "rule": "HOST-SUFFIX,bocichina.cn,China"
+    },
+    {
+      "service": "BOC",
+      "rule": "HOST-SUFFIX,bocichina.com.cn,China"
+    },
+    {
+      "service": "BOC",
+      "rule": "HOST-SUFFIX,bocifunds.cn,China"
+    },
+    {
+      "service": "BOC",
+      "rule": "HOST-SUFFIX,bocifunds.com.cn,China"
+    },
+    {
+      "service": "BOC",
+      "rule": "HOST-SUFFIX,bocservices.com.cn,China"
+    },
+    {
+      "service": "BOCOM",
+      "rule": "HOST-SUFFIX,95559.com.cn,China"
+    },
+    {
+      "service": "BOCOM",
+      "rule": "HOST-SUFFIX,95559.sh.cn,China"
+    },
+    {
+      "service": "UnionPay",
+      "rule": "HOST-SUFFIX,chinapay.cn,China"
+    },
+    {
+      "service": "UnionPay",
+      "rule": "HOST-SUFFIX,chinaunionpay.com.cn,China"
+    },
+    {
+      "service": "UnionPay",
+      "rule": "HOST-SUFFIX,cup.com.cn,China"
+    },
+    {
+      "service": "UnionPay",
+      "rule": "HOST-SUFFIX,cup62.cn,China"
+    },
+    {
+      "service": "UnionPay",
+      "rule": "HOST-SUFFIX,unionpayintl.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,10086.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,andfx.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,cmdcl.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,cmecloud.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,cmicrwx.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,cmvideo.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,cxzx10086.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,ecpan.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,lovev.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,migu.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,migucc.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,migucdn.cn,China"
+    },
+    {
+      "service": "ChinaMobile",
+      "rule": "HOST-SUFFIX,miguvideo.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,10000.gd.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,189.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,189jk.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,360sides.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,bnet.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,chinabnet.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,chinatelecom.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,chinatelecom.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,chinatelecom.net.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,chinatelecom.org.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctcdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctcdn.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctdns.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctdns.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,cthcdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctid.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctlcdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctmcdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctrdc.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctxcdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctycdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctycdn.net.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctyun.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctyun.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctyunapi.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctyunbdcsc.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctyuncdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ctzcdn.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,gd12349.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,gdbnet.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,gddc.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,gdtel.com.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,guangzhou.gd.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,iptv.gd.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,iwuyou189.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,pzclub.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,vnet.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,wuyou189.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,ycy100.cn,China"
+    },
+    {
+      "service": "ChinaTelecom",
+      "rule": "HOST-SUFFIX,yichuangyun.com.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,10010.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,10010.com.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,17wo.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,chinaunicom.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,chinaunicom.com.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,chinaunicombidding.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,cu5gaia.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,cuecp.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,cupb.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,e-engine.com.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,gd10010.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,gd116114.net.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,gnoc.com.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,unicompayment.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,unimip.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,wo.cn,China"
+    },
+    {
+      "service": "ChinaUnicom",
+      "rule": "HOST-SUFFIX,wo.com.cn,China"
+    },
+    {
+      "service": "SFExpress",
+      "rule": "HOST-SUFFIX,sf-saas.cn,China"
+    },
+    {
+      "service": "SFExpress",
+      "rule": "HOST-SUFFIX,sf-saas.com.cn,China"
+    },
+    {
+      "service": "SFExpress",
+      "rule": "HOST-SUFFIX,sf-tech.com.cn,China"
+    },
+    {
+      "service": "SFExpress",
+      "rule": "HOST-SUFFIX,sf.cn,China"
+    },
+    {
+      "service": "SFExpress",
+      "rule": "HOST-SUFFIX,sffix.cn,China"
+    },
+    {
+      "service": "CaiNiao",
+      "rule": "HOST-SUFFIX,cainiao-inc.cn,China"
+    },
+    {
+      "service": "CaiNiao",
+      "rule": "HOST-SUFFIX,cainiao.com.cn,China"
+    },
+    {
+      "service": "GaoDe",
+      "rule": "HOST-SUFFIX,a-map.cn,China"
+    },
+    {
+      "service": "DiDi",
+      "rule": "HOST-SUFFIX,apptaxi.com.cn,China"
+    },
+    {
+      "service": "DiDi",
+      "rule": "HOST-SUFFIX,didi.cn,China"
+    },
+    {
+      "service": "DiDi",
+      "rule": "HOST-SUFFIX,didiapp.net.cn,China"
+    },
+    {
+      "service": "DiDi",
+      "rule": "HOST-SUFFIX,diditaxi.com.cn,China"
+    },
+    {
+      "service": "DiDi",
+      "rule": "HOST-SUFFIX,xiaojuchefu.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,12306.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,95306.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,china-railway.com.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,cre.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,crecc.com.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,creip.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,crscl.com.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,gzrailway.com.cn,China"
+    },
+    {
+      "service": "12306",
+      "rule": "HOST-SUFFIX,rails.cn,China"
+    }
+  ],
+  "diagnostic_rules": [
+    "HOST-SUFFIX,ip138.com,Proxies",
+    "HOST-SUFFIX,ip.cn,Proxies",
+    "HOST-SUFFIX,ip.la,Proxies",
+    "HOST-SUFFIX,myip.la,Proxies",
+    "HOST-SUFFIX,ipip.net,Proxies",
+    "HOST-SUFFIX,ipplus360.com,Proxies",
+    "HOST-SUFFIX,whatismyip.com,Proxies",
+    "HOST-SUFFIX,browserleaks.com,Proxies",
+    "HOST-SUFFIX,chinaz.com,Proxies",
+    "HOST-SUFFIX,chinaz.net,Proxies",
+    "HOST-SUFFIX,ip.net.coffee,Proxies",
+    "HOST,ip.istatmenus.app,Proxies"
+  ],
+  "verification_scope": "Static file checks only; no Quantumult X device verification."
+}

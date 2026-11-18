@@ -1,0 +1,19 @@
+# NAME: Diagnostics
+# MAINTAINER: lonecoding
+# UPDATED: 2026-11-18
+# PURPOSE: Explicit proxy policy for IP lookup and privacy-test endpoints.
+# HOST: 1
+# HOST-SUFFIX: 11
+# TOTAL: 12
+HOST-SUFFIX,ip138.com,Proxies
+HOST-SUFFIX,ip.cn,Proxies
+HOST-SUFFIX,ip.la,Proxies
+HOST-SUFFIX,myip.la,Proxies
+HOST-SUFFIX,ipip.net,Proxies
+HOST-SUFFIX,ipplus360.com,Proxies
+HOST-SUFFIX,whatismyip.com,Proxies
+HOST-SUFFIX,browserleaks.com,Proxies
+HOST-SUFFIX,chinaz.com,Proxies
+HOST-SUFFIX,chinaz.net,Proxies
+HOST-SUFFIX,ip.net.coffee,Proxies
+HOST,ip.istatmenus.app,Proxies

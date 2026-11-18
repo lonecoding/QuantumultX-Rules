@@ -1,5 +1,8 @@
 # QuantumultX-Rules
 
+> 自定义国内直连与分类订阅：见 [个人分流说明](docs/personal-rules.md) 和 [分流替换片段](personal-filters.conf)。
+
+
 一套面向中国大陆日常使用的 Quantumult X 完整配置，提供标准版、扩展版和自定义策略组。
 **分流列表直接引用上游，本项目负责配置、策略组及默认走向。** 添加自己的订阅即可开始配置使用。
 

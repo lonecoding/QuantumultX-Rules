@@ -1,18 +1,18 @@
 # NAME: China
-# AUTHOR: blackmatrix7
-# REPO: https://github.com/blackmatrix7/ios_rule_script
-# UPSTREAM-UPDATED: 2026-06-22 02:36:19
-# UPDATED: 2026-11-17
-# CUSTOMIZED-BY: lonecoding
-# CUSTOMIZATION: Removed IP lookup/privacy-test direct rules and the blanket .cn suffix.
-# HOST: 16
+# MAINTAINER: lonecoding
+# UPDATED: 2026-11-18
+# ORIGINAL-AUTHOR: blackmatrix7
+# SOURCE: https://github.com/blackmatrix7/ios_rule_script/blob/0b6897dc17e0c513d25449c935a9694818e32f0c/rule/QuantumultX/China/China.list
+# SOURCE-BLOB: 49cf7fabd82867eacb59692a41f5e53caa9de85a
+# CUSTOMIZATION: IP-CIDR, IP6-CIDR, IP-ASN and GEOIP entries removed; domain and user-agent entries retained.
+# CUSTOMIZATION: Existing diagnostic exclusions retained; selected domestic service domains supplemented.
+# NOTE: No blanket .cn suffix. Supplements and source revisions are documented in docs/personal-rules-sources.json.
+# HOST: 17
 # HOST-KEYWORD: 9
-# HOST-SUFFIX: 3664
+# HOST-SUFFIX: 3876
 # HOST-WILDCARD: 1
-# IP-CIDR: 17
-# IP6-CIDR: 4
 # USER-AGENT: 30
-# TOTAL: 3741
+# TOTAL: 3933
 HOST,analytics.strava.com,China
 HOST,blzddist1-a.akamaihd.net,China
 HOST,cdn.angruo.com,China
@@ -3733,24 +3733,216 @@ USER-AGENT,eusoft_ting_en_iphone,China
 USER-AGENT,hearthstone*,China
 USER-AGENT,hide*,China
 USER-AGENT,ting_en,China
-IP-CIDR,1.255.62.0/24,China
-IP-CIDR,101.32.104.0/21,China
-IP-CIDR,101.32.118.0/23,China
-IP-CIDR,101.32.96.0/20,China
-IP-CIDR,119.28.28.28/32,China
-IP-CIDR,120.195.181.180/32,China
-IP-CIDR,129.226.0.0/16,China
-IP-CIDR,182.254.116.0/24,China
-IP-CIDR,183.128.0.0/11,China
-IP-CIDR,183.131.48.0/20,China
-IP-CIDR,185.188.32.0/22,China
-IP-CIDR,185.188.32.0/24,China
-IP-CIDR,185.188.33.0/24,China
-IP-CIDR,185.188.34.0/24,China
-IP-CIDR,185.188.35.0/24,China
-IP-CIDR,203.205.238.0/23,China
-IP-CIDR,203.205.254.0/23,China
-IP6-CIDR,2a0b:b580::/48,China
-IP6-CIDR,2a0b:b581::/48,China
-IP6-CIDR,2a0b:b582::/48,China
-IP6-CIDR,2a0b:b583::/48,China
+HOST,slife.xy-asia.com,China
+HOST-SUFFIX,iot-tencent.com,China
+HOST-SUFFIX,qlogo.cn,China
+HOST-SUFFIX,qpic.cn,China
+HOST-SUFFIX,wechatlegal.net,China
+HOST-SUFFIX,wechatos.net,China
+HOST-SUFFIX,wechatpay.com,China
+HOST-SUFFIX,weixinsxy.com,China
+HOST-SUFFIX,ifaa.org.cn,China
+HOST-SUFFIX,sinopayment.com.cn,China
+HOST-SUFFIX,3.cn,China
+HOST-SUFFIX,360buy.cn,China
+HOST-SUFFIX,360buy.com.cn,China
+HOST-SUFFIX,baitiao.cn,China
+HOST-SUFFIX,buyjingxi.com,China
+HOST-SUFFIX,chicalot.cn,China
+HOST-SUFFIX,chinabank.com.cn,China
+HOST-SUFFIX,duiou.com.cn,China
+HOST-SUFFIX,ibaitiao.com,China
+HOST-SUFFIX,jcloudwaftest.cn,China
+HOST-SUFFIX,jd-ex.cn,China
+HOST-SUFFIX,jd-ex.com.cn,China
+HOST-SUFFIX,jd.cn,China
+HOST-SUFFIX,jd.com.cn,China
+HOST-SUFFIX,jdcontent.com,China
+HOST-SUFFIX,jddtv.cn,China
+HOST-SUFFIX,jdfinance.com,China
+HOST-SUFFIX,jdl.cn,China
+HOST-SUFFIX,jdl.com.cn,China
+HOST-SUFFIX,jdlike.cn,China
+HOST-SUFFIX,jdsmartkf.com,China
+HOST-SUFFIX,paidaojia.cn,China
+HOST-SUFFIX,prestodb.net.cn,China
+HOST-SUFFIX,wuliujie.cn,China
+HOST-SUFFIX,yhcdn.cn,China
+HOST-SUFFIX,neixin.cn,China
+HOST-SUFFIX,animetamashi.cn,China
+HOST-SUFFIX,anitama.cn,China
+HOST-SUFFIX,bigfun.cn,China
+HOST-SUFFIX,bigfunapp.cn,China
+HOST-SUFFIX,bili22.cn,China
+HOST-SUFFIX,bili2233.cn,China
+HOST-SUFFIX,bili23.cn,China
+HOST-SUFFIX,bili33.cn,China
+HOST-SUFFIX,bilibili.cn,China
+HOST-SUFFIX,bilibiligame.cn,China
+HOST-SUFFIX,bilibilipay.cn,China
+HOST-SUFFIX,biligame.cn,China
+HOST-SUFFIX,biliimg.com,China
+HOST-SUFFIX,bilivideo.cn,China
+HOST-SUFFIX,hdslb.net,China
+HOST-SUFFIX,addatachain.cn,China
+HOST-SUFFIX,aleenote.cn,China
+HOST-SUFFIX,alibiji.cn,China
+HOST-SUFFIX,alinotes.cn,China
+HOST-SUFFIX,hongmi.cn,China
+HOST-SUFFIX,mgslb.cn,China
+HOST-SUFFIX,mi-ae.cn,China
+HOST-SUFFIX,mi-ae.com.cn,China
+HOST-SUFFIX,mi.cn,China
+HOST-SUFFIX,mi.com.cn,China
+HOST-SUFFIX,micoce.com.cn,China
+HOST-SUFFIX,micode.cn,China
+HOST-SUFFIX,micode.com.cn,China
+HOST-SUFFIX,mifile.cn,China
+HOST-SUFFIX,mioffice.cn,China
+HOST-SUFFIX,mios.cn,China
+HOST-SUFFIX,mios.com.cn,China
+HOST-SUFFIX,miren.cn,China
+HOST-SUFFIX,misrm.cn,China
+HOST-SUFFIX,misrm.com.cn,China
+HOST-SUFFIX,miui.cn,China
+HOST-SUFFIX,shunwei.cn,China
+HOST-SUFFIX,xiaomi.cn,China
+HOST-SUFFIX,xiaomicorp.cn,China
+HOST-SUFFIX,xiaomicorp.com.cn,China
+HOST-SUFFIX,xiaomidns.cn,China
+HOST-SUFFIX,xiaomidns.com.cn,China
+HOST-SUFFIX,xiaomiinc.cn,China
+HOST-SUFFIX,xiaomiinc.com.cn,China
+HOST-SUFFIX,xiaomisa.cn,China
+HOST-SUFFIX,youpin.cn,China
+HOST-SUFFIX,youpin.com.cn,China
+HOST-SUFFIX,8008205555.cn,China
+HOST-SUFFIX,cmbchina.cn,China
+HOST-SUFFIX,cmbimg.cn,China
+HOST-SUFFIX,cmbt.cn,China
+HOST-SUFFIX,cmburl.cn,China
+HOST-SUFFIX,cmfunds.cn,China
+HOST-SUFFIX,95588.com.cn,China
+HOST-SUFFIX,dccnet.com.cn,China
+HOST-SUFFIX,icbc.com.cn,China
+HOST-SUFFIX,icbccs.com.cn,China
+HOST-SUFFIX,icbccstz.com.cn,China
+HOST-SUFFIX,icbcmanila.com.cn,China
+HOST-SUFFIX,ccb-life.com.cn,China
+HOST-SUFFIX,ccb.cn,China
+HOST-SUFFIX,ccb.com.cn,China
+HOST-SUFFIX,ccbfund.cn,China
+HOST-SUFFIX,ccbfund.com.cn,China
+HOST-SUFFIX,ccbfutures.cn,China
+HOST-SUFFIX,ccbhome.cn,China
+HOST-SUFFIX,ccblife-test.com.cn,China
+HOST-SUFFIX,ccbtrust.com.cn,China
+HOST-SUFFIX,95599.cn,China
+HOST-SUFFIX,openaboc.cn,China
+HOST-SUFFIX,openaboc.com.cn,China
+HOST-SUFFIX,boc.cn,China
+HOST-SUFFIX,boccfc.cn,China
+HOST-SUFFIX,bocichina.cn,China
+HOST-SUFFIX,bocichina.com.cn,China
+HOST-SUFFIX,bocifunds.cn,China
+HOST-SUFFIX,bocifunds.com.cn,China
+HOST-SUFFIX,bocservices.com.cn,China
+HOST-SUFFIX,95559.com.cn,China
+HOST-SUFFIX,95559.sh.cn,China
+HOST-SUFFIX,chinapay.cn,China
+HOST-SUFFIX,chinaunionpay.com.cn,China
+HOST-SUFFIX,cup.com.cn,China
+HOST-SUFFIX,cup62.cn,China
+HOST-SUFFIX,unionpayintl.cn,China
+HOST-SUFFIX,10086.cn,China
+HOST-SUFFIX,andfx.cn,China
+HOST-SUFFIX,cmdcl.cn,China
+HOST-SUFFIX,cmecloud.cn,China
+HOST-SUFFIX,cmicrwx.cn,China
+HOST-SUFFIX,cmvideo.cn,China
+HOST-SUFFIX,cxzx10086.cn,China
+HOST-SUFFIX,ecpan.cn,China
+HOST-SUFFIX,lovev.cn,China
+HOST-SUFFIX,migu.cn,China
+HOST-SUFFIX,migucc.cn,China
+HOST-SUFFIX,migucdn.cn,China
+HOST-SUFFIX,miguvideo.com.cn,China
+HOST-SUFFIX,10000.gd.cn,China
+HOST-SUFFIX,189.cn,China
+HOST-SUFFIX,189jk.cn,China
+HOST-SUFFIX,360sides.cn,China
+HOST-SUFFIX,bnet.cn,China
+HOST-SUFFIX,chinabnet.cn,China
+HOST-SUFFIX,chinatelecom.cn,China
+HOST-SUFFIX,chinatelecom.com.cn,China
+HOST-SUFFIX,chinatelecom.net.cn,China
+HOST-SUFFIX,chinatelecom.org.cn,China
+HOST-SUFFIX,ctcdn.cn,China
+HOST-SUFFIX,ctcdn.com.cn,China
+HOST-SUFFIX,ctdns.cn,China
+HOST-SUFFIX,ctdns.com.cn,China
+HOST-SUFFIX,cthcdn.cn,China
+HOST-SUFFIX,ctid.com.cn,China
+HOST-SUFFIX,ctlcdn.cn,China
+HOST-SUFFIX,ctmcdn.cn,China
+HOST-SUFFIX,ctrdc.com.cn,China
+HOST-SUFFIX,ctxcdn.cn,China
+HOST-SUFFIX,ctycdn.cn,China
+HOST-SUFFIX,ctycdn.net.cn,China
+HOST-SUFFIX,ctyun.cn,China
+HOST-SUFFIX,ctyun.com.cn,China
+HOST-SUFFIX,ctyunapi.cn,China
+HOST-SUFFIX,ctyunbdcsc.cn,China
+HOST-SUFFIX,ctyuncdn.cn,China
+HOST-SUFFIX,ctzcdn.cn,China
+HOST-SUFFIX,gd12349.com.cn,China
+HOST-SUFFIX,gdbnet.cn,China
+HOST-SUFFIX,gddc.com.cn,China
+HOST-SUFFIX,gdtel.com.cn,China
+HOST-SUFFIX,guangzhou.gd.cn,China
+HOST-SUFFIX,iptv.gd.cn,China
+HOST-SUFFIX,iwuyou189.cn,China
+HOST-SUFFIX,pzclub.cn,China
+HOST-SUFFIX,vnet.cn,China
+HOST-SUFFIX,wuyou189.cn,China
+HOST-SUFFIX,ycy100.cn,China
+HOST-SUFFIX,yichuangyun.com.cn,China
+HOST-SUFFIX,10010.cn,China
+HOST-SUFFIX,10010.com.cn,China
+HOST-SUFFIX,17wo.cn,China
+HOST-SUFFIX,chinaunicom.cn,China
+HOST-SUFFIX,chinaunicom.com.cn,China
+HOST-SUFFIX,chinaunicombidding.cn,China
+HOST-SUFFIX,cu5gaia.cn,China
+HOST-SUFFIX,cuecp.cn,China
+HOST-SUFFIX,cupb.cn,China
+HOST-SUFFIX,e-engine.com.cn,China
+HOST-SUFFIX,gd10010.cn,China
+HOST-SUFFIX,gd116114.net.cn,China
+HOST-SUFFIX,gnoc.com.cn,China
+HOST-SUFFIX,unicompayment.cn,China
+HOST-SUFFIX,unimip.cn,China
+HOST-SUFFIX,wo.cn,China
+HOST-SUFFIX,wo.com.cn,China
+HOST-SUFFIX,sf-saas.cn,China
+HOST-SUFFIX,sf-saas.com.cn,China
+HOST-SUFFIX,sf-tech.com.cn,China
+HOST-SUFFIX,sf.cn,China
+HOST-SUFFIX,sffix.cn,China
+HOST-SUFFIX,cainiao-inc.cn,China
+HOST-SUFFIX,cainiao.com.cn,China
+HOST-SUFFIX,a-map.cn,China
+HOST-SUFFIX,apptaxi.com.cn,China
+HOST-SUFFIX,didi.cn,China
+HOST-SUFFIX,didiapp.net.cn,China
+HOST-SUFFIX,diditaxi.com.cn,China
+HOST-SUFFIX,xiaojuchefu.cn,China
+HOST-SUFFIX,12306.cn,China
+HOST-SUFFIX,95306.cn,China
+HOST-SUFFIX,china-railway.com.cn,China
+HOST-SUFFIX,cre.cn,China
+HOST-SUFFIX,crecc.com.cn,China
+HOST-SUFFIX,creip.cn,China
+HOST-SUFFIX,crscl.com.cn,China
+HOST-SUFFIX,gzrailway.com.cn,China
+HOST-SUFFIX,rails.cn,China

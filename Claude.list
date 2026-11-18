@@ -1,0 +1,13 @@
+# NAME: Claude
+# MAINTAINER: lonecoding
+# UPDATED: 2026-11-18
+# ORIGINAL-AUTHOR: blackmatrix7
+# SOURCE: https://github.com/blackmatrix7/ios_rule_script/blob/0b6897dc17e0c513d25449c935a9694818e32f0c/rule/QuantumultX/Claude/Claude.list
+# SOURCE-BLOB: 6a1095eac133026ec2fe79783c0f81b721f93365
+# CUSTOMIZATION: IP-CIDR, IP6-CIDR, IP-ASN and GEOIP entries removed; domain and user-agent entries retained.
+# HOST: 1
+# HOST-SUFFIX: 2
+# TOTAL: 3
+HOST,cdn.usefathom.com,Claude
+HOST-SUFFIX,anthropic.com,Claude
+HOST-SUFFIX,claude.ai,Claude

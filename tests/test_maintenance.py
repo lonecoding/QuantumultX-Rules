@@ -27,6 +27,11 @@ class MaintenanceTests(unittest.TestCase):
         self.root = Path(self.temp.name).resolve()
         for directory in ("config", "rules", "tests", "docs"):
             shutil.copytree(ROOT / directory, self.root / directory, ignore=shutil.ignore_patterns("__pycache__"))
+        # Documentation also references the independently maintained root subscriptions.
+        for pattern in ("*.list", "*.conf"):
+            for path in ROOT.glob(pattern):
+                if path.name != "adblock.list":
+                    shutil.copy2(path, self.root / path.name)
         self.config = self.root / "tests/fixtures/standalone.conf"
 
     def edit_config(self, old, new):
