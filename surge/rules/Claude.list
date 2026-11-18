@@ -1,0 +1,6 @@
+# Generated from Claude.list by scripts/generate_surge.py.
+# Original rules: blackmatrix7; personal modifications: lonecoding.
+# Policies are assigned by the main Surge profile.
+DOMAIN,cdn.usefathom.com
+DOMAIN-SUFFIX,anthropic.com
+DOMAIN-SUFFIX,claude.ai

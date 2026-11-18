@@ -1,0 +1,46 @@
+{
+  "Hijacking": {
+    "rules": 186,
+    "source_sha256": "f2edcea553e180fd34f71887423d11519487a30c1586608184f2b87aaceae983"
+  },
+  "Diagnostics": {
+    "rules": 12,
+    "source_sha256": "6fbd122c9a20be7e80ef55c1afe9b12f71569f9551b88473594b2f01d4dc772c"
+  },
+  "Telegram": {
+    "rules": 25,
+    "source_sha256": "dcb88bc6876881bc1bbd4dbe3fec0d49f26425f42d87aafacced312c7fa008ab"
+  },
+  "OpenAI": {
+    "rules": 32,
+    "source_sha256": "b52ba76c9b965b1a5bc98cf18ade0730a7c6bab33f9095e4e9eab8c766dba655"
+  },
+  "Claude": {
+    "rules": 3,
+    "source_sha256": "e9f313a4890a145dc7d30b2495830c782997c914d3c037dcb56a716bd6ed42d7"
+  },
+  "YouTube": {
+    "rules": 193,
+    "source_sha256": "a72fecda512312c1a9979b8d27ec9565cc2fd4166fe8244a3a65a1cc4334f6ad"
+  },
+  "TikTok": {
+    "rules": 35,
+    "source_sha256": "e4ccbf7cc47455a5320850ea80ffb52264fe97668fa9ae3c5651dea8a2cb7cbb"
+  },
+  "Apple": {
+    "rules": 1867,
+    "source_sha256": "50e723adbb7f0ca0117f0f32db8ed9b0318a281af7b2e4726555132d4a30e857"
+  },
+  "Google": {
+    "rules": 706,
+    "source_sha256": "903341dd9f1351008cca676f185b0ccfa2499ea3927434c4d85d1e9843cc490f"
+  },
+  "Global": {
+    "rules": 35895,
+    "source_sha256": "4d70b234efc0ab8bdd88d2fa15b9eaf6f9e92dfc1c44c299e5e94165f2e9e554"
+  },
+  "China": {
+    "rules": 3933,
+    "source_sha256": "21b5dd3ef4ca3026d3b547deea96c1d4b9c06e19ebc43c85004b3b556eb4491f"
+  }
+}

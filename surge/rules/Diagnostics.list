@@ -1,0 +1,15 @@
+# Generated from Diagnostics.list by scripts/generate_surge.py.
+# Original rules: blackmatrix7; personal modifications: lonecoding.
+# Policies are assigned by the main Surge profile.
+DOMAIN-SUFFIX,ip138.com
+DOMAIN-SUFFIX,ip.cn
+DOMAIN-SUFFIX,ip.la
+DOMAIN-SUFFIX,myip.la
+DOMAIN-SUFFIX,ipip.net
+DOMAIN-SUFFIX,ipplus360.com
+DOMAIN-SUFFIX,whatismyip.com
+DOMAIN-SUFFIX,browserleaks.com
+DOMAIN-SUFFIX,chinaz.com
+DOMAIN-SUFFIX,chinaz.net
+DOMAIN-SUFFIX,ip.net.coffee
+DOMAIN,ip.istatmenus.app

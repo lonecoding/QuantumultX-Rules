@@ -1,0 +1,36 @@
+name: Sync Surge subscriptions
+on:
+  push:
+    branches: [main]
+    paths:
+      - '*.list'
+      - 'scripts/generate_surge.py'
+      - 'surge/**'
+      - '.github/workflows/surge-sync.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: surge-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/generate_surge.py
+      - run: python scripts/generate_surge.py --check
+      - name: Publish generated rules only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add surge/rules surge/manifest.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Sync Surge rules from personal QuanX lists'
+            git push origin HEAD:main
+          fi
