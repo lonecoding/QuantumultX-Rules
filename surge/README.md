@@ -6,10 +6,11 @@
 
 ## 首次导入
 
-1. 需要 Surge Mac 6.12 或更新版本，以使用个人 VLESS Reality 节点。
-2. 将私人 `Lonecoding-Local.dconf` 放在 Surge Profiles 文件夹中。文件含 `[Proxy]` 节点和可选的 `[Rule]` 本地优先规则，不要提交到公开仓库。没有这个文件，主配置不能单独使用。
-3. 使用上面的主配置 URL 从 Surge 下载并导入。
-4. 选择规则模式和 Proxies 中的节点；开启所需网络接管前关闭另一代理软件的接管。
+公开主配置不包含节点，也不引用本地文件，可独立从 URL 下载。未添加节点时 Proxies 默认 REJECT，避免将需要代理的流量误改为直连。
+
+推荐使用私人关联配置：在本地配置的 `[Proxy]` 中保存节点、`[Proxy Group]` 中保存策略组，`[General]` 和 `[Rule]` 通过 `#!include` 引用上面的远程主配置 URL。这样节点不公开，主配置和规则继续订阅更新。
+
+旧版本使用远程配置引用本地 `Lonecoding-Local.dconf`，会在 Surge Mac 6.12 的 URL 导入阶段触发 `key cannot be nil`。已移除此依赖；本地文件检查通过不能代替 URL 导入验证。
 
 ## 更新范围
 
@@ -18,7 +19,7 @@
 - 根目录个人 QuanX `.list` 更新后，GitHub Actions 自动将其转换到 `surge/rules/`，两种客户端使用同一份个人维护内容。
 - 不会自动用 blackmatrix7 原版覆盖个人删改；此仓库的原始个人规则维护方式不变。
 - 节点保存在本地，不会随主配置更新被覆盖，也不会自动更新机场/面板节点订阅。
-- 本地应用例外可写入 `Lonecoding-Local.dconf` 的 `[Rule]`，例如 `PROCESS-NAME,/Applications/Claude.app/,Proxies`。不要在本地例外中加入 FINAL，否则后续远程规则不会执行。
+- 本地应用例外可写入关联配置的 `[Rule]`，置于远程 include 之前，例如 `PROCESS-NAME,/Applications/Claude.app/,Proxies`。不要在本地例外中加入 FINAL，否则后续远程规则不会执行。
 
 生成/检查：`python scripts/generate_surge.py`、`python scripts/generate_surge.py --check`。
 
