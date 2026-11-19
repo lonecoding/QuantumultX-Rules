@@ -24,14 +24,19 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check',action='store_true')
     args=parser.parse_args()
-    expected={}; manifest={}
+    expected={}; manifest={}; inline=[]
     for name in NAMES:
         data=(ROOT/(name+'.list')).read_bytes()
         rules=render(data.decode())
         header='# Generated from '+name+'.list by scripts/generate_surge.py.\n# Original rules: blackmatrix7; personal modifications: lonecoding.\n# Policies are assigned by the main Surge profile.\n'
         expected[ROOT/'surge/rules'/(name+'.list')]=header+'\n'.join(rules)+'\n'
         manifest[name]={'rules':len(rules),'source_sha256':hashlib.sha256(data).hexdigest()}
+        inline.append('[Ruleset '+name+']\n'+'\n'.join(rules)+'\n')
     expected[ROOT/'surge/manifest.json']=json.dumps(manifest,ensure_ascii=False,indent=2)+'\n'
+    base=(ROOT/'surge/base.conf').read_text()
+    for filename in ['Surge-Mac.conf','Surge-Managed.conf']:
+        url='https://raw.githubusercontent.com/lonecoding/QuantumultX-Rules/main/surge/'+filename
+        expected[ROOT/'surge'/filename]='#!MANAGED-CONFIG '+url+' interval=86400 strict=false\n'+base+'\n'+'\n'.join(inline)
     changed=[]
     for path,content in expected.items():
         if path.exists() and path.read_text()==content:continue
